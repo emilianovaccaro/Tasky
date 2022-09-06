@@ -1,0 +1,38 @@
+const mongoose = require('mongoose');
+
+const userSchema = mongoose.Schema({
+    username: {
+      type: String,
+      unique: true,
+      required: [ true, 'Please add a username'] 
+    },
+    email: {
+      type: String,
+      required: [true, 'Please add an email'],
+      unique: true,
+    },
+    teamId: {
+      type: String,
+      required: true,
+    },
+    password: {
+      type: String,
+      required: [true, 'Please add a password']
+    },
+    isAdmin: {
+      type: Boolean,
+      default: false,
+    },
+    role: {
+      type: String,
+    },
+    phone: {
+      type: String
+    }
+  }, 
+  {
+    timestamps: true
+  }
+)
+
+module.exports = mongoose.model('User', userSchema);
