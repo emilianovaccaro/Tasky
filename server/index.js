@@ -16,7 +16,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use("/api/task", require("./routes/taskRoutes"));
 app.use("/api/users", require("./routes/userRoutes"));
 
-
+app.get('/', ( _, res) =>{
+  res.send('ok')
+})
 
 // FRONTEND BUILD
 /* 
