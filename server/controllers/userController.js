@@ -97,11 +97,7 @@ const loginUser = async (req, res) => {
     const userToken = generateToken(user._id);
   
     res.status(201).json({
-      _id: user.id,
-      username: user.username,
-      email: user.email,
-      teamId: user.teamId,
-      token: userToken
+      user, userToken
     });
 
   } catch ( error ) {
