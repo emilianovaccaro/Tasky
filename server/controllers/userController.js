@@ -1,62 +1,74 @@
 const jwt = require('jsonwebtoken');
 const bcryptjs = require('bcryptjs');
 const User = require('../models/userModel');
+const e = require('express');
 
 
 //Generate JWT
-const generateToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET, {
+const generateToken = (id, email, username) => {
+  return jwt.sign({ id, email, username }, process.env.JWT_SECRET, {
     expiresIn: '30d',
   });
 };
 
 
+const validateEmail = (email) => {
+  let validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+  return email.match(validRegex)
+}
+
 //description - create a user
 //route - POST to api/users
 // access Public / any person can register
 const registerUser = async (req, res) => {
-  const { username, email, password, teamId } = req.body;
+  try {
+    const { username, email, password, teamId, isAdmin, role, phone } = req.body;
 
-  if (!username || !email || !password) {
-    res.status(400);
-    throw new Error('Please add all fields');
-  }
+    if (!username || !email || !password || !teamId || !role || !phone) {
+      return res.status(400).json({msg: 'The username must have more than 4 characters'})
+    }
+   
+    if(!validateEmail(email)) return res.status(400).json({msg: 'The email is invalid'})
+    if(username.length < 4)  return res.status(400).json({msg: 'The username must have more than 4 characters'})
+    if(password.length < 4) return res.status(400).json({msg: 'The password must have more than 4 characters'})
 
-  //validate email
-  const emailExists = await User.findOne({ email });
-  if (emailExists) {
-      res.status(400);
-      throw new Error('User already exists');
-  }
+    const emailExists = await User.findOne({ email });
+    if (emailExists) {
+      return res.status(400).json({msg: 'User already exists'});
+    }
 
-  //Hash pw
-  const salt = bcryptjs.genSaltSync(10);
-  const hashedPassword = bcryptjs.hashSync( password, salt );
+    const teamIdExist = await User.findOne({ teamId });
+    if(isAdmin) {
+      if(teamIdExist) return res.status(400).json({msg: 'TeamId already exists'});
+    } else {
+      if(!teamIdExist) return res.status(404).json({msg: 'TeamId not exists'});
+    }
 
-  
-  //Create User instance for db
-  const user = await User.create({
-    username,
-    email,
-    teamId,
-    password: hashedPassword,
+    //Hash pw
+    const salt = bcryptjs.genSaltSync(10);
+    const hashedPassword = bcryptjs.hashSync( password, salt );
+
+    const user  = {
+      username,
+      email,
+      teamId,
+      password: hashedPassword,
+      phone,
+      role,
+      isAdmin
+    }
+
+    const newUser = await User.create(user);
+    const userToken = generateToken(newUser._id, email, username);
     
-  });
-  
-  //create jwt
-  const userToken = generateToken(user._id);
-  
-  if (user) {
-    res.status(201).json({
-      _id: user.id,
-      username: user.username,
-      email: user.email,
-      teamId: user.teamId,
-      token: userToken
-    });
-  } else {
-    res.status(400);
-    throw new Error('Invalid User');
+    if (!newUser) {
+     return res.status(400).json({msg: 'there was an error creating the user'});
+    } 
+
+    res.status(201).json({ newUser, userToken });
+
+  } catch (error) {
+    res.status(500).json({msg: error});
   }
 }
 
@@ -85,11 +97,7 @@ const loginUser = async (req, res) => {
     const userToken = generateToken(user._id);
   
     res.status(201).json({
-      _id: user.id,
-      username: user.username,
-      email: user.email,
-      teamId: user.teamId,
-      token: userToken
+      user, userToken
     });
 
   } catch ( error ) {
