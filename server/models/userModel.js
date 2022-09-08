@@ -15,6 +15,10 @@ const userSchema = mongoose.Schema({
       type: String,
       required: true,
     },
+    teamPassword: {
+      type: String,
+      required: [true, 'Please add a teamPassword']
+    },
     password: {
       type: String,
       required: [true, 'Please add a password']
