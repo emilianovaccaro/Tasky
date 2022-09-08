@@ -20,34 +20,48 @@ const validateEmail = (email) => {
 //description - create a user
 //route - POST to api/users
 // access Public / any person can register
+
 const registerUser = async (req, res) => {
   try {
-    const { username, email, password, teamId, isAdmin, role, phone } = req.body;
+    const { username, email, password, teamId, isAdmin, role, phone, teamPassword } = req.body;
 
-    if (!username || !email || !password || !teamId || !role || !phone) {
-      return res.status(400).json({msg: 'The username must have more than 4 characters'})
+    if (!username || !phone || !email || !password || !teamId || !role || !teamPassword) {
+      return res.status(400).json({msg: 'Fill in all the fields'})
     }
    
     if(!validateEmail(email)) return res.status(400).json({msg: 'The email is invalid'})
-    if(username.length < 4)  return res.status(400).json({msg: 'The username must have more than 4 characters'})
-    if(password.length < 4) return res.status(400).json({msg: 'The password must have more than 4 characters'})
+    if(username.length < 6)  return res.status(400).json({msg: 'The username must have more than 6 characters'})
+    if(password.length < 6) return res.status(400).json({msg: 'The password must have more than 6 characters'})
+    if(teamPassword.length < 6) return res.status(400).json({msg: 'The teamPassword must have more than 6 characters'})
+    if(phone.length < 6) return res.status(400).json({msg: 'The number phone must have more than 6 characters'})
 
     const emailExists = await User.findOne({ email });
     if (emailExists) {
-      return res.status(400).json({msg: 'User already exists'});
+      return res.status(400).json({ msg: 'User already exists' });
+    }
+
+    const usernameExists = await User.findOne({ username });
+    if (usernameExists) {
+      return res.status(400).json({ msg: 'Username already exists' });
     }
 
     const teamIdExist = await User.findOne({ teamId });
+
     if(isAdmin) {
-      if(teamIdExist) return res.status(400).json({msg: 'TeamId already exists'});
+      if(teamIdExist) {
+        return res.status(400).json({ msg: 'TeamId already exists' })
+      }
     } else {
-      if(!teamIdExist) return res.status(404).json({msg: 'TeamId not exists'});
+      if(!teamIdExist) return res.status(404).json({ msg: 'TeamId not exists' })
+
+      const isValidPassword = bcryptjs.compareSync( teamPassword, teamIdExist.teamPassword );
+      if(!isValidPassword) return res.status(403).json({ msg: 'Incorrect teamPassword' })
     }
 
-    //Hash pw
     const salt = bcryptjs.genSaltSync(10);
     const hashedPassword = bcryptjs.hashSync( password, salt );
-
+    const hashedTeamPassword = bcryptjs.hashSync( teamPassword, salt );
+    
     const user  = {
       username,
       email,
@@ -55,14 +69,15 @@ const registerUser = async (req, res) => {
       password: hashedPassword,
       phone,
       role,
-      isAdmin
+      isAdmin,
+      teamPassword: hashedTeamPassword
     }
 
     const newUser = await User.create(user);
     const userToken = generateToken(newUser._id, email, username);
     
     if (!newUser) {
-     return res.status(400).json({msg: 'there was an error creating the user'});
+     return res.status(400).json({ msg: 'there was an error creating the user' });
     } 
 
     res.status(201).json({ newUser, userToken });
