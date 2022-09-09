@@ -96,14 +96,14 @@ const loginUser = async (req, res) => {
 
   try{
     const user = await User.findOne({ email });
-
+    
     //check if there's a user
     if( !user ){
-      return res.status(400).json({ msg:'Incorrect email' });
+      return res.status(404).json({ msg:'User not Found' });
     }
-
     //Compare passwords
     const isValidPassword = bcryptjs.compareSync( password, user.password );
+    
     if (!isValidPassword) {
       return res.status(400).json({ msg:'Incorrect password' });
     }
@@ -116,8 +116,7 @@ const loginUser = async (req, res) => {
     });
 
   } catch ( error ) {
-    res.status(400);
-    throw new Error('Invalid email/password');
+    res.status(400).json({ error })
   }
 };
 
@@ -136,10 +135,26 @@ const getUser = async (req, res) => {
   }
 }
 
+const getAllUser = async (req, res) => {
+  try {
+
+    const {teamId} = req.user
+
+    const allUsers = await User.find({teamId}).select('-password -teamPassword');
+
+    res.status(200).json(allUsers);
+
+  } catch (error) {
+    console.log(error);
+    res.status(404);
+    throw new Error('Profile error, please contact us');
+  }
+}
 
 
 module.exports = {
   registerUser,
   loginUser,
-  getUser
+  getUser,
+  getAllUser
 }
