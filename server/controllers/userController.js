@@ -29,12 +29,12 @@ const registerUser = async (req, res) => {
       return res.status(400).json({msg: 'Fill in all the fields'})
     }
    
-    if(!validateEmail(email)) return res.status(400).json({msg: 'The email is invalid'})
-    if(username.length < 6)  return res.status(400).json({msg: 'The username must have more than 6 characters'})
-    if(fullname.length < 6)  return res.status(400).json({msg: 'The fullname must have more than 6 characters'})
-    if(password.length < 6) return res.status(400).json({msg: 'The password must have more than 6 characters'})
-    if(teamPassword.length < 6) return res.status(400).json({msg: 'The teamPassword must have more than 6 characters'})
-    if(phone.length < 6) return res.status(400).json({msg: 'The number phone must have more than 6 characters'})
+    if(!validateEmail(email)) return res.status(400).json({msg: 'Email is invalid'})
+    if(username.length < 6)  return res.status(400).json({msg: 'Username must have at least 6 characters'})
+    if(fullname.length < 6)  return res.status(400).json({msg: 'Fullname must have at least 6 characters'})
+    if(password.length < 6) return res.status(400).json({msg: 'Password must have at least 6 characters'})
+    if(teamPassword.length < 6) return res.status(400).json({msg: 'TeamPassword must have at least 6 characters'})
+    if(phone.length < 6) return res.status(400).json({msg: 'Phone number must have at least 6 characters'})
 
     const emailExists = await User.findOne({ email });
     if (emailExists) {
@@ -79,7 +79,7 @@ const registerUser = async (req, res) => {
     const userToken = generateToken(newUser._id, email, username);
     
     if (!newUser) {
-     return res.status(400).json({ msg: 'there was an error creating the user' });
+     return res.status(400).json({ msg: 'There was an error creating the user' });
     } 
 
     res.status(201).json({ newUser, userToken });
