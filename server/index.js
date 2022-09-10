@@ -16,26 +16,17 @@ app.use(express.urlencoded({ extended: false }));
 app.use("/api/task", require("./routes/taskRoutes"));
 app.use("/api/users", require("./routes/userRoutes"));
 
-app.get('/', ( _, res) =>{
-  res.send('ok')
-})
 
 // FRONTEND BUILD
-/* 
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, 'carpetafrontend/build')));
+  app.use(express.static(path.join(__dirname, 'client/dist')));
 
   app.get('*', (req, res) => res.sendFile(
-    path.resolve(__dirname, '../', 'carpetafrontend', 'build', 'index.html');
+    path.resolve(__dirname, '../', 'client', 'dist', 'index.html')
   ));
 } else {
   app.get('/', (req, res) => res.send("Please set env to production"));
 }
-*/
-
-
-//middlewares and error handlers
-
 
 app.listen(PORT, () => {
   console.log(`server active, port: ${PORT}`);
