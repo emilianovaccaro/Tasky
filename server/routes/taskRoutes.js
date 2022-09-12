@@ -7,7 +7,7 @@ const {
   deleteTask,
   addComment
 } = require('../controllers/taskController');
-const { protect } = require('../middlewares');
+const { protect } = require('../middlewares/auth');
 
 
 router.get('/', protect, getTasks);

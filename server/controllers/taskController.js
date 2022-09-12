@@ -38,7 +38,7 @@ const postTask = async (req, res) => {
       userId: req.user.id,
     });
 
-    res.status(200).json({ msg: task }); 
+    res.status(200).json({ task }); 
 
   } catch (error) {
     return res.status(500).json({ message: error.message });
