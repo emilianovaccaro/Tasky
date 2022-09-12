@@ -58,7 +58,7 @@ const putTask = async (req, res) => {
     const task = await Task.findById(id);
 
     if (!task) { return res.status(404).json({ msg: 'Task not found' }) }
-    if (task.teamId !== req.teamId) return res.status(403).json({msg: "You don't have the permissions"})
+    if (task.teamId !== req.user.teamId) return res.status(403).json({msg: "You don't have the permissions"})
 
     if ((task.userId.toString() !== req.user.id) || ((task.teamId !== req.user.teamId) && !req.user.isAdmin)) {
      return res.status(401).json({ msg: 'User not authorized to do this' })
@@ -90,7 +90,7 @@ const deleteTask = async (req, res) => {
     const task = await Task.findById(req.params.id);
 
     if (!task) { return res.status(404).json({ msg: 'Task not found' }) }
-    if (task.teamId !== req.teamId) return res.status(403).json({msg: "You don't have the permissions"})
+    if (task.teamId !== req.user.teamId) return res.status(403).json({msg: "You don't have the permissions"})
 
     if ((task.userId.toString() !== req.user.id) || ((task.teamId.toString() !== req.user.teamId) && !req.user.isAdmin)) {
       return res.status(401).json({ msg: 'Error-User not authorized' });
@@ -117,7 +117,7 @@ const addComment = async(req, res) => {
     }
 
     if (!body) return res.status(404).json({ msg: 'Fill in all the fields' }) 
-    if (task.teamId !== req.teamId) return res.status(403).json({msg: "You don't have the permissions"})
+    if (task.teamId !== req.user.teamId) return res.status(403).json({msg: "You don't have the permissions"})
     
     task.comments = [...task.comments, { body,author: req.user.username }]
 
