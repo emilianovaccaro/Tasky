@@ -23,17 +23,18 @@ const validateEmail = (email) => {
 
 const registerUser = async (req, res) => {
   try {
-    const { username, email, password, teamId, isAdmin, role, phone, teamPassword } = req.body;
+    const { username, email, password, teamId, isAdmin, role, phone, teamPassword, fullname } = req.body;
 
-    if (!username || !phone || !email || !password || !teamId || !role || !teamPassword) {
+    if (!username || !phone || !email || !password || !teamId || !role || !teamPassword || !fullname) {
       return res.status(400).json({msg: 'Fill in all the fields'})
     }
    
-    if(!validateEmail(email)) return res.status(400).json({msg: 'The email is invalid'})
-    if(username.length < 6)  return res.status(400).json({msg: 'The username must have more than 6 characters'})
-    if(password.length < 6) return res.status(400).json({msg: 'The password must have more than 6 characters'})
-    if(teamPassword.length < 6) return res.status(400).json({msg: 'The teamPassword must have more than 6 characters'})
-    if(phone.length < 6) return res.status(400).json({msg: 'The number phone must have more than 6 characters'})
+    if(!validateEmail(email)) return res.status(400).json({msg: 'Email is invalid'})
+    if(username.length < 6)  return res.status(400).json({msg: 'Username must have at least 6 characters'})
+    if(fullname.length < 6)  return res.status(400).json({msg: 'Fullname must have at least 6 characters'})
+    if(password.length < 6) return res.status(400).json({msg: 'Password must have at least 6 characters'})
+    if(teamPassword.length < 6) return res.status(400).json({msg: 'TeamPassword must have at least 6 characters'})
+    if(phone.length < 6) return res.status(400).json({msg: 'Phone number must have at least 6 characters'})
 
     const emailExists = await User.findOne({ email });
     if (emailExists) {
@@ -64,6 +65,7 @@ const registerUser = async (req, res) => {
     
     const user  = {
       username,
+      fullname,
       email,
       teamId,
       password: hashedPassword,
@@ -77,7 +79,7 @@ const registerUser = async (req, res) => {
     const userToken = generateToken(newUser._id, email, username);
     
     if (!newUser) {
-     return res.status(400).json({ msg: 'there was an error creating the user' });
+     return res.status(400).json({ msg: 'There was an error creating the user' });
     } 
 
     res.status(201).json({ newUser, userToken });
@@ -92,18 +94,18 @@ const registerUser = async (req, res) => {
 //route - POST to api/users/login
 // access Public / any registered user can try to login
 const loginUser = async (req, res) => {
-  const { email, password } = req.body;
+  const { username, password } = req.body;
 
   try{
-    const user = await User.findOne({ email });
-
+    const user = await User.findOne({ username });
+    
     //check if there's a user
     if( !user ){
-      return res.status(400).json({ msg:'Incorrect email' });
+      return res.status(404).json({ msg:'User not Found' });
     }
-
     //Compare passwords
     const isValidPassword = bcryptjs.compareSync( password, user.password );
+    
     if (!isValidPassword) {
       return res.status(400).json({ msg:'Incorrect password' });
     }
@@ -133,6 +135,21 @@ const getUser = async (req, res) => {
   }
 }
 
+const getAllUser = async (req, res) => {
+  try {
+
+    const {teamId} = req.user
+
+    const allUsers = await User.find({teamId}).select('-password -teamPassword');
+
+    res.status(200).json(allUsers);
+
+  } catch (error) {
+    console.log(error);
+    res.status(404);
+    throw new Error('Profile error, please contact us');
+  }
+}
 
 const getAllUser = async (req, res) => {
   try {

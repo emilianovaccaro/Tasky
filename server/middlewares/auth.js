@@ -13,7 +13,7 @@ const protect = async (req, res, next) => {
 
       //Get user by token
       //Exclude password
-      req.user = await User.findById(decoded.id).select('-password');
+      req.user = await User.findById(decoded.id).select('-password -teamPassword');
       
       next();
 
