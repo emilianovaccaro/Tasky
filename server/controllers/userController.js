@@ -85,7 +85,7 @@ const registerUser = async (req, res) => {
     res.status(201).json({ newUser, userToken });
 
   } catch (error) {
-    res.status(500).json({msg: error});
+    return res.status(500).json({ message: error.message })
   }
 }
 
@@ -118,7 +118,7 @@ const loginUser = async (req, res) => {
     });
 
   } catch ( error ) {
-    res.status(400).json({ error })
+    res.status(500).json({ error })
   }
 };
 
@@ -129,6 +129,20 @@ const loginUser = async (req, res) => {
 const getUser = async (req, res) => {
   try {
     res.status(200).json(req.user);
+
+  } catch (error) {
+    return res.status(500).json({ message: error.message })
+  }
+}
+
+const getAllUser = async (req, res) => {
+  try {
+
+    const {teamId} = req.user
+
+    const allUsers = await User.find({teamId}).select('-password -teamPassword');
+
+    res.status(200).json(allUsers);
 
   } catch (error) {
     console.log(error);
@@ -147,9 +161,7 @@ const getAllUser = async (req, res) => {
     res.status(200).json(allUsers);
 
   } catch (error) {
-    console.log(error);
-    res.status(404);
-    throw new Error('Profile error, please contact us');
+    return res.status(500).json({ message: error.message })
   }
 }
 

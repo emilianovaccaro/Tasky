@@ -4,7 +4,8 @@ const {
   getTasks,
   postTask,
   putTask,
-  deleteTask
+  deleteTask,
+  addComment
 } = require('../controllers/taskController');
 const { protect } = require('../middlewares/auth');
 
@@ -12,7 +13,9 @@ const { protect } = require('../middlewares/auth');
 router.get('/', protect, getTasks);
 router.post('/', protect, postTask);
 router.put('/:id', protect, putTask);
+router.post('/comment/:id', protect, addComment);
 router.delete('/:id', protect, deleteTask);
+
 
 
 module.exports = router;

@@ -4,7 +4,6 @@ const User = require('../models/userModel');
 const protect = async (req, res, next) => {
   //let JWT
   let token;
-
   // CHECK AUTHORIZATION HEADERS, 'Bearer jwtoken'
   if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
     try {
@@ -19,16 +18,13 @@ const protect = async (req, res, next) => {
       next();
 
     } catch (error) {
-      res.status(401);
-      throw new Error('Auth error/Not Authorized');
+      res.status(500).json(error)
     }
   }
 
   if (!token) {
-    res.status(401)
-    throw new Error('Not authorized, no token')
+    res.status(401).json({msg: 'you must log in first'})
   }
 };
-
 
 module.exports = { protect };
