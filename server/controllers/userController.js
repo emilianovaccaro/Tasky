@@ -134,9 +134,24 @@ const getUser = async (req, res) => {
 }
 
 
+const getAllUser = async (req, res) => {
+  try {
+
+    const {teamId} = req.user
+
+    const allUsers = await User.find({teamId}).select('-password -teamPassword');
+
+    res.status(200).json(allUsers);
+
+  } catch (error) {
+    return res.status(500).json({ message: error.message })
+  }
+}
+
 
 module.exports = {
   registerUser,
   loginUser,
-  getUser
- }
+  getUser,
+  getAllUser
+}
