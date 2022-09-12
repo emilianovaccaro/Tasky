@@ -33,7 +33,6 @@ const postTask = async (req, res) => {
       assignedTo,
       timeLimit,
       deleteStatus,
-      deleteStatus,
       teamId: req.user.teamId,
       userId: req.user.id,
     });
