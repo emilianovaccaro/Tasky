@@ -38,7 +38,14 @@ const taskSchema = mongoose.Schema({
       type: Boolean,
       required: true,
       default: false,
-    }
+    },
+    comments: [
+      {
+        id: {type: mongoose.Schema.Types.ObjectId},
+        author: {type: String},
+        body: {type: String},
+      }
+    ]
   }, 
   {
     timestamps: true
