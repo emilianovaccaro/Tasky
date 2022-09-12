@@ -83,7 +83,7 @@ const registerUser = async (req, res) => {
     res.status(201).json({ newUser, userToken });
 
   } catch (error) {
-    res.status(500).json({msg: error});
+    return res.status(500).json({ message: error.message })
   }
 }
 
@@ -116,8 +116,7 @@ const loginUser = async (req, res) => {
     });
 
   } catch ( error ) {
-    res.status(400);
-    throw new Error('Invalid email/password');
+    return res.status(500).json({ message: error.message })
   }
 };
 
@@ -130,9 +129,7 @@ const getUser = async (req, res) => {
     res.status(200).json(req.user);
 
   } catch (error) {
-    console.log(error);
-    res.status(404);
-    throw new Error('Profile error, please contact us');
+    return res.status(500).json({ message: error.message })
   }
 }
 
@@ -142,4 +139,4 @@ module.exports = {
   registerUser,
   loginUser,
   getUser
-}
+ }

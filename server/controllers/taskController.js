@@ -21,8 +21,7 @@ const postTask = async (req, res) => {
   const { title, priority, description, status, assignedTo, timeLimit, deleteStatus } = req.body;
   //validate body
   if (!title || !priority || !status) {
-    res.status(400);
-    throw new Error('Body/Form incomplete');
+   return res.status(400).json({msg: 'Body/Form incomplete'});
   }
 
   try {
@@ -34,11 +33,13 @@ const postTask = async (req, res) => {
       assignedTo,
       timeLimit,
       deleteStatus,
+      assignedTo,
+      deleteStatus,
       teamId: req.user.teamId,
       userId: req.user.id,
     });
 
-    res.status(200).json(task);
+    res.status(200).json({ msg: task }); 
 
   } catch (error) {
     return res.status(500).json({ message: error.message });
@@ -50,32 +51,31 @@ const postTask = async (req, res) => {
 // api/task/:id
 // private
 const putTask = async (req, res) => {
-  const task = await Task.findById(req.params.id);
-
-  if (!task) {
-    res.status(400);
-    throw new Error('Task Not Found');
-  }
-  
-  //check for user 
-  if (!req.user) {
-    res.status(401);
-    throw new Error('User not found');
-  }
-
-  //if userid and task.user do not match, 400
-  if ((task.userId.toString() !== req.user.id) || ((task.teamId !== req.user.teamId) && !req.user.isAdmin)) {
-    res.status(401);
-    throw new Error('User not authorized to do this');
-  }
-
   try {
-    const updateTask = await Task.findByIdAndUpdate(req.params.id, req.body, {
-      new: true
-    });
-
-    res.status(200).json(updateTask);
+    const { title, description, timeLimit, status, priority, assignedTo, deleteStatus } = req.body
+    const { id } = req.params
     
+    const task = await Task.findById(id);
+
+    if (!task) { return res.status(404).json({ msg: 'Task not found' }) }
+    if (task.teamId !== req.teamId) return res.status(403).json({msg: "You don't have the permissions"})
+
+    if ((task.userId.toString() !== req.user.id) || ((task.teamId !== req.user.teamId) && !req.user.isAdmin)) {
+     return res.status(401).json({ msg: 'User not authorized to do this' })
+    }
+
+    task.title = title || task.title
+    task.description = description || task.description
+    task.timeLimit = timeLimit || task.timeLimit
+    task.status = status || task.status
+    task.priority = priority || task.priority
+    task.assignedTo = assignedTo || task.assignedTo
+    task.deleteStatus = deleteStatus || task.deleteStatus
+    
+    await task.save()
+
+    res.status(200).json(task);
+      
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
@@ -85,33 +85,49 @@ const putTask = async (req, res) => {
 // api/task/:id
 // private
 const deleteTask = async (req, res) => {
-  const task = await Task.findById(req.params.id);
-
-  if (!task) {
-    res.status(400);
-    throw new Error('Task Not Found');
-  }
-
-  //check for user 
-  if (!req.user) {
-    res.status(401);
-    throw new Error('User not found');
-  }
-
-  //if userid and task.user do not match, 400
-  if ((task.userId.toString() !== req.user.id) || ((task.teamId.toString() !== req.user.teamId) && !req.user.isAdmin)) {
-    res.status(401).json({ msg: 'Error-User not authorized' });
-    throw new Error('User not authorized to do this');
-  }
-
   try{
+
+    const task = await Task.findById(req.params.id);
+
+    if (!task) { return res.status(404).json({ msg: 'Task not found' }) }
+    if (task.teamId !== req.teamId) return res.status(403).json({msg: "You don't have the permissions"})
+
+    if ((task.userId.toString() !== req.user.id) || ((task.teamId.toString() !== req.user.teamId) && !req.user.isAdmin)) {
+      return res.status(401).json({ msg: 'Error-User not authorized' });
+    }
+    
     await task.remove();
     res.status(200).json({ id: req.params.id });
 
   } catch ( error ) {
     return res.status(500).json({ message: error.message })
   }
+}
 
+const addComment = async(req, res) => {
+  try{
+    const { body } = req.body
+
+    const task = await Task.findById(req.params.id)
+    
+    if (!task) return res.status(404).json({ msg: 'Task not found' }) 
+
+    if ((task.userId.toString() !== req.user.id) || ((task.teamId.toString() !== req.user.teamId) && !req.user.isAdmin)) {
+      return res.status(401).json({ msg: 'Error-User not authorized' });
+    }
+
+    if (!body) return res.status(404).json({ msg: 'Fill in all the fields' }) 
+    if (task.teamId !== req.teamId) return res.status(403).json({msg: "You don't have the permissions"})
+    
+    task.comments = [...task.comments, { body,author: req.user.username }]
+
+    await task.save()
+
+    res.status(200).json({ task })
+
+  } catch ( error ) {
+    return res.status(500).json({ message: error.message })
+  }
 }
 
 
@@ -119,5 +135,6 @@ module.exports = {
   getTasks,
   postTask,
   putTask,
-  deleteTask
+  deleteTask,
+  addComment
 }
