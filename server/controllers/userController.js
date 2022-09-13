@@ -145,22 +145,6 @@ const getAllUser = async (req, res) => {
     res.status(200).json(allUsers);
 
   } catch (error) {
-    console.log(error);
-    res.status(404);
-    throw new Error('Profile error, please contact us');
-  }
-}
-
-const getAllUser = async (req, res) => {
-  try {
-
-    const {teamId} = req.user
-
-    const allUsers = await User.find({teamId}).select('-password -teamPassword');
-
-    res.status(200).json(allUsers);
-
-  } catch (error) {
     return res.status(500).json({ message: error.message })
   }
 }
