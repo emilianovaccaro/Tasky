@@ -148,9 +148,50 @@ const getAllUser = async (req, res) => {
     res.status(200).json(allUsers);
 
   } catch (error) {
-    console.log(error);
-    res.status(404);
-    throw new Error('Profile error, please contact us');
+    return res.status(500).json({ message: error.message })
+  }
+}
+
+const updateProfile = async (req, res) => {
+  try {
+
+    const {password, newPassword} = req.body
+
+    
+    const user = await User.findById(req.user._id);
+
+    if (!user) return res.status(404).json({ msg: 'User not found' }) 
+    console.log(req.file)
+
+    if(((!password) && (!newPassword)) || (!req.file)) return res.status(400).json({ msg: 'fill in the fields' }) 
+    if(newPassword.length < 6) return res.status(400).json({msg: 'The New Password must have at least 6 characters'})
+
+    if(password && newPassword) {
+      const isValidPassword = bcryptjs.compareSync( password, user.password );
+      
+      if (!isValidPassword) {
+        return res.status(400).json({ msg:'Incorrect password' });
+      }
+
+      const salt = bcryptjs.genSaltSync(10);
+      const hashedPassword = bcryptjs.hashSync( newPassword, salt );
+
+      user.password = hashedPassword ||  user.password
+    }
+
+
+
+    if(req.file){
+      const {filename} = req.file
+      user.setImgUrl(filename)
+    }
+
+    await user.save()
+
+    res.status(200).json(user);
+
+  } catch (error) {
+    return res.status(500).json({ message: error.message })
   }
 }
 
@@ -158,5 +199,6 @@ module.exports = {
   registerUser,
   loginUser,
   getUser,
-  getAllUser
+  getAllUser,
+  updateProfile
 }
