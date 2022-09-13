@@ -1,10 +1,12 @@
 
-# Tasky 
-![Open-Source](https://img.shields.io/badge/-Open--Source%20-brightgreen) 
+# Tasky
 
-![](https://img.shields.io/github/commits-since/emilianovaccaro/Tasky/2a443defe7be7cb9a8eceddfc3ce4de07df2b71d/main?color=99f7ab&label=commits)
-
-![](https://img.shields.io/github/issues/emilianovaccaro/Tasky?color=%23ffd670)
+<div style="display: flex">
+  <img src="https://img.shields.io/badge/-Open--Source%20-brightgreen" />
+  
+  <a href="https://github.com/emilianovaccaro/Tasky/commits/main" target="_blank"><img src="https://img.shields.io/github/commits-since/emilianovaccaro/Tasky/2a443defe7be7cb9a8eceddfc3ce4de07df2b71d/main?color=99f7ab&label=commits" /></a>
+  <a href="https://github.com/emilianovaccaro/Tasky/issues" target="_blank"><img src="https://img.shields.io/github/issues/emilianovaccaro/Tasky?color=%23ffd670" /></a>
+</div>
 
 [View demo](https://test-server-tasky.herokuapp.com/)
 
@@ -64,10 +66,4 @@ Project developed for [Alkemy]((https://www.alkemy.org/))'s React.js acceleratio
 - [@emilianovaccaro](https://github.com/emilianovaccaro)
 
 
-Project developed for [Alkemy]((https://www.alkemy.org/))'s React.js acceleration.
-
-
-
-## Acknowledgements
-
-[![Tasky Stats](https://github-readme-stats.vercel.app/api/?username=emilianovaccaro&repo=Tasky)](https://github.com/emilianovaccaro/Tasky)
+#### Project developed for [Alkemy]((https://www.alkemy.org/))'s React.js acceleration.
