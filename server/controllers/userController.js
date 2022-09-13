@@ -2,8 +2,6 @@ const jwt = require('jsonwebtoken');
 const bcryptjs = require('bcryptjs');
 const User = require('../models/userModel');
 const e = require('express');
-
-
 //Generate JWT
 const generateToken = (id, email, username) => {
   return jwt.sign({ id, email, username }, process.env.JWT_SECRET, {
@@ -24,7 +22,7 @@ const validateEmail = (email) => {
 const registerUser = async (req, res) => {
   try {
     const { username, email, password, teamId, isAdmin, role, phone, teamPassword, fullname } = req.body;
-
+    
     if (!username || !phone || !email || !password || !teamId || !role || !teamPassword || !fullname) {
       return res.status(400).json({msg: 'Fill in all the fields'})
     }
@@ -63,7 +61,7 @@ const registerUser = async (req, res) => {
     const hashedPassword = bcryptjs.hashSync( password, salt );
     const hashedTeamPassword = bcryptjs.hashSync( teamPassword, salt );
     
-    const user  = {
+    const user  = User({
       username,
       fullname,
       email,
@@ -73,9 +71,14 @@ const registerUser = async (req, res) => {
       role,
       isAdmin,
       teamPassword: hashedTeamPassword
+    })
+
+    if(req.file){
+      const {filename} = req.file
+      user.setImgUrl(filename)
     }
 
-    const newUser = await User.create(user);
+    const newUser = await user.save()
     const userToken = generateToken(newUser._id, email, username);
     
     if (!newUser) {
@@ -150,21 +153,6 @@ const getAllUser = async (req, res) => {
     throw new Error('Profile error, please contact us');
   }
 }
-
-const getAllUser = async (req, res) => {
-  try {
-
-    const {teamId} = req.user
-
-    const allUsers = await User.find({teamId}).select('-password -teamPassword');
-
-    res.status(200).json(allUsers);
-
-  } catch (error) {
-    return res.status(500).json({ message: error.message })
-  }
-}
-
 
 module.exports = {
   registerUser,
