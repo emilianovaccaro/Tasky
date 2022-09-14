@@ -46,3 +46,12 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
+
+body {
+	background-image: url('../assets/background-sunset.jpg');
+	background-size: cover;
+}
+
+* {
+	font-family: "Noto Sans"!important;
+}

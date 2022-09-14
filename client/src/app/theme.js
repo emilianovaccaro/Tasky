@@ -6,7 +6,7 @@ export const styles = {
     extraLarge: '1920px'
   },
 
-  paddings: {
+  padding: {
     small: '8px 16px',
     medium: '16px 32px',
     large: '32px 64px'
@@ -17,6 +17,19 @@ export const styles = {
     medium: '16px',
     large: '32px',
   },
+
+  fontSize: {
+    extraSmall: '13px',
+    small: '16px',
+    medium: '20px',
+    big: '32px',
+  },
+
+  fontWeight: {
+    regular: '400',
+    semiBold: '600',
+    bold: '700',
+  },
   
   colors: {
     white: '#FFFFFF',
@@ -25,8 +38,9 @@ export const styles = {
     lightblue: '#70D6FF',
     yellow: '#FFD670',
     green: '#99F7AB',
-    lowPriority: '#43FF6C',
-    mediumPriority: '#FFB443'
+    lowPriority: '#23D64A',
+    mediumPriority: '#E7A33D',
+    highPriority: '#E43B3B',
   }
 }
 
