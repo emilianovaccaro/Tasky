@@ -2,4 +2,5 @@ import styled from 'styled-components'
 
 export const SubLabel = styled.h1`
   font-family: "Noto Sans";
+  color: ${({theme}) => theme.mode.primary};
 `

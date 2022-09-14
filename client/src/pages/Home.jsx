@@ -4,6 +4,8 @@ import { SubLabel } from '../components/SubLabel'
 
 export const Home = () => {
   return (
-    <SubLabel>Home</SubLabel>
+    <>
+      <SubLabel>Home</SubLabel>
+    </>
   )
 }
