@@ -197,7 +197,6 @@ module.exports = {
   registerUser,
   loginUser,
   getUser,
-  profile_photo,
   getAllUser,
   updateProfile
 }
