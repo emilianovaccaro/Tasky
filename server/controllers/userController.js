@@ -188,6 +188,7 @@ const updateProfile = async (req, res) => {
     res.status(200).json({msg: 'user updated successfully', user});
 
   } catch (error) {
+
     return res.status(500).json({ message: error.message })
   }
 }
@@ -196,6 +197,9 @@ module.exports = {
   registerUser,
   loginUser,
   getUser,
+  profile_photo,
   getAllUser,
   updateProfile
 }
+
+
