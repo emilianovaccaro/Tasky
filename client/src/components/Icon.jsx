@@ -11,6 +11,8 @@ export const Icon = styled.svg`
   cursor: pointer;
   vertical-align: middle;
   ${p => getSize(p)}
+  
+  color: ${ p => p.white && p.theme.styles.colors.white};
 `
 
 const getSize = ({ size = 24 }) => css`

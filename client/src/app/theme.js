@@ -8,7 +8,7 @@ export const styles = {
 
   padding: {
     small: '8px 16px',
-    medium: '16px 32px',
+    medium: '12px 32px',
     large: '32px 64px'
   },
 
@@ -27,6 +27,7 @@ export const styles = {
 
   fontWeight: {
     regular: '400',
+    medium: '500',
     semiBold: '600',
     bold: '700',
   },

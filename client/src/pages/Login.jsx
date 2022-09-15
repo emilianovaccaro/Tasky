@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { SubLabel } from '../components/SubLabel'
+import { SubLabel } from '../components/Text/SubLabel'
 
 export const Login = () => {
   return (
