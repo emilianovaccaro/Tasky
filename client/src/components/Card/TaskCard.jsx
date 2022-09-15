@@ -4,7 +4,6 @@ import styled from 'styled-components'
 export const TaskCard = ( {children, defaultColor} ) => {
   return(
     <CardContainer defaultColor={defaultColor}>
-      <SideColor />
       <CardChildren>
         {children}
       </CardChildren>
@@ -17,12 +16,8 @@ const CardContainer = styled.div`
   align-items: center;
   border-radius: ${p => p.theme.styles.borderRadius.medium};
   background-color: ${({theme}) => theme.mode.tertiary};
-`
-
-const SideColor = styled.div`
-  border-radius: ${p => p.theme.styles.borderRadius.medium} 0 0 ${p => p.theme.styles.borderRadius.medium};
-  background-color: red;
-  height: 100%;
+  border-left: 50px solid blue;
+  padding: 20px;
 `
 
 const CardChildren = styled.div`
