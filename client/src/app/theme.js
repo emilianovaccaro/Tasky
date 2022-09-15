@@ -9,7 +9,8 @@ export const styles = {
   padding: {
     small: '8px 16px',
     medium: '12px 32px',
-    large: '32px 64px'
+    large: '24px 32px',
+    extraLarge: '32px 64px'
   },
 
   borderRadius: {
@@ -35,6 +36,7 @@ export const styles = {
   colors: {
     white: '#FFFFFF',
     black: '#000000',
+    primaryDark: '#343A40',
     red: '#FF4343',
     lightblue: '#70D6FF',
     yellow: '#FFD670',

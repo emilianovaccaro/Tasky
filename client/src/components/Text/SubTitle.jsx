@@ -9,4 +9,5 @@ export const SubTitle = styled.h3`
   text-decoration: ${p => p.button && 'underline'};
   cursor: ${p => p.button && 'pointer'};
   display: ${p => p.icon && 'inline-block'};
+  margin-bottom: ${p => p.marginBottom};
 `

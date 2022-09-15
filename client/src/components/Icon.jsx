@@ -12,7 +12,7 @@ export const Icon = styled.svg`
   vertical-align: middle;
   ${p => getSize(p)}
   
-  color: ${ p => p.white && p.theme.styles.colors.white};
+  color: ${p => p.white && p.theme.styles.colors.white};
 `
 
 const getSize = ({ size = 24 }) => css`

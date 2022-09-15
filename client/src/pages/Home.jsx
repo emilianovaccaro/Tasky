@@ -10,6 +10,8 @@ import { TextButtonSmall } from '../components/Button/TextButtonSmall'
 import { TextButtonMedium } from '../components/Button/TextButtonMedium'
 import { IconButton } from '../components/Button/IconButton'
 import { BoxButton } from '../components/Button/BoxButton'
+import { Card } from '../components/Card/Card'
+import { TaskCard } from '../components/Card/TaskCard'
 
 export const Home = () => {
   return (
@@ -49,10 +51,26 @@ export const Home = () => {
         <TextButtonMedium lowOpacity><Icon as={icons.instagram} />Text Button Medium Icon Left low Opacity</TextButtonMedium>
       </div>
       <div style={{'padding': '50px', 'display': 'flex', 'gap': '20px' , 'alignItems': 'center'}}>
-        <IconButton><Icon as={icons.instagram} white /></IconButton>
+        <IconButton><Icon as={icons.instagram} white={'white'} /></IconButton>
       </div>
       <div style={{'padding': '50px', 'display': 'flex', 'gap': '20px' , 'alignItems': 'center'}}>
         <BoxButton><Label black medium>BoxButton</Label></BoxButton>
+      </div>
+      <div style={{'padding': '50px', 'display': 'flex', 'gap': '20px' , 'alignItems': 'center'}}>
+        <Card headerChildren={'Hola'} defaultColor>
+          <Label>Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit pariatur consequuntur aperiam sunt itaque provident id nam assumenda! Laborum delectus recusandae, dolore quia temporibus ut. Optio et illum consequuntur veritatis?</Label>
+        </Card>
+        <Card headerChildren={<Label semiBold>hola mundo</Label>} />
+        <Card SubTitleText={'Título card'}>
+          <Label>Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit pariatur consequuntur aperiam sunt itaque provident id nam assumenda! Laborum delectus recusandae, dolore quia temporibus ut. Optio et illum consequuntur veritatis?</Label>
+        </Card>
+      </div>
+      <div style={{'padding': '50px', 'display': 'flex', 'gap': '20px' , 'alignItems': 'center'}}>
+        <TaskCard defaultColor>
+          <Label>Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit pariatur consequuntur aperiam sunt itaque provident id nam assumenda! Laborum delectus recusandae, dolore quia temporibus ut. Optio et illum consequuntur veritatis?</Label>
+          <Label>Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit pariatur consequuntur aperiam sunt itaque provident id nam assumenda! Laborum delectus recusandae, dolore quia temporibus ut. Optio et illum consequuntur veritatis?</Label>
+          <Label>Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit pariatur consequuntur aperiam sunt itaque provident id nam assumenda! Laborum delectus recusandae, dolore quia temporibus ut. Optio et illum consequuntur veritatis?</Label>
+        </TaskCard>
       </div>
     </>
   )
