@@ -60,13 +60,13 @@ export const Home = () => {
         <Card headerChildren={'Hola'} defaultColor>
           <Label>Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit pariatur consequuntur aperiam sunt itaque provident id nam assumenda! Laborum delectus recusandae, dolore quia temporibus ut. Optio et illum consequuntur veritatis?</Label>
         </Card>
-        <Card headerChildren={<Label semiBold>hola mundo</Label>} />
+        <Card headerChildren={<Label semiBold>Hola mundo</Label>} />
         <Card SubTitleText={'Título card'}>
           <Label>Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit pariatur consequuntur aperiam sunt itaque provident id nam assumenda! Laborum delectus recusandae, dolore quia temporibus ut. Optio et illum consequuntur veritatis?</Label>
         </Card>
       </div>
       <div style={{'padding': '50px', 'display': 'flex', 'gap': '20px' , 'alignItems': 'center'}}>
-        <TaskCard defaultColor>
+        <TaskCard >
           <Label>Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit pariatur consequuntur aperiam sunt itaque provident id nam assumenda! Laborum delectus recusandae, dolore quia temporibus ut. Optio et illum consequuntur veritatis?</Label>
           <Label>Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit pariatur consequuntur aperiam sunt itaque provident id nam assumenda! Laborum delectus recusandae, dolore quia temporibus ut. Optio et illum consequuntur veritatis?</Label>
           <Label>Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit pariatur consequuntur aperiam sunt itaque provident id nam assumenda! Laborum delectus recusandae, dolore quia temporibus ut. Optio et illum consequuntur veritatis?</Label>
