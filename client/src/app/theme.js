@@ -36,7 +36,6 @@ export const styles = {
   colors: {
     white: '#FFFFFF',
     black: '#000000',
-    primaryDark: '#343A40',
     red: '#FF4343',
     lightblue: '#70D6FF',
     yellow: '#FFD670',

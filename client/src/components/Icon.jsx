@@ -1,8 +1,9 @@
 import styled, { css } from 'styled-components'
-import { AiOutlineInstagram } from 'react-icons/ai'
+import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai'
 
 export const icons = {
-  instagram: AiOutlineInstagram,
+  eye: AiOutlineEye,
+  eyeCross: AiOutlineEyeInvisible,
 }
 
 export const Icon = styled.svg`

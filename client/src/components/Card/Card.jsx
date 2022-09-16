@@ -1,16 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
-import { SubTitle } from '../Text/SubTitle'
 
-export const Card = ( {children, headerChildren, SubTitleText, defaultColor} ) => {
+export const Card = ( {children, headerChildren, defaultColor, comment} ) => {
   return(
-    <CardContainer defaultColor={defaultColor}>
+    <CardContainer defaultColor={defaultColor} comment={comment}>
       {
-        headerChildren ?
+        headerChildren &&
           <CardHeader defaultColor={defaultColor}>
             {headerChildren}
-          </CardHeader> :
-          <SubTitle marginBottom={'12px'}>{SubTitleText}</SubTitle>
+          </CardHeader>
       }
       {children}
     </CardContainer>
@@ -19,9 +17,11 @@ export const Card = ( {children, headerChildren, SubTitleText, defaultColor} ) =
 
 const CardContainer = styled.div`
   padding: ${p => p.theme.styles.padding.large};
+  padding: ${p => p.comment && p.theme.styles.padding.medium};
   border-radius: ${p => p.theme.styles.borderRadius.medium};
-  background-color: ${({theme}) => theme.mode.primary};
-  background-color: ${p => p.defaultColor && p.theme.styles.colors.primaryDark};
+  background-color: ${({theme}) => theme.mode.primary}E0;
+  background-color: ${p => p.defaultColor && p.theme.mode.primary}E0;
+  background-color: ${p => p.comment && p.theme.mode.alternative}E0;
 `
 
 const CardHeader = styled.div`

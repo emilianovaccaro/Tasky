@@ -12,6 +12,7 @@ import { IconButton } from '../components/Button/IconButton'
 import { BoxButton } from '../components/Button/BoxButton'
 import { Card } from '../components/Card/Card'
 import { TaskCard } from '../components/Card/TaskCard'
+import { Input } from '../components/Inputs/Input'
 
 export const Home = () => {
   return (
@@ -28,12 +29,12 @@ export const Home = () => {
         <Label>Label regular</Label>
         <Label semiBold>Label semiBold</Label>
         <Label button>Label button</Label>
-        <Label button icon><Icon as={icons.instagram} />Label button icon</Label>
-        <Label button icon><Icon as={icons.instagram} size={32} />Label button icon</Label>
+        <Label button icon><Icon as={icons.eye} />Label button icon</Label>
+        <Label button icon><Icon as={icons.eye} size={32} />Label button icon</Label>
       </div>
       <div style={{'padding': '50px', 'display': 'flex', 'gap': '20px' , 'alignItems': 'center'}}>
         <SubTitle>Subtitle</SubTitle>
-        <SubTitle icon><Icon as={icons.instagram} size={32} />Subtitle icon</SubTitle>
+        <SubTitle icon><Icon as={icons.eye} size={32} />Subtitle icon</SubTitle>
       </div>
       <div style={{'padding': '50px', 'display': 'flex', 'gap': '20px' , 'alignItems': 'center'}}>
         <Title>Title</Title>
@@ -44,14 +45,14 @@ export const Home = () => {
       <div style={{'padding': '50px', 'display': 'flex', 'gap': '20px' , 'alignItems': 'center'}}>
         <TextButtonSmall to="/login">Text Button Small</TextButtonSmall>
         <TextButtonSmall to="/login" error={'este es el error'}>Text Button Small Error</TextButtonSmall>
-        <TextButtonSmall to="/login" semiBold><Icon as={icons.instagram} />Text Button Small SemiBold Icon</TextButtonSmall>
+        <TextButtonSmall to="/login" semiBold><Icon as={icons.eye} />Text Button Small SemiBold Icon</TextButtonSmall>
       </div>
       <div style={{'padding': '50px', 'display': 'flex', 'gap': '20px' , 'alignItems': 'center'}}>
-        <TextButtonMedium><Icon as={icons.instagram} /> Text Button Medium Icon Left</TextButtonMedium>
-        <TextButtonMedium lowOpacity><Icon as={icons.instagram} />Text Button Medium Icon Left low Opacity</TextButtonMedium>
+        <TextButtonMedium><Icon as={icons.eye} /> Text Button Medium Icon Left</TextButtonMedium>
+        <TextButtonMedium lowOpacity><Icon as={icons.eye} />Text Button Medium Icon Left low Opacity</TextButtonMedium>
       </div>
       <div style={{'padding': '50px', 'display': 'flex', 'gap': '20px' , 'alignItems': 'center'}}>
-        <IconButton><Icon as={icons.instagram} white={'white'} /></IconButton>
+        <IconButton><Icon as={icons.eye} white={'white'} /></IconButton>
       </div>
       <div style={{'padding': '50px', 'display': 'flex', 'gap': '20px' , 'alignItems': 'center'}}>
         <BoxButton><Label black medium>BoxButton</Label></BoxButton>
@@ -64,13 +65,29 @@ export const Home = () => {
         <Card SubTitleText={'Título card'}>
           <Label>Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit pariatur consequuntur aperiam sunt itaque provident id nam assumenda! Laborum delectus recusandae, dolore quia temporibus ut. Optio et illum consequuntur veritatis?</Label>
         </Card>
+        <Card comment>
+          <Label>Comentario</Label>
+          <SubLabel>Comentario ario ario ario ario</SubLabel>
+        </Card>
       </div>
       <div style={{'padding': '50px', 'display': 'flex', 'gap': '20px' , 'alignItems': 'center'}}>
-        <TaskCard >
-          <Label>Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit pariatur consequuntur aperiam sunt itaque provident id nam assumenda! Laborum delectus recusandae, dolore quia temporibus ut. Optio et illum consequuntur veritatis?</Label>
-          <Label>Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit pariatur consequuntur aperiam sunt itaque provident id nam assumenda! Laborum delectus recusandae, dolore quia temporibus ut. Optio et illum consequuntur veritatis?</Label>
+        <TaskCard status={'finished'}>
           <Label>Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit pariatur consequuntur aperiam sunt itaque provident id nam assumenda! Laborum delectus recusandae, dolore quia temporibus ut. Optio et illum consequuntur veritatis?</Label>
         </TaskCard>
+        <TaskCard status={'inProgress'}>
+          <Label>Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit pariatur consequuntur aperiam sunt itaque provident id nam assumenda! Laborum delectus recusandae, dolore quia temporibus ut. Optio et illum consequuntur veritatis?</Label>
+        </TaskCard>
+        <TaskCard status={'toDo'}>
+          <Label>Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit pariatur consequuntur aperiam sunt itaque provident id nam assumenda! Laborum delectus recusandae, dolore quia temporibus ut. Optio et illum consequuntur veritatis?</Label>
+        </TaskCard>
+      </div>
+      <div style={{'padding': '50px', 'display': 'flex', 'gap': '20px' , 'alignItems': 'center'}}>
+        <Card>
+          <Input type={'email'} inputLabel={'Ingrese su email'} />
+          <Input type={'text'} inputLabel={'Ingrese su email'} error={'email incorrecto'} />
+          <Input type={'tel'} inputLabel={'Ingrese su teléfono'} />
+          <Input type={'password'} inputLabel={'Ingrese su contraseña'} error={'contraseña incorrecta'} />
+        </Card>
       </div>
     </>
   )

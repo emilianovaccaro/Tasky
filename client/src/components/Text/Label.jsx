@@ -11,5 +11,5 @@ export const Label = styled.h4`
   text-decoration: ${p => p.button && 'underline'};
   cursor: ${p => p.button && 'pointer'};
   color: ${p => p.error && p.theme.styles.colors.red};
-  margin-left: ${p => p.error && '32px'};
+  margin-left: ${p => p.error && '16px'};
 `
