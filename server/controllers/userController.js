@@ -1,7 +1,8 @@
 const jwt = require('jsonwebtoken');
 const bcryptjs = require('bcryptjs');
 const User = require('../models/userModel');
-const e = require('express');
+
+
 //Generate JWT
 const generateToken = (id, email, username) => {
   return jwt.sign({ id, email, username }, process.env.JWT_SECRET, {
@@ -83,7 +84,7 @@ const registerUser = async (req, res) => {
     
     if (!newUser) {
      return res.status(400).json({ msg: 'There was an error creating the user' });
-    } 
+    }
 
     res.status(201).json({ newUser, userToken });
 
@@ -115,9 +116,9 @@ const loginUser = async (req, res) => {
 
     //create jwt
     const userToken = generateToken(user._id);
-  
+
     res.status(201).json({
-      user, userToken
+      userToken
     });
 
   } catch ( error ) {
@@ -144,7 +145,7 @@ const getAllUser = async (req, res) => {
     const {teamId} = req.user
 
     const allUsers = await User.find({teamId}).select('-password -teamPassword');
-
+    
     res.status(200).json(allUsers);
 
   } catch (error) {
@@ -157,7 +158,6 @@ const updateProfile = async (req, res) => {
 
     const {password, newPassword} = req.body
 
-    
     const user = await User.findById(req.user._id);
 
     if (!user) return res.status(404).json({ msg: 'User not found' }) 

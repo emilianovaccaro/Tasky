@@ -48,7 +48,7 @@ const postTask = async (req, res) => {
 // edit tasks
 // api/task/:id
 // private
-const putTask = async (req, res) => {
+const editTask = async (req, res) => {
   try {
     const { title, description, timeLimit, status, priority, assignedTo, deleteStatus } = req.body
     const { id } = req.params
@@ -132,7 +132,7 @@ const addComment = async(req, res) => {
 module.exports = {
   getTasks,
   postTask,
-  putTask,
+  editTask,
   deleteTask,
   addComment
 }
