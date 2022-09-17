@@ -50,6 +50,5 @@ export const updateTask = ( id, values, token ) => async ( dispatch ) => {
     }
   });
 
-  
   dispatch({ type: UPDATE_TASK, payload: res.data });
 };
