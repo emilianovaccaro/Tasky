@@ -43,7 +43,7 @@ const taskSchema = mongoose.Schema({
       {
         id: {type: mongoose.Schema.Types.ObjectId},
         author: {type: String},
-        body: {type: String},
+        comment: {type: String},
       }
     ]
   }, 

@@ -50,7 +50,7 @@ const postTask = async (req, res) => {
 // private
 const editTask = async (req, res) => {
   try {
-    const { title, description, timeLimit, status, priority, assignedTo, deleteStatus } = req.body
+    const { title, description, timeLimit, status, priority, assignedTo, deleteStatus, comments } = req.body
     const { id } = req.params
     
     const task = await Task.findById(id);
@@ -58,9 +58,8 @@ const editTask = async (req, res) => {
     if (!task) { return res.status(404).json({ msg: 'Task not found' }) }
     if (task.teamId !== req.user.teamId) return res.status(403).json({msg: "You don't have the permissions"})
 
-    if ((task.userId.toString() !== req.user.id) || ((task.teamId !== req.user.teamId) && !req.user.isAdmin)) {
-     return res.status(401).json({ msg: 'User not authorized to do this' })
-    }
+
+    task.comments = [...task.comments, { comment: comments, author: req.user.username }]
 
     task.title = title || task.title
     task.description = description || task.description
@@ -70,7 +69,7 @@ const editTask = async (req, res) => {
     task.assignedTo = assignedTo || task.assignedTo
     task.deleteStatus = deleteStatus || task.deleteStatus
     
-    await task.save()
+    await task.save();
 
     res.status(200).json(task);
       
