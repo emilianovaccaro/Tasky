@@ -9,13 +9,19 @@ import {
 const tasksReducer = ( state = [], action ) => {
   switch (action.type) {
     case FETCH_TASKS:
-      return action.payload || null;
+      return action.payload || false;
     case CREATE_TASK:
       return [ ...state, action.payload ];
     case DELETE_TASK:
       return state = state.filter(( id ) => id !== action.payload);
     case UPDATE_TASK:
-      return [ ...state, action.payload ];
+      const updatedItems = state.map(item => {
+        if(item._id === action.payload._id){
+          return { ...item, ...action.payload }
+        }
+        return item
+      })
+      return updatedItems
     default:
       return state;
   }
