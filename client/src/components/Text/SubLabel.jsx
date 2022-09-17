@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-export const SubLabel = styled.h6`
+export const SubLabel = styled.label`
   color: ${({theme}) => theme.styles.colors.white};
   font-size: ${({theme}) => theme.styles.fontSize.extraSmall};
   
