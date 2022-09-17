@@ -7,7 +7,7 @@ import {
 } from './types';
 
 
-const API_URL = 'http://localhost:5000';
+const API_URL = 'https://test-server-tasky.herokuapp.com';
 
 
 //login
@@ -45,5 +45,6 @@ export const getUser = ( token ) => async ( dispatch ) => {
 
 //sign out
 export const signOut = ( ) => async ( dispatch ) => {
+  localStorage.removeItem('token');
   dispatch({ type: SIGN_OUT });
 };

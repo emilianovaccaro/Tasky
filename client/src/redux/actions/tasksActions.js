@@ -6,7 +6,7 @@ import {
   DELETE_TASK } from './types';
 
 
-const API_URL = 'http://localhost:5000';
+const API_URL = 'https://test-server-tasky.herokuapp.com';
 
 
 //get
@@ -44,7 +44,7 @@ export const deleteTask = ( id, token ) => async ( dispatch ) => {
 
 //update
 export const updateTask = ( id, values, token ) => async ( dispatch ) => {
-  const res = await axios.patch(`http://localhost:5000/api/task/${id}`, values, {
+  const res = await axios.patch(`${API_URL}/api/task/${id}`, values, {
     headers: {
       Authorization: `Bearer ${token}`
     }
