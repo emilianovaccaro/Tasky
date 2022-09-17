@@ -1,13 +1,19 @@
 import styled, { css } from 'styled-components'
-import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai'
+import { AiOutlineEye, AiOutlineEyeInvisible, AiOutlineTeam } from 'react-icons/ai'
 import { MdOutlineTaskAlt } from 'react-icons/md'
 import { BsTrash } from 'react-icons/bs'
+import { FiSettings } from 'react-icons/fi'
+import { IoLogOutOutline } from 'react-icons/io5'
+
 
 export const icons = {
   eye: AiOutlineEye,
   eyeCross: AiOutlineEyeInvisible,
   task: MdOutlineTaskAlt,
   trash: BsTrash,
+  team: AiOutlineTeam,
+  settings: FiSettings,
+  logOut: IoLogOutOutline,
 }
 
 export const Icon = styled.svg`

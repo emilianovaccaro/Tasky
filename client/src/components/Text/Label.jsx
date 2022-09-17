@@ -6,6 +6,7 @@ export const Label = styled.label`
   color: ${({theme}) => theme.styles.colors.white};
   font-size: ${({theme}) => theme.styles.fontSize.small};
   
+  opacity: ${p => p.lowOpacity && '50%'};
   color: ${p => p.black && p.theme.styles.colors.black};
   font-weight: ${ p => p.medium && p.theme.styles.fontWeight.medium};
   font-weight: ${ p => p.semiBold && p.theme.styles.fontWeight.semiBold};

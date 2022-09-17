@@ -9,7 +9,7 @@ export const Sidebar = (  ) => {
     <SideBarContainer>
       <img src={'../src/assets/logo-banner.svg'} alt={'Tasky logo'} className='logo' />
       <hr />
-      <ul>
+      <NavLinks>
         <li>
           <TextButtonSmall noUnderline lowOpacity to='#'>
             <Icon as={icons.task} />
@@ -23,16 +23,38 @@ export const Sidebar = (  ) => {
           </TextButtonSmall>
         </li>
         <li>
+          <TextButtonSmall noUnderline lowOpacity to='#'>
+            <Icon as={icons.team} />
+            Mi equipo
+          </TextButtonSmall>
         </li>
         <li>
+          <TextButtonSmall noUnderline lowOpacity to='#'>
+            <Icon as={icons.settings} />
+            Configuración
+          </TextButtonSmall>
         </li>
         <li>
+          <TextButtonSmall noUnderline lowOpacity to='#'>
+            <Icon as={icons.logOut} />
+            Cerrar sesión
+          </TextButtonSmall>
         </li>
-      </ul>
-      <Profile imageSize={48} labelText='Nombre Apellido' subLabelText='EquipoID'/>
+      </NavLinks>
+      <ProfileContainer>
+        <Profile imageSize={32} labelText='Nombre Apellido' subLabelText='EquipoID'/>
+      </ProfileContainer>
+      
     </SideBarContainer>
   )
 }
+
+const NavLinks = styled.ul`
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  margin: 32px 0;
+`
 
 const SideBarContainer = styled.nav`
   height: 100vh;
@@ -56,3 +78,11 @@ const SideBarContainer = styled.nav`
 
 `
 
+const ProfileContainer = styled.div`
+  position: absolute;
+  bottom: 0;
+  width: calc(100% - 48px);
+  margin-left: -24px;
+  padding: 24px;
+  background-color: ${({theme}) => theme.mode.primary};
+`
