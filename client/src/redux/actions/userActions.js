@@ -18,7 +18,7 @@ export const signIn = ( values ) => async ( dispatch ) => {
 
   localStorage.setItem('token', res.data.userToken);
   
-  dispatch({ type: SIGN_IN, payload: res.data });
+  dispatch({ type: SIGN_IN });
 };
 
 //register
@@ -27,7 +27,7 @@ export const register = ( values ) => async ( dispatch ) => {
 
   localStorage.setItem('token', res.data.userToken);
 
-  dispatch({ type: REGISTER_USER, payload: res.data });
+  dispatch({ type: REGISTER_USER });
 };
 
 
@@ -45,5 +45,5 @@ export const getUser = ( token ) => async ( dispatch ) => {
 
 //sign out
 export const signOut = ( ) => async ( dispatch ) => {
-  dispatch({ type: SIGN_OUT, payload: null });
+  dispatch({ type: SIGN_OUT });
 };
