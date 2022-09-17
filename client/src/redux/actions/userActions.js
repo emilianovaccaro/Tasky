@@ -13,8 +13,6 @@ const API_URL = 'https://test-server-tasky.herokuapp.com';
 //login
 export const signIn = ( values ) => async ( dispatch ) => {
   const res = await axios.post(`${API_URL}/api/users/login`, values);
-  
-  console.log(res);
 
   localStorage.setItem('token', res.data.userToken);
   
