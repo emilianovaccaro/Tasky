@@ -5,7 +5,6 @@ import { BsTrash } from 'react-icons/bs'
 import { FiSettings } from 'react-icons/fi'
 import { IoLogOutOutline } from 'react-icons/io5'
 
-
 export const icons = {
   eye: AiOutlineEye,
   eyeCross: AiOutlineEyeInvisible,
@@ -21,6 +20,7 @@ export const Icon = styled.svg`
   overflow: visible;
   cursor: pointer;
   vertical-align: middle;
+  margin-right: ${p => p.mr}px;
   ${p => getSize(p)}
   
   color: ${p => p.white && p.theme.styles.colors.white};

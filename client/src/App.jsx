@@ -7,7 +7,7 @@ import { Login } from './pages/Login'
 import { Register } from './pages/Register'
 import { Error404 } from './pages/Error404'
 import { theme, styles } from './app/theme'
-
+ 
 function App() {
   const mode = theme.dark
 

@@ -7,6 +7,7 @@ export const Label = styled.label`
   font-size: ${({theme}) => theme.styles.fontSize.small};
   
   opacity: ${p => p.lowOpacity && '50%'};
+  opacity: ${p => p.active && '100%'};
   color: ${p => p.black && p.theme.styles.colors.black};
   font-weight: ${ p => p.medium && p.theme.styles.fontWeight.medium};
   font-weight: ${ p => p.semiBold && p.theme.styles.fontWeight.semiBold};
@@ -15,4 +16,9 @@ export const Label = styled.label`
   cursor: ${p => p.button && 'pointer'};
   color: ${p => p.error && p.theme.styles.colors.red};
   margin-left: ${p => p.error && '16px'};
+  transition: .2s;
+
+  &:hover {
+    opacity: ${p => p.button && '100%'};
+  }
 `

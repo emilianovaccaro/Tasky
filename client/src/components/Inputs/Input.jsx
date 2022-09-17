@@ -4,14 +4,19 @@ import { Icon, icons } from '../Icon'
 import { Label } from '../Text/Label'
 import { SubLabel } from '../Text/SubLabel'
 
-export const Input = ( {inputLabel, type, name, onChange, value, radioSubLabel, id, error, maxLength} ) => {
+export const Input = ({ inputLabel, type, name, onChange, value, radioSubLabel, id, error, maxLength }) => {
 
   const [eye, setEye] = React.useState(true)
+  const [newType, setNewType] = React.useState('')
 
-  function changeVisibility(e) {
-    console.log(e)
-    // TODO: terminar la funcionalidad de cambio de password a text
-    setEye(eye => !eye)
+  const changeVisibility = () => {
+    if (eye) {
+      setNewType('text')
+    } else {
+      setNewType('password')
+    }
+
+    return setEye(eye => !eye)
   }
 
   return(
@@ -22,14 +27,14 @@ export const Input = ( {inputLabel, type, name, onChange, value, radioSubLabel, 
         <InputField
           id={id}
           name={name}
-          type={type}
+          type={newType || type}
           onChange={onChange}
           value={value}
           error={error}
           maxLength={maxLength}
         />
         {type === 'radio' && <SubLabel htmlFor={id}>{radioSubLabel}</SubLabel>}
-        {type === 'password' && <Icon as={eye ? icons.eye : icons.eyeCross} white={'white'} onClick={e => changeVisibility(e)}/>}
+        {type === 'password' && <Icon as={eye ? icons.eye : icons.eyeCross} white={'white'} onClick={() => changeVisibility()}/>}
       </InputContainer>
     </>
   )

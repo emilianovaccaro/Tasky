@@ -11,32 +11,32 @@ export const Sidebar = (  ) => {
       <hr />
       <NavLinks>
         <li>
-          <TextButtonSmall noUnderline lowOpacity to='#'>
-            <Icon as={icons.task} />
+          <TextButtonSmall noUnderline lowOpacity to='#' active>
+            <Icon as={icons.task} size={20} mr={8} />
             Tareas
           </TextButtonSmall>
         </li>
         <li>
           <TextButtonSmall noUnderline lowOpacity to='#'>
-            <Icon as={icons.trash} />
+            <Icon as={icons.trash} size={20} mr={8} />
             Papelera
           </TextButtonSmall>
         </li>
         <li>
           <TextButtonSmall noUnderline lowOpacity to='#'>
-            <Icon as={icons.team} />
+            <Icon as={icons.team} size={20} mr={8} />
             Mi equipo
           </TextButtonSmall>
         </li>
         <li>
           <TextButtonSmall noUnderline lowOpacity to='#'>
-            <Icon as={icons.settings} />
+            <Icon as={icons.settings} size={20} mr={8} />
             Configuración
           </TextButtonSmall>
         </li>
         <li>
           <TextButtonSmall noUnderline lowOpacity to='#'>
-            <Icon as={icons.logOut} />
+            <Icon as={icons.logOut} size={20} mr={8} />
             Cerrar sesión
           </TextButtonSmall>
         </li>
@@ -54,6 +54,7 @@ const NavLinks = styled.ul`
   flex-direction: column;
   gap: 32px;
   margin: 32px 0;
+
 `
 
 const SideBarContainer = styled.nav`

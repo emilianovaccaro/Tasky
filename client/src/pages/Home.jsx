@@ -15,13 +15,11 @@ import { TaskCard } from '../components/Card/TaskCard'
 import { Input } from '../components/Inputs/Input'
 import { TextArea } from '../components/Inputs/TextArea'
 import { Select } from '../components/Inputs/Select'
-import { Sidebar } from '../components/Sidebar'
 import { Profile } from '../components/Profile'
 
 export const Home = () => {
   return (
     <>
-      <Sidebar />
       <div style={{'padding': '24px', 'display': 'flex', 'flexDirection': 'column', 'gap': '50px'}}>
         <div style={{'display': 'flex', 'gap': '20px', 'alignItems': 'center'}}>
           <SubLabel>SubLabel 100% opacity</SubLabel>
