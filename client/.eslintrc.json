@@ -19,7 +19,7 @@
     "rules": {
         "indent": [
             "error",
-            [2,4]
+            2
         ],
         "linebreak-style": [
             "error",
@@ -27,7 +27,13 @@
         ],
         "quotes": [
             "error",
-            ["single", "double"]
-        ]
+            "single"
+        ],
+        "semi": [
+            "error",
+            "never"
+        ],
+        "react/prop-types": ["off"]
     }
 }
+
