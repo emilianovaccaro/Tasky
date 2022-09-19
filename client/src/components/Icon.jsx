@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components'
 import { AiOutlineEye, AiOutlineEyeInvisible, AiOutlineTeam } from 'react-icons/ai'
-import { MdOutlineTaskAlt } from 'react-icons/md'
+import { MdOutlineTaskAlt, MdKeyboardBackspace } from 'react-icons/md'
 import { BsTrash } from 'react-icons/bs'
 import { FiSettings } from 'react-icons/fi'
 import { IoLogOutOutline } from 'react-icons/io5'
@@ -13,6 +13,7 @@ export const icons = {
   team: AiOutlineTeam,
   settings: FiSettings,
   logOut: IoLogOutOutline,
+  back: MdKeyboardBackspace,
 }
 
 export const Icon = styled.svg`

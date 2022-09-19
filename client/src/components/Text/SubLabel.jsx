@@ -13,4 +13,7 @@ export const SubLabel = styled.label`
   background-color: ${p => p.lowPriority && p.theme.styles.colors.lowPriority};
   background-color: ${p => p.mediumPriority && p.theme.styles.colors.mediumPriority};
   background-color: ${p => p.highPriority && p.theme.styles.colors.highPriority};
+  color: ${p => p.error && p.theme.styles.colors.red};
+  margin-top: ${p => p.error && '8px'};
+  margin-bottom: ${p => p.error && '8px'};
 `

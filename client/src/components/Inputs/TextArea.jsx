@@ -1,12 +1,13 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Label } from '../Text/Label'
+import { SubLabel } from '../Text/SubLabel'
 
 export const TextArea = ( {inputLabel, name, onChange, value, id, error, maxLength} ) => {
   return(
     <>
       <Label marginBottom={'16px'} htmlFor={id}>{inputLabel}</Label>
-      {error && <Label error>{error}</Label>}
+      {error && <SubLabel error>{error}</SubLabel>}
       <InputTextArea
         id={id}
         name={name}

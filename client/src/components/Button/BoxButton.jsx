@@ -7,4 +7,8 @@ export const BoxButton = styled.button`
   border-radius: ${p => p.theme.styles.borderRadius.medium};
   background-color: ${p => p.theme.styles.colors.white};
   cursor: pointer;
+  
+  label {
+    cursor: pointer;
+  }
 `

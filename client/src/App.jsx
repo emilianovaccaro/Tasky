@@ -6,6 +6,7 @@ import { Home } from './pages/Home'
 import { Login } from './pages/Login'
 import { Register } from './pages/Register'
 import { Error404 } from './pages/Error404'
+import { Components } from './pages/Components'
 import { theme, styles } from './app/theme'
  
 function App() {
@@ -17,6 +18,7 @@ function App() {
         <Route path="/" element={<Home />}/>
         <Route path="/login" element={<Login />}/>
         <Route path="/register" element={<Register />}/>
+        <Route path="/components" element={<Components />}/>
         <Route path="*" element={<Error404 />}/>
       </Routes>
     </ThemeProvider>
