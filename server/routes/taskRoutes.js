@@ -3,7 +3,7 @@ const router = express.Router();
 const { 
   getTasks,
   postTask,
-  putTask,
+  editTask,
   deleteTask,
   addComment
 } = require('../controllers/taskController');
@@ -12,7 +12,7 @@ const { protect } = require('../middlewares/auth');
 
 router.get('/', protect, getTasks);
 router.post('/', protect, postTask);
-router.put('/:id', protect, putTask);
+router.patch('/:id', protect, editTask);
 router.post('/comment/:id', protect, addComment);
 router.delete('/:id', protect, deleteTask);
 
