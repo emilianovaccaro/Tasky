@@ -127,6 +127,8 @@ const ProfileContainer = styled.div`
     background-color: transparent;
     border-top: 1px solid ${p => p.theme.styles.colors.white}80;
     margin-left: 0;
+    padding-left: 0;
+    padding-right: 48px;
   }
 
 `
