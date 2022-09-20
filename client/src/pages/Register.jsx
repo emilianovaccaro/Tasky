@@ -13,6 +13,7 @@ import { useDispatch } from 'react-redux'
 import { register } from '../redux/actions/userActions'
 import { useNavigate } from 'react-router-dom'
 
+
 export const Register = () => {
   const [section, setSection] = React.useState('page-1')
 

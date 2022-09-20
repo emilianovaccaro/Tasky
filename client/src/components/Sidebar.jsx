@@ -69,10 +69,12 @@ const SidebarContainer = styled.nav`
     width: 60%;
     margin: 48px auto 16px auto;
   }
+
   hr {
     width: 100%;
     opacity: .5;
   }
+  
   .hamburgerMenu {display: none;}
 
   @media screen and (max-width: ${p => p.theme.styles.breakpoints.medium}) {

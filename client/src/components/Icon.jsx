@@ -6,6 +6,7 @@ import { FiSettings } from 'react-icons/fi'
 import { IoLogOutOutline } from 'react-icons/io5'
 import { GiHamburgerMenu } from 'react-icons/gi'
 
+
 export const icons = {
   eye: AiOutlineEye,
   eyeCross: AiOutlineEyeInvisible,
@@ -16,6 +17,7 @@ export const icons = {
   logOut: IoLogOutOutline,
   back: MdKeyboardBackspace,
   hamburgerMenu: GiHamburgerMenu
+
 }
 
 export const Icon = styled.svg`

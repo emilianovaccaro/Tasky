@@ -5,7 +5,6 @@ import { Label } from '../Text/Label'
 import { SubLabel } from '../Text/SubLabel'
 
 export const Input = ({ inputLabel, accept, fullWidth, type, name, onChange, value, className, radioSubLabel, id, error, maxLength, touched, onBlur, defaultChecked }) => {
-
   const [eye, setEye] = React.useState(true)
   const [newType, setNewType] = React.useState('')
 
@@ -32,6 +31,7 @@ export const Input = ({ inputLabel, accept, fullWidth, type, name, onChange, val
           error={touched && error}
           maxLength={maxLength}
           onBlur={onBlur}
+
           defaultChecked={defaultChecked}
           accept={accept}
         />
@@ -61,6 +61,7 @@ const InputContainer = styled.div`
     position: absolute;
     left: 88%;
   }
+  
   .radio-label {
     cursor: pointer;
   }
