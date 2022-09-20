@@ -9,16 +9,15 @@ import { Error404 } from './pages/Error404'
 import { Components } from './pages/Components'
 import ProtectRoute from './helpers/ProtectRoute'
 import { theme, styles } from './app/theme'
-import { Sidebar } from './components/sidebar'
+import ProtectSidebar from './helpers/ProtectSidebar'
  
 function App() {
   const mode = theme.dark
 
   return (
     <ThemeProvider theme={{ mode, styles }}>
-      <ProtectRoute>
-        <Sidebar />
-      </ProtectRoute>
+      <ProtectSidebar/>
+
 
       <Routes>
         <Route path="/" element={

@@ -3,9 +3,9 @@ import { Navigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
 const ProtectRoute = ({ children }) => {
-  const signedIn = useSelector(state => state.user.isSignedIn)
+  const { isSignedIn } = useSelector(state => state.user)
 
-  if (!signedIn) {
+  if (!isSignedIn) {
     return <Navigate to="/login" replace={true} />
   }
 

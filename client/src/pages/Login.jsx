@@ -40,10 +40,10 @@ export const Login = () => {
       usernameForgot: '',
     },
     validationSchema,
-    onSubmit: async(values) => {
+    onSubmit: async (values) => {
       try {
         await dispatch(signIn(values))
-        navigate('/')
+        return navigate('/')
       } catch (error) {
         console.log(error.message)
       }
