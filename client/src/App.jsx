@@ -2,24 +2,38 @@ import React from 'react'
 import { ThemeProvider } from 'styled-components'
 import { Routes, Route } from 'react-router-dom'
 
-import { Home } from './pages/Home'
+import { Tasks } from './pages/Tasks'
 import { Login } from './pages/Login'
 import { Register } from './pages/Register'
 import { Error404 } from './pages/Error404'
 import { Components } from './pages/Components'
+import ProtectRoute from './helpers/ProtectRoute'
 import { theme, styles } from './app/theme'
+import { Sidebar } from './components/sidebar'
  
 function App() {
   const mode = theme.dark
 
   return (
     <ThemeProvider theme={{ mode, styles }}>
+      <ProtectRoute>
+        <Sidebar />
+      </ProtectRoute>
+
       <Routes>
-        <Route path="/" element={<Home />}/>
+        <Route path="/" element={
+          <ProtectRoute>
+            <Tasks />
+          </ProtectRoute>}
+        />
         <Route path="/login" element={<Login />}/>
         <Route path="/register" element={<Register />}/>
-        <Route path="/components" element={<Components />}/>
-        <Route path="*" element={<Error404 />}/>
+        <Route path="/components" element={
+          <ProtectRoute>
+            <Components />
+          </ProtectRoute>}
+        />
+        <Route path="*" element={<ProtectRoute><Error404 /></ProtectRoute>}/>
       </Routes>
     </ThemeProvider>
   )

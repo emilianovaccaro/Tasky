@@ -24,6 +24,7 @@ export const styles = {
     small: '16px',
     medium: '20px',
     big: '32px',
+    extraBig: '64px',
   },
 
   fontWeight: {

@@ -22,6 +22,16 @@ export const Sidebar = () => {
             <Icon as={icons.task} size={20} mr={8} />
             Tareas
           </TextButtonSmall>
+          <ul className='innerList'>
+            <TextButtonSmall noUnderline lowOpacity to='#' active>
+              <Icon as={icons.allTasks} size={20} mr={8} />
+              Todas
+            </TextButtonSmall>
+            <TextButtonSmall noUnderline lowOpacity to='#' >
+              <Icon as={icons.assigned} size={20} mr={8} />
+              Asignadas
+            </TextButtonSmall>
+          </ul>
         </li>
         <li>
           <TextButtonSmall noUnderline lowOpacity to='#'>
@@ -108,6 +118,14 @@ const NavLinks = styled.ul`
   flex-direction: column;
   gap: 32px;
   margin: 32px 0;
+
+  .innerList {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 16px;
+    margin-left: 32px;
+  }
 
   @media screen and (max-width: ${p => p.theme.styles.breakpoints.medium}) {
     display: ${p => p.openSidebar ? 'flex' : 'none'};

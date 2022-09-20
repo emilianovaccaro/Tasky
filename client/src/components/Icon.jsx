@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components'
 import { AiOutlineEye, AiOutlineEyeInvisible, AiOutlineTeam } from 'react-icons/ai'
 import { MdOutlineTaskAlt, MdKeyboardBackspace } from 'react-icons/md'
-import { BsTrash } from 'react-icons/bs'
+import { BsTrash, BsListUl, BsPerson } from 'react-icons/bs'
 import { FiSettings } from 'react-icons/fi'
 import { IoLogOutOutline } from 'react-icons/io5'
 import { GiHamburgerMenu } from 'react-icons/gi'
@@ -16,8 +16,9 @@ export const icons = {
   settings: FiSettings,
   logOut: IoLogOutOutline,
   back: MdKeyboardBackspace,
-  hamburgerMenu: GiHamburgerMenu
-
+  hamburgerMenu: GiHamburgerMenu,
+  allTasks: BsListUl,
+  assigned: BsPerson,
 }
 
 export const Icon = styled.svg`
