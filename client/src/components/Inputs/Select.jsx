@@ -26,6 +26,7 @@ const InputBoxContainer = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1;
+  max-height: 74px;
   @media screen and (min-width: ${p => p.theme.styles.breakpoints.medium}) {
     max-width: calc(50% - 10px);
     max-width: ${p => p.fullWidth && '100%'};

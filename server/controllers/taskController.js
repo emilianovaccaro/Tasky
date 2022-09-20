@@ -1,5 +1,5 @@
-const Task = require('../models/taskModel');
-const User = require('../models/userModel');
+const Task = require('../models/taskModel')
+const User = require('../models/userModel')
 
 
 // get all tasks
@@ -7,10 +7,10 @@ const User = require('../models/userModel');
 // private access - userId, teamId
 const getTasks = async (req,res) => {
   try {
-    const tasks = await Task.find({ user: req.user.teamId });
+    const tasks = await Task.find({ user: req.user.teamId })
     res.status(200).json(tasks)
   } catch (error) {
-    return res.status(500).json({ message: error.message });
+    return res.status(500).json({ message: error.message })
   }
 }
 
@@ -18,10 +18,10 @@ const getTasks = async (req,res) => {
 // post api/task
 // access private
 const postTask = async (req, res) => {
-  const { title, priority, description, status, assignedTo, timeLimit, deleteStatus } = req.body;
+  const { title, priority, description, status, assignedTo, timeLimit, deleteStatus } = req.body
   //validate body
   if (!title || !priority || !status) {
-   return res.status(400).json({msg: 'Body/Form incomplete'});
+   return res.status(400).json({msg: 'Body/Form incomplete'})
   }
 
   try {
@@ -35,12 +35,12 @@ const postTask = async (req, res) => {
       deleteStatus,
       teamId: req.user.teamId,
       userId: req.user.id,
-    });
+    })
 
-    res.status(200).json({ task }); 
+    res.status(200).json({ task })
 
   } catch (error) {
-    return res.status(500).json({ message: error.message });
+    return res.status(500).json({ message: error.message })
   }
 }
 
@@ -53,7 +53,7 @@ const editTask = async (req, res) => {
     const { title, description, timeLimit, status, priority, assignedTo, deleteStatus, comments } = req.body
     const { id } = req.params
     
-    const task = await Task.findById(id);
+    const task = await Task.findById(id)
 
     if (!task) { return res.status(404).json({ msg: 'Task not found' }) }
     if (task.teamId !== req.user.teamId) return res.status(403).json({msg: "You don't have the permissions"})
@@ -69,12 +69,12 @@ const editTask = async (req, res) => {
     task.assignedTo = assignedTo || task.assignedTo
     task.deleteStatus = deleteStatus || task.deleteStatus
     
-    await task.save();
+    await task.save()
 
-    res.status(200).json(task);
+    res.status(200).json(task)
       
   } catch (error) {
-    return res.status(500).json({ message: error.message });
+    return res.status(500).json({ message: error.message })
   }
 }
 
@@ -84,17 +84,17 @@ const editTask = async (req, res) => {
 const deleteTask = async (req, res) => {
   try{
 
-    const task = await Task.findById(req.params.id);
+    const task = await Task.findById(req.params.id)
 
     if (!task) { return res.status(404).json({ msg: 'Task not found' }) }
     if (task.teamId !== req.user.teamId) return res.status(403).json({msg: "You don't have the permissions"})
 
     if ((task.userId.toString() !== req.user.id) || ((task.teamId.toString() !== req.user.teamId) && !req.user.isAdmin)) {
-      return res.status(401).json({ msg: 'Error-User not authorized' });
+      return res.status(401).json({ msg: 'Error-User not authorized' })
     }
     
-    await task.remove();
-    res.status(200).json({ id: req.params.id });
+    await task.remove()
+    res.status(200).json({ id: req.params.id })
 
   } catch ( error ) {
     return res.status(500).json({ message: error.message })
@@ -110,7 +110,7 @@ const addComment = async(req, res) => {
     if (!task) return res.status(404).json({ msg: 'Task not found' }) 
 
     if ((task.userId.toString() !== req.user.id) || ((task.teamId.toString() !== req.user.teamId) && !req.user.isAdmin)) {
-      return res.status(401).json({ msg: 'Error-User not authorized' });
+      return res.status(401).json({ msg: 'Error-User not authorized' })
     }
 
     if (!body) return res.status(404).json({ msg: 'Fill in all the fields' }) 

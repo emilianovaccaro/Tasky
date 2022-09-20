@@ -9,16 +9,16 @@ import { BoxButton } from '../components/button/BoxButton'
 import { Icon, icons } from '../components/Icon'
 import { useFormik } from 'formik'
 import * as yup from 'yup'
+import { useDispatch } from 'react-redux'
+import { signIn } from '../redux/actions/userActions'
+import { useNavigate } from 'react-router-dom'
 
 export const Login = () => {
   const [section, setSection] = React.useState('login')
 
-  // 5. Probar los dispatch
-
-  /* 
-    emiliano
-    Emi123AA
-  */
+  const navigate = useNavigate()
+ 
+  const dispatch = useDispatch()
 
   const validationSchema = yup.object().shape({
     username: 
@@ -30,7 +30,7 @@ export const Login = () => {
         .required('campo obligatorio'),
     usernameForgot:
     yup.string()
-      .min(1, 'required')
+      .min(6, 'mínimo 6 caracteres')
   })
 
   const formik = useFormik({
@@ -40,8 +40,13 @@ export const Login = () => {
       usernameForgot: '',
     },
     validationSchema,
-    onSubmit: values => {
-      alert(JSON.stringify(values, null, 2))
+    onSubmit: async(values) => {
+      try {
+        await dispatch(signIn(values))
+        navigate('/')
+      } catch (error) {
+        console.log(error.message)
+      }
     },
   })
 
