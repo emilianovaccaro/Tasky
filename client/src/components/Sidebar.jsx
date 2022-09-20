@@ -7,16 +7,16 @@ import { Icon, icons } from './Icon'
 
 export const Sidebar = () => {
 
-  const [openSideBar, setOpenSideBar] = useState(false)
+  const [openSidebar, setOpenSidebar] = useState(false)
 
   return(
-    <SideBarContainer openSideBar={openSideBar}>
+    <SidebarContainer openSidebar={openSidebar}>
       <SidebarTopContainer>
         <img src={'../src/assets/logo-banner.svg'} alt={'Tasky logo'} className='logo' />
         <hr />
-        <IconButton className='hamburgerMenu' onClick={() => setOpenSideBar(openSideBar => !openSideBar)}><Icon as={icons.hamburgerMenu} white={'white'} /></IconButton>
+        <IconButton className='hamburgerMenu' onClick={() => setOpenSidebar(openSidebar => !openSidebar)}><Icon as={icons.hamburgerMenu} white={'white'} /></IconButton>
       </SidebarTopContainer>
-      <NavLinks openSideBar={openSideBar}>
+      <NavLinks openSidebar={openSidebar}>
         <li>
           <TextButtonSmall noUnderline lowOpacity to='#' active>
             <Icon as={icons.task} size={20} mr={8} />
@@ -48,14 +48,14 @@ export const Sidebar = () => {
           </TextButtonSmall>
         </li>
       </NavLinks>
-      <ProfileContainer openSideBar={openSideBar}>
+      <ProfileContainer openSidebar={openSidebar}>
         <Profile imageSize={32} labelText='Nombre Apellido' subLabelText='EquipoID'/>
       </ProfileContainer>
-    </SideBarContainer>
+    </SidebarContainer>
   )
 }
 
-const SideBarContainer = styled.nav`
+const SidebarContainer = styled.nav`
   height: 100vh;
   width: 200px;
   position: fixed;
@@ -76,7 +76,7 @@ const SideBarContainer = styled.nav`
   .hamburgerMenu {display: none;}
 
   @media screen and (max-width: ${p => p.theme.styles.breakpoints.medium}) {
-    height: ${p => p.openSideBar ? '100vh' : '64px'};
+    height: ${p => p.openSidebar ? '100vh' : '64px'};
     width: calc(100% - 48px);
 
     .logo {
@@ -108,7 +108,7 @@ const NavLinks = styled.ul`
   margin: 32px 0;
 
   @media screen and (max-width: ${p => p.theme.styles.breakpoints.medium}) {
-    display: ${p => p.openSideBar ? 'flex' : 'none'};
+    display: ${p => p.openSidebar ? 'flex' : 'none'};
   }
 
 `
@@ -122,7 +122,7 @@ const ProfileContainer = styled.div`
   background-color: ${({theme}) => theme.mode.primary};
 
   @media screen and (max-width: ${p => p.theme.styles.breakpoints.medium}) {
-    display: ${p => p.openSideBar ? 'fixed' : 'none'};
+    display: ${p => p.openSidebar ? 'fixed' : 'none'};
     position: relative;
     background-color: transparent;
     border-top: 1px solid ${p => p.theme.styles.colors.white}80;
