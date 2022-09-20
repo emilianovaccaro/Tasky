@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
 
 const userSchema = mongoose.Schema({
     username: {
@@ -54,4 +54,4 @@ userSchema.methods.setImgUrl = function setImgUrl (filename) {
   this.profilePhoto = `${host}:${port}/public/${filename}`
 }
 
-module.exports = mongoose.model('User', userSchema);
+module.exports = mongoose.model('User', userSchema)

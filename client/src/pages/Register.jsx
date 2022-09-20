@@ -9,12 +9,19 @@ import { BoxButton } from '../components/button/BoxButton'
 import { Icon, icons } from '../components/Icon'
 import { useFormik } from 'formik'
 import * as yup from 'yup'
+import { useDispatch } from 'react-redux'
+import { register } from '../redux/actions/userActions'
+import { useNavigate } from 'react-router-dom'
+
 
 export const Register = () => {
   const [section, setSection] = React.useState('page-1')
 
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+
   const validationSchema = yup.object().shape({
-    name: 
+    fullname: 
       yup.string()
         .required('campo obligatorio')
         .min(6, 'mínimo 6 caracteres'),
@@ -41,92 +48,101 @@ export const Register = () => {
     teamPassword:
       yup.string()
         .required('campo obligatorio'),
-    phoneNumber:
+    phone:
       yup.number('solo se permiten números')
         .required('campo obligatorio')
         .min(6, 'el minimo de caracteres es 6'),
-    role:
-      yup.string()
-        .required('campo obligatorio'),
-    radio:
-      yup.string()
-        .required('campo obligatorio'),
+    file: 
+      yup.mixed(),
   })
 
   const formik = useFormik({
     initialValues: {
-      name: '',
+      fullname: '',
       username: '',
       password: '',
       repeatPassword: '',
       email: '',
       teamId:'',
       teamPassword: '',
-      phoneNumber: '',
-      role: '',
-      radio: ''
+      phone: '',
+      file: undefined,
+      role: 'Analista de Datos',
+      isAdmin: false
     },
     validationSchema,
-    onSubmit: values => {
+    onSubmit: async(values) => {
+      console.log(values)
       alert(JSON.stringify(values, null, 2))
+      try {
+        await dispatch(register(values))
+        navigate('/')
+      } catch (error) {
+        console.log(error.message)
+      }
+      
     },
   })
 
-  const {errors, values, handleChange, handleSubmit, handleBlur, touched} = formik
+  const {errors, values, handleChange, handleSubmit, handleBlur, touched } = formik
 
- 
   return (
     <RegisterContainer>
       <Card multipleInputs headerChildren={ <img src={'../src/assets/logo-banner-dark.svg'} alt={'Tasky logo'} className='logo' />} defaultColor>
-
-        {section === 'page-1' &&
-        <form >
-          <InputsContainer>
-            <Input touched={ touched.email } error={ errors.email } name='email' onChange={ handleChange } value={ values.email } onBlur={ handleBlur } type={'email'} id="email" inputLabel={'Correo electrónico'} />
-            <Input touched={ touched.username } error={ errors.username } name='username' onChange={ handleChange } value={ values.username } onBlur={ handleBlur } type={'text'} id="username" inputLabel={'Nombre de usuario'} />
-          </InputsContainer>
-          <InputsContainer>
-            <Input touched={ touched.name } error={ errors.name } name='name' onChange={ handleChange } value={ values.name } onBlur={ handleBlur } type={'text'} id="name" inputLabel={'Nombre y Apellido'} />
-            <Input touched={ touched.password } error={ errors.password } name='password' onChange={ handleChange } value={ values.password } onBlur={ handleBlur } type={'password'} id="password" icon={<Icon as={icons.eye} white />} inputLabel={'Contraseña'} maxLength={40} />
-          </InputsContainer>
-          <InputsContainer>
-            <Input touched={ touched.repeatPassword } error={ errors.repeatPassword } name='repeatPassword' onChange={ handleChange } value={ values.repeatPassword } onBlur={ handleBlur } type={'password'} id="repeatPassword" icon={<Icon as={icons.eye} white />} inputLabel={'Repetir contraseña'} maxLength={40}  />
-          </InputsContainer>
-          <ButtonsContainer>
-            <TextButtonSmall to={'/login'}><Icon as={icons.back} size={20} mr={8} />Atrás</TextButtonSmall>
-            <BoxButton onClick={() => setSection('page-2')}><Label black medium>Siguiente</Label></BoxButton>
-          </ButtonsContainer>
-        </form>
-        }
+        <form onSubmit={ handleSubmit }>
+          {section === 'page-1' &&
+          <>
+            <InputsContainer>
+              <Input touched={ touched.email } error={ errors.email } name='email' onChange={ handleChange } value={ values.email } onBlur={ handleBlur } type={'email'} id="email" inputLabel={'Correo electrónico'} />
+              <Input touched={ touched.username } error={ errors.username } name='username' onChange={ handleChange } value={ values.username } onBlur={ handleBlur } type={'text'} id="username" inputLabel={'Nombre de usuario'} />
+            </InputsContainer>
+            <InputsContainer>
+              <Input touched={ touched.fullname } error={ errors.fullname } name='fullname' onChange={ handleChange } value={ values.fullname } onBlur={ handleBlur } type={'text'} id="fullname" inputLabel={'Nombre y Apellido'} />
+              <Input touched={ touched.password } error={ errors.password } name='password' onChange={ handleChange } value={ values.password } onBlur={ handleBlur } type={'password'} id="password" icon={<Icon as={icons.eye} white />} inputLabel={'Contraseña'} maxLength={40} />
+            </InputsContainer>
+            <InputsContainer>
+              <Input touched={ touched.repeatPassword } error={ errors.repeatPassword } name='repeatPassword' onChange={ handleChange } value={ values.repeatPassword } onBlur={ handleBlur } type={'password'} id="repeatPassword" icon={<Icon as={icons.eye} white />} inputLabel={'Repetir contraseña'} maxLength={40}  />
+            </InputsContainer>
+            <ButtonsContainer>
+              <TextButtonSmall to={'/login'}><Icon as={icons.back} size={20} mr={8} />Atrás</TextButtonSmall>
+              <BoxButton onClick={() => setSection('page-2')}><Label black medium>Siguiente</Label></BoxButton>
+            </ButtonsContainer>
+          </>
+          }
         
-        {section === 'page-2' &&
-        <form onSubmit={handleSubmit}>
-          <InputsContainer>
-            <Input touched={ touched.phoneNumber } error={ errors.phoneNumber } name='phoneNumber' onChange={ handleChange } value={ values.phoneNumber } onBlur={ handleBlur } type={'tel'} id="phoneNumber" inputLabel={'Teléfono'} />
-            <Select touched={ touched.role } error={ errors.role } name='role' onChange={ handleChange } value={ values.role } onBlur={ handleBlur } type={'text'} id="role" inputLabel={'Rol'} >
-              <option value='value1'>Value 1</option>
-              <option value='value2'>Value 2</option>
-              <option value='value3'>Value 3</option>
-            </Select>
-          </InputsContainer>
-          <InputsContainer>
-            {/* Aca va seleccionar imagen */}
-            <RadioContainer>
-              <Input type={'radio'} name='radio' id='radio1' radioSubLabel={'Crear un nuevo equipo'} inputLabel={'¿Qué deseas hacer?'} fullWidth />
-              <Input type={'radio'} name='radio' id='radio2' radioSubLabel={'Unirme a un equipo ya existente'} fullWidth />
-            </RadioContainer>
-          </InputsContainer>
-          <InputsContainer>
-            <Input touched={ touched.teamId } error={ errors.teamId } name='teamId' onChange={ handleChange } value={ values.teamId } onBlur={ handleBlur } type={'teamId'} id="teamId" icon={<Icon as={icons.eye} white />} inputLabel={'ID del equipo (nuevo o existente)'} maxLength={40}  />
-            <Input touched={ touched.teamPassword } error={ errors.teamPassword } name='teamPassword' onChange={ handleChange } value={ values.teamPassword } onBlur={ handleBlur } type={'password'} id="teamPassword" icon={<Icon as={icons.eye} white />} inputLabel={'Contraseña del equipo'} maxLength={40}  />
-          </InputsContainer>
-          <ButtonsContainer>
-            <Label button icon onClick={() => setSection('page-1')}><Icon as={icons.back} size={20} mr={8} />Atrás</Label>
-            <BoxButton type='submit' onClick={() => setSection('page-2')}><Label black medium>Confirmar</Label></BoxButton>
-          </ButtonsContainer>
+          {section === 'page-2' &&
+          <>
+            <InputsContainer>
+              <Input touched={ touched.phone } error={ errors.phone } name='phone' onChange={ handleChange } value={ values.phone } onBlur={ handleBlur } type={'tel'} id="phone" inputLabel={'Teléfono'} />
+              <Select touched={ touched.role } error={ errors.role } name='role' onChange={ handleChange } value={ values.role } onBlur={ handleBlur } type={'text'} id="role" inputLabel={'Rol'} >
+                <option value='Analista de Calidad'>Analista de Calidad</option>
+                <option value='Analista de Datos'>Analista de Datos</option>
+                <option value='Desarrollador Back-End'>Desarrollador Back-End</option>
+                <option value='Desarrollador Front-End'>Desarrollador Front-End</option>
+                <option value='Desarrollador Full Stack'>Desarrollador Full Stack</option>
+                <option value='Diseñador UX/UI'>Diseñador UX/UI</option>
+                <option value='Otro'>Otro</option>
+              </Select>
+            </InputsContainer>
+            <InputsContainer>
+              <Input onChange={ handleChange } touched={ touched.teamId } onBlur={ handleBlur } inputLabel={'Establecer foto de perfil'} type={'file'} name='file' error={ errors.file } id='file' accept="image/png, image/jpeg" />
+              
+              <RadioContainer >
+                <Input onChange={ handleChange } inputLabel={'¿Qué deseas hacer?'} type={'radio'} defaultChecked={'true'} name='isAdmin' error={ errors.radio } id='radio2' value={false} radioSubLabel={'Unirme a un equipo ya existente'} fullWidth />
+                <Input onChange={ handleChange } type={'radio'} name='isAdmin' error={ errors.radio } id='radio1' value={true} radioSubLabel={'Crear un nuevo equipo'} fullWidth />
+              </RadioContainer>
+            </InputsContainer>
+            <InputsContainer>
+              <Input touched={ touched.teamId } error={ errors.teamId } name='teamId' onChange={ handleChange } value={ values.teamId } onBlur={ handleBlur } type={'teamId'} id="teamId" icon={<Icon as={icons.eye} white />} inputLabel={'ID del equipo (nuevo o existente)'} maxLength={40}  />
+              <Input touched={ touched.teamPassword } error={ errors.teamPassword } name='teamPassword' onChange={ handleChange } value={ values.teamPassword } onBlur={ handleBlur } type={'password'} id="teamPassword" icon={<Icon as={icons.eye} white />} inputLabel={'Contraseña del equipo'} maxLength={40}  />
+            </InputsContainer>
+            <ButtonsContainer>
+              <Label button icon onClick={() => setSection('page-1')}><Icon as={icons.back} size={20} mr={8} />Atrás</Label>
+              <BoxButton type='submit' ><Label black medium>Confirmar</Label></BoxButton>
+            </ButtonsContainer>
+          </>
+          }
         </form>
-        }
-
       </Card>
     </RegisterContainer>
   )

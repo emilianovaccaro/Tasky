@@ -1,12 +1,12 @@
-import axios from 'axios';
+import axios from 'axios'
 import { 
   FETCH_TASKS,
   CREATE_TASK,
   UPDATE_TASK,
-  DELETE_TASK } from './types';
+  DELETE_TASK } from './types'
 
 
-const API_URL = 'https://test-server-tasky.herokuapp.com';
+const API_URL = 'https://test-server-tasky.herokuapp.com'
 
 
 //get
@@ -15,10 +15,10 @@ export const fetchTasks = ( token ) => async ( dispatch ) => {
     headers: {
       Authorization: `Bearer ${token}`,
     }
-  });
+  })
 
-  dispatch({ type: FETCH_TASKS, payload: res.data });
-};
+  dispatch({ type: FETCH_TASKS, payload: res.data })
+}
 
 //create
 export const createTask = ( values, token ) => async ( dispatch ) => {
@@ -26,10 +26,10 @@ export const createTask = ( values, token ) => async ( dispatch ) => {
     headers: {
       Authorization: `Bearer ${token}`
     }
-  });
+  })
 
-  dispatch({ type: CREATE_TASK, payload: res.data });
-};
+  dispatch({ type: CREATE_TASK, payload: res.data })
+}
 
 //delete
 export const deleteTask = ( id, token ) => async ( dispatch ) => {
@@ -37,10 +37,10 @@ export const deleteTask = ( id, token ) => async ( dispatch ) => {
     headers: {
       Authorization: `Bearer ${token}`
     }
-  });
+  })
 
-  dispatch({ type: DELETE_TASK, payload: id });
-};
+  dispatch({ type: DELETE_TASK, payload: id })
+}
 
 //update
 export const updateTask = ( id, values, token ) => async ( dispatch ) => {
@@ -48,7 +48,7 @@ export const updateTask = ( id, values, token ) => async ( dispatch ) => {
     headers: {
       Authorization: `Bearer ${token}`
     }
-  });
+  })
 
-  dispatch({ type: UPDATE_TASK, payload: res.data });
-};
+  dispatch({ type: UPDATE_TASK, payload: res.data })
+}

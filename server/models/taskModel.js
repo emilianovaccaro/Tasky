@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
 
 const taskSchema = mongoose.Schema({
     teamId: {
@@ -50,6 +50,6 @@ const taskSchema = mongoose.Schema({
   {
     timestamps: true
   }
-);
+)
 
-module.exports = mongoose.model('Task', taskSchema);
+module.exports = mongoose.model('Task', taskSchema)

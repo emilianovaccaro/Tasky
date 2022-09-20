@@ -4,8 +4,7 @@ import { Icon, icons } from '../Icon'
 import { Label } from '../Text/Label'
 import { SubLabel } from '../Text/SubLabel'
 
-export const Input = ({ inputLabel, fullWidth, type, name, onChange, value, className, radioSubLabel, id, error, maxLength, touched, onBlur }) => {
-
+export const Input = ({ inputLabel, accept, fullWidth, type, name, onChange, value, className, radioSubLabel, id, error, maxLength, touched, onBlur, defaultChecked }) => {
   const [eye, setEye] = React.useState(true)
   const [newType, setNewType] = React.useState('')
 
@@ -32,8 +31,11 @@ export const Input = ({ inputLabel, fullWidth, type, name, onChange, value, clas
           error={touched && error}
           maxLength={maxLength}
           onBlur={onBlur}
+
+          defaultChecked={defaultChecked}
+          accept={accept}
         />
-        {type === 'radio' && <SubLabel htmlFor={id}>{radioSubLabel}</SubLabel>}
+        {type === 'radio' && <SubLabel className='radio-label' htmlFor={id}>{radioSubLabel}</SubLabel>}
         {type === 'password' && <Icon as={eye ? icons.eye : icons.eyeCross} white={'white'} onClick={() => changeVisibility()}/>}
       </InputContainer>
       {touched && error &&  <SubLabel error>{error}</SubLabel>}
@@ -58,6 +60,10 @@ const InputContainer = styled.div`
   svg {
     position: absolute;
     left: 88%;
+  }
+  
+  .radio-label {
+    cursor: pointer;
   }
 `
 

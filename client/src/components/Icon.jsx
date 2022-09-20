@@ -4,6 +4,8 @@ import { MdOutlineTaskAlt, MdKeyboardBackspace } from 'react-icons/md'
 import { BsTrash } from 'react-icons/bs'
 import { FiSettings } from 'react-icons/fi'
 import { IoLogOutOutline } from 'react-icons/io5'
+import { GiHamburgerMenu } from 'react-icons/gi'
+
 
 export const icons = {
   eye: AiOutlineEye,
@@ -14,6 +16,8 @@ export const icons = {
   settings: FiSettings,
   logOut: IoLogOutOutline,
   back: MdKeyboardBackspace,
+  hamburgerMenu: GiHamburgerMenu
+
 }
 
 export const Icon = styled.svg`
