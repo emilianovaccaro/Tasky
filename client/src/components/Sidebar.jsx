@@ -8,6 +8,7 @@ import { Icon, icons } from './Icon'
 export const Sidebar = () => {
 
   const [openSidebar, setOpenSidebar] = useState(false)
+  const [path, setPath] = useState(window.location.pathname)
 
   return(
     <SidebarContainer openSidebar={openSidebar}>
@@ -18,25 +19,35 @@ export const Sidebar = () => {
       </SidebarTopContainer>
       <NavLinks openSidebar={openSidebar}>
         <li>
-          <TextButtonSmall noUnderline lowOpacity to='#' active>
+          <TextButtonSmall noUnderline lowOpacity to='/' onClick={() => setPath('/')} active={path === '/' || path === '/assigned'}>
             <Icon as={icons.task} size={20} mr={8} />
             Tareas
           </TextButtonSmall>
+          <ul className='innerList'>
+            <TextButtonSmall noUnderline lowOpacity to='/' onClick={() => setPath('/')} active={path === '/'}>
+              <Icon as={icons.allTasks} size={20} mr={8} />
+              Todas
+            </TextButtonSmall>
+            <TextButtonSmall noUnderline lowOpacity to='/assigned' onClick={() => setPath('/assigned')} active={path === '/assigned'}>
+              <Icon as={icons.assigned} size={20} mr={8} />
+              Asignadas
+            </TextButtonSmall>
+          </ul>
         </li>
         <li>
-          <TextButtonSmall noUnderline lowOpacity to='#'>
+          <TextButtonSmall noUnderline lowOpacity to='/trash' onClick={() => setPath('/trash')} active={path === '/trash'}>
             <Icon as={icons.trash} size={20} mr={8} />
             Papelera
           </TextButtonSmall>
         </li>
         <li>
-          <TextButtonSmall noUnderline lowOpacity to='#'>
+          <TextButtonSmall noUnderline lowOpacity to='/my-team' onClick={() => setPath('/my-team')} active={path === '/my-team'}>
             <Icon as={icons.team} size={20} mr={8} />
             Mi equipo
           </TextButtonSmall>
         </li>
         <li>
-          <TextButtonSmall noUnderline lowOpacity to='#'>
+          <TextButtonSmall noUnderline lowOpacity to='/settings' onClick={() => setPath('/settings')} active={path === '/settings'}>
             <Icon as={icons.settings} size={20} mr={8} />
             Configuración
           </TextButtonSmall>
@@ -71,6 +82,10 @@ const SidebarContainer = styled.nav`
   }
 
   hr {
+    border: none;
+    height: 1px;
+    color: ${p => p.theme.styles.colors.white});
+    background-color: ${p => p.theme.styles.colors.white});
     width: 100%;
     opacity: .5;
   }
@@ -108,6 +123,14 @@ const NavLinks = styled.ul`
   flex-direction: column;
   gap: 32px;
   margin: 32px 0;
+
+  .innerList {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 16px;
+    margin-left: 32px;
+  }
 
   @media screen and (max-width: ${p => p.theme.styles.breakpoints.medium}) {
     display: ${p => p.openSidebar ? 'flex' : 'none'};

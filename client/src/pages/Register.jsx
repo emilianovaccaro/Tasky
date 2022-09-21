@@ -72,6 +72,13 @@ export const Register = () => {
     },
     validationSchema,
     onSubmit: async(values) => {
+
+      
+
+      // formData.append('image', values.file)
+      // formData.append('name', 'asdfad')
+      
+
       console.log(values)
       alert(JSON.stringify(values, null, 2))
       try {
@@ -84,7 +91,7 @@ export const Register = () => {
     },
   })
 
-  const {errors, values, handleChange, handleSubmit, handleBlur, touched } = formik
+  const {errors, values, handleChange, handleSubmit, handleBlur, touched, setFieldValue } = formik
 
   return (
     <RegisterContainer>
@@ -125,7 +132,7 @@ export const Register = () => {
               </Select>
             </InputsContainer>
             <InputsContainer>
-              <Input onChange={ handleChange } touched={ touched.teamId } onBlur={ handleBlur } inputLabel={'Establecer foto de perfil'} type={'file'} name='file' error={ errors.file } id='file' accept="image/png, image/jpeg" />
+              <Input onChange={(event) => setFieldValue('file', event.currentTarget.files[0]) } touched={ touched.teamId } onBlur={ handleBlur } inputLabel={'Establecer foto de perfil'} type={'file'} error={ errors.file } id='file' accept="image/png, image/jpeg" />
               
               <RadioContainer >
                 <Input onChange={ handleChange } inputLabel={'¿Qué deseas hacer?'} type={'radio'} defaultChecked={'true'} name='isAdmin' error={ errors.radio } id='radio2' value={false} radioSubLabel={'Unirme a un equipo ya existente'} fullWidth />
