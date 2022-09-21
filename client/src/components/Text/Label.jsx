@@ -15,7 +15,7 @@ export const Label = styled.label`
   text-decoration: ${p => p.button && 'underline'};
   text-decoration: ${p => p.noUnderline && 'none'}!important;
   cursor: ${p => p.button && 'pointer'};
-  transition: .2s;
+  transition: .15s;
 
   &:hover {
     opacity: ${p => p.button && '100%'};

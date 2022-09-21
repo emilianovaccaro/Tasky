@@ -9,7 +9,7 @@ export const Tasks = ( {section}) => {
   // TODO: Hacer el reducer y acción para consumir el endpoint update profile
   // TODO: Conectar formularios mediante dispatch
   // TODO: Actualizar diagramas
-  // TODO: Hacer que el sidebar muestre el color que corresponda según el pathname del evento consologueado
+  // TODO: Hacer el arrastrador de tareas de una columna a otra (y ver cómo lo resolvemos en mobile)
 
   return (
     <>
