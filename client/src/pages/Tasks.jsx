@@ -1,45 +1,65 @@
-import React from 'react'
-import styled from 'styled-components'
+import React,{ useEffect } from 'react'
 import { Content } from '../components/Content'
 import { Title } from '../components/Text/Title'
+import { Card } from '../components/Card/Card'
+import { TaskCard } from '../components/Card/TaskCard'
+import { BoxButton } from '../components/Button/BoxButton'
+import { fetchTasks } from '../redux/actions/tasksActions'
+import { useDispatch, useSelector } from 'react-redux'
+import styled from 'styled-components'
+import { Label } from '../components/Text/Label'
+import { SubLabel } from '../components/Text/SubLabel'
+
 
 export const Tasks = ( {section}) => {
-  // TODO: Al terminar eliminar pages/Component.jsx y también su ruta en App.jsx
-  // TODO: Al terminar también hacer framer motion, olvidé mi contraseña, landing page
-  // TODO: Crear hook para usar localstorage y setear theme.
-  // TODO: Hacer el reducer y acción para consumir el endpoint update profile
-  // TODO: Conectar formularios mediante dispatch
-  // TODO: Actualizar diagramas
-  // TODO: Hacer el arrastrador de tareas de una columna a otra (y ver cómo lo resolvemos en mobile)
-  // TODO: Ajustamos los colores de los temas para que los 3 se vean bien
-  // TODO: Hacer que se cierre el menu en mobile después de haber apretado un link
-  // TODO: Queda pendiente terminar la obtención del usuario en el sidebar
+
+  const dispatch = useDispatch()
+  const token = localStorage.getItem('token')
+
+  const tasks = useSelector(state => state.tasks)
+
+  useEffect(() => {
+    dispatch(fetchTasks(token))
+  }, [])
 
   return (
     <>
       <Content>
-        <TasksList>
-          {!section && <Title>Tareas</Title>}
-          {section === 'assigned' && <Title>Mis tareas asignadas</Title>}
+        <TasksHeader>
+          {!section && <Title>Todas las tareas</Title>}
+          {section === 'assigned' && <Title>Mis tareas</Title>}
           {section === 'trash' && <Title>Papelera</Title>}
+          {(!section || section === 'assigned') && <BoxButton><Label black medium>Crear tarea</Label></BoxButton>}
+        </TasksHeader>
+
+        <TasksList>
+          
+          <Card headerChildren={<Label semiBold>Próximas</Label>}>
+            {tasks.filter(task => task.status === 'new').map(task => (
+              <TaskCard status={'toDo'} key={task._id}>
+                <Label>{task.title}</Label>
+                <SubLabel lowOpacity>{task.assignedTo}</SubLabel>
+                <SubLabel priority lowPriority>Low Priority</SubLabel>
+              </TaskCard>
+            ))}
+          </Card>
+
+          <Card headerChildren={<Label semiBold>En proceso</Label>}></Card>
+          <Card headerChildren={<Label semiBold>Realizadas</Label>}></Card>
         </TasksList>
+
       </Content>
     </>
   )
 }
 
-const Content = styled.div`
-  width: calc(100% - 344px);
-  background-color: red;
-  margin-left: 248px;
-  padding: 48px;
-  @media screen and (max-width: ${p => p.theme.styles.breakpoints.medium}) {
-    width: calc(100% - 64px);
-    margin-left: 0;
-    padding: 32px;
-    padding-top: 96px;
-  }
+const TasksHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `
 
 const TasksList = styled.div`
+  display: flex;
+  gap: 32px;
 `
