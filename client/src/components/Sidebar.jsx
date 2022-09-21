@@ -1,14 +1,31 @@
-import { React, useState } from 'react'
+import { React, useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { Profile } from './Profile'
 import { TextButtonSmall } from './Button/TextButtonSmall'
 import { IconButton } from './Button/IconButton'
 import { Icon, icons } from './Icon'
+import { useDispatch, useSelector } from 'react-redux'
+import { getUser } from '../redux/actions/userActions'
 
 export const Sidebar = () => {
 
   const [openSidebar, setOpenSidebar] = useState(false)
   const [path, setPath] = useState(window.location.pathname)
+
+  const dispatch = useDispatch()
+  const user = useSelector(state => state.user.user)
+  const token = localStorage.getItem('token')
+  const signedIn = useSelector(state => state.user.isSignedIn)
+  const [ loading, setLoading ] = useState(true)
+
+  useEffect(() => {
+    if (signedIn) {
+      dispatch(getUser(token))
+      setLoading(false)
+    } else {
+      setLoading(true)
+    }
+  }, [signedIn])
 
   return(
     <SidebarContainer openSidebar={openSidebar}>
@@ -60,7 +77,7 @@ export const Sidebar = () => {
         </li>
       </NavLinks>
       <ProfileContainer openSidebar={openSidebar}>
-        <Profile imageSize={32} labelText='Nombre Apellido' subLabelText='EquipoID'/>
+        {!loading ? <Profile imageSize={32} imagePath={user.profilePhoto} labelText={user.fullname} subLabelText={user.teamId}/> : <>Cargando...</>}
       </ProfileContainer>
     </SidebarContainer>
   )
