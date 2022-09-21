@@ -18,23 +18,23 @@ export const Sidebar = () => {
       </SidebarTopContainer>
       <NavLinks openSidebar={openSidebar}>
         <li>
-          <TextButtonSmall noUnderline lowOpacity to='#' active>
+          <TextButtonSmall noUnderline lowOpacity to='#' active onClick={(e) => console.log(e)}>
             <Icon as={icons.task} size={20} mr={8} />
             Tareas
           </TextButtonSmall>
           <ul className='innerList'>
-            <TextButtonSmall noUnderline lowOpacity to='#' active>
+            <TextButtonSmall noUnderline lowOpacity to='/' active>
               <Icon as={icons.allTasks} size={20} mr={8} />
               Todas
             </TextButtonSmall>
-            <TextButtonSmall noUnderline lowOpacity to='#' >
+            <TextButtonSmall noUnderline lowOpacity to='/assigned'>
               <Icon as={icons.assigned} size={20} mr={8} />
               Asignadas
             </TextButtonSmall>
           </ul>
         </li>
         <li>
-          <TextButtonSmall noUnderline lowOpacity to='#'>
+          <TextButtonSmall noUnderline lowOpacity to='/trash'>
             <Icon as={icons.trash} size={20} mr={8} />
             Papelera
           </TextButtonSmall>
@@ -81,6 +81,10 @@ const SidebarContainer = styled.nav`
   }
 
   hr {
+    border: none;
+    height: 1px;
+    color: ${p => p.theme.styles.colors.white});
+    background-color: ${p => p.theme.styles.colors.white});
     width: 100%;
     opacity: .5;
   }

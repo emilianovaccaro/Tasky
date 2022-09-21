@@ -1,23 +1,23 @@
 import React from 'react'
 import styled from 'styled-components'
+import { Title } from '../components/Text/Title'
 
-export const Tasks = () => {
+export const Tasks = ( {section}) => {
   // TODO: Al terminar eliminar pages/Component.jsx y también su ruta en App.jsx
   // TODO: Al terminar también hacer framer motion, olvidé mi contraseña, landing page
   // TODO: Crear hook para usar localstorage y setear theme.
   // TODO: Hacer el reducer y acción para consumir el endpoint update profile
   // TODO: Conectar formularios mediante dispatch
   // TODO: Actualizar diagramas
-
-  const [section, setSection] = React.useState('TeamTasks')
+  // TODO: Hacer que el sidebar muestre el color que corresponda según el pathname del evento consologueado
 
   return (
     <>
       <Content>
         <TasksList>
-          {section === 'TeamTasks' && 'Tareas del equipo'}
-          {section === 'MyTasks' && 'Mis tareas'}
-          {section === 'Trash' && 'Papelera'}
+          {!section && <Title>Tareas</Title>}
+          {section === 'assigned' && <Title>Mis tareas asignadas</Title>}
+          {section === 'trash' && <Title>Papelera</Title>}
         </TasksList>
       </Content>
     </>
