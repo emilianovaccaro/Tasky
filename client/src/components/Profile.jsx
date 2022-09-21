@@ -7,7 +7,7 @@ import { SubLabel } from './Text/SubLabel'
 export const Profile = ({imagePath, imageSize, labelText, subLabelText}) => {
   return(
     <ProfileContainer imageSize={imageSize}>
-      <img src={imagePath || '../src/assets/icon-default.png'} alt='Profile picture' />
+      <img src={imagePath} alt='Profile picture' />
       <ProfileInfoContainer>
         {labelText && <Label semiBold>{labelText}</Label>}
         {subLabelText && <SubLabel lowOpacity>{subLabelText}</SubLabel>}
