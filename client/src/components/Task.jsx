@@ -12,7 +12,7 @@ export const Task = ({task, showMore, setShowMore}) => {
 
   return (
     <TaskCard status={'toDo'} key={_id}>
-      <Label>{title.substring(0, 20)}</Label>
+      <Label>{title.substring(0, 35)}</Label>
       <ContainerInfoTask>
         <SubLabel lowOpacity>{assignedTo}</SubLabel>
         <SubLabel priority lowPriority>
