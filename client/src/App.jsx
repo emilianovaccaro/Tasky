@@ -10,12 +10,14 @@ import { Register } from './pages/Register'
 import { Error404 } from './pages/Error404'
 import { Components } from './pages/Components'
 import ProtectRoute from './helpers/ProtectRoute'
-import { theme, styles } from './app/theme'
+import { styles } from './app/theme'
 import ProtectSidebar from './helpers/ProtectSidebar'
 import RedirectLogin from './helpers/RedirectLogin'
+import useTheme from './hooks/useTheme'
  
 function App() {
-  const mode = theme.dark
+  const { userTheme } = useTheme()
+  const mode = userTheme
 
   return (
     <ThemeProvider theme={{ mode, styles }}>
