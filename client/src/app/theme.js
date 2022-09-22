@@ -1,15 +1,16 @@
 export const styles = {
   breakpoints: {
     small: '512px',
-    medium: '768px',
-    large: '1024px',
+    intermediate: '768px',
+    medium: '1024px',
+    large: '1400px',
     extraLarge: '1920px'
   },
 
   padding: {
     extraSmall: '4px 8px',
     small: '8px 16px',
-    intermediate: '16px',
+    intermediate: '12px 16px 4px 16px',
     medium: '12px 32px',
     large: '24px 32px',
     extraLarge: '32px 64px'

@@ -14,3 +14,4 @@
 // TODO: Revisar por qué al poner una / al final de la url no cargan los estilos e imagenes
 // TODO: Vemos si podemos acelerar el login
 // TODO: Arreglar que no se muevan las cosas cuando aparece la scrollbar
+// TODO: Sacar inicio/finalización de las tareas en backend

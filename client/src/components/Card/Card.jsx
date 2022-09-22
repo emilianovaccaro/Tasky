@@ -32,7 +32,7 @@ const CardContainer = styled.div`
   padding-left: ${p => p.tasks && '0'};
   padding-bottom: ${p => p.tasks && '0'};
   border-radius: ${p => p.theme.styles.borderRadius.medium};
-  background-color: ${({theme}) => theme.mode.primary}E0;
+  background-color: ${({theme}) => theme.mode.primary};
   background-color: ${p => p.defaultColor && p.theme.mode.primary}E0;
   background-color: ${p => p.comment && p.theme.mode.alternative}E0;
 `
@@ -46,6 +46,10 @@ const CardContent = styled.div`
   margin-top: ${p => p.tasksContent && '-24px'};
   padding-top: ${p => p.tasksContent && '16px'};
   padding-bottom: ${p => p.tasksContent && '16px'};
+
+  @media screen and (max-width: ${p => p.theme.styles.breakpoints.large}) {
+    padding: ${p => p.tasksContent && p.theme.styles.padding.small};
+  }
 `
 
 const CardHeader = styled.div`
