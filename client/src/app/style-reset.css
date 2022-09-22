@@ -73,11 +73,21 @@ option { color: white; }
 
 html {
 	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-	overflow-y: scroll;
+	overflow-y: auto;
 }
 
 * {
 	font-family: "Noto Sans"!important;
+}
+
+body {
+  -ms-overflow-style: none; /* for Internet Explorer, Edge */
+  scrollbar-width: none; /* for Firefox */
+  overflow-y: scroll; 
+}
+
+body::-webkit-scrollbar {
+  display: none; /* for Chrome, Safari, and Opera */
 }
 
 ::-webkit-scrollbar {
