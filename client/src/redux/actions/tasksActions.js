@@ -6,7 +6,8 @@ import {
   DELETE_TASK } from './types'
 
 
-const API_URL = 'https://test-server-tasky.herokuapp.com'
+const API_URL2 = 'https://test-server-tasky.herokuapp.com'
+const API_URL = 'http://localhost:5000'
 
 
 //get

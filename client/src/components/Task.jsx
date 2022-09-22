@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import { TaskCard } from './Card/TaskCard'
 import { Label } from './Text/Label'
@@ -13,6 +13,7 @@ import { Profile } from './Profile'
 export const Task = ({task, showMore, setShowMore}) => {
   const { team } = useSelector(state => state.user)
   const {_id, title, createdAt, assignedTo, description, comments, deleteStatus, userId } = task
+  const [ taskDeleteStat, setTaskDeleteStat ] = useState(deleteStatus)
   const token = localStorage.getItem('token')
   const dispatch = useDispatch()  
 
@@ -21,18 +22,19 @@ export const Task = ({task, showMore, setShowMore}) => {
   if ( comments.length > 0 ) {
     lastComment = comments[comments.length - 1]
   }
-  console.log("lastcomment", lastComment)
-
   const creator = team.find(teammate => teammate._id == userId )?.username
   const commentor = team.find(teammate => teammate.username == lastComment?.author)
 
 
-
-
-
   const handleDeleteTask = async () => {
-    await dispatch(updateTask(_id, {deleteStatus: !deleteStatus}, token))
-  } 
+    setTaskDeleteStat(!taskDeleteStat)
+    try {
+      return await dispatch(updateTask(_id, {deleteStatus: taskDeleteStat}, token))
+    } catch(error) {
+      return console.log(error)
+    }
+  }
+
 
   return (
     <TaskCard status={'toDo'} key={_id}>
@@ -45,7 +47,7 @@ export const Task = ({task, showMore, setShowMore}) => {
       </ContainerInfoTask>
       {_id !== showMore && (
         <IconButton onClick={() => setShowMore(_id)}>
-          <Icon noText as={icons.arrowDown} white={'white'} />
+          <Icon as={icons.arrowDown} white={'white'} />
         </IconButton>
       )}
       {_id === showMore && (
@@ -79,17 +81,17 @@ export const Task = ({task, showMore, setShowMore}) => {
             
           </ContainerInfoTask>
           <div>
-            <SubLabel button noUnderline onClick={() => handleDeleteTask(_id)} lowOpacity>
+            <SubLabel button noUnderline onClick={() => handleDeleteTask()} lowOpacity>
               <Icon as={deleteStatus ? icons.restore : icons.edit} size='16' />
               {deleteStatus ? 'Restaurar tarea' : 'Editar tarea'}
             </SubLabel>
-            <SubLabel button noUnderline onClick={() => handleDeleteTask(_id)} lowOpacity>
+            <SubLabel button noUnderline onClick={() => handleDeleteTask()} lowOpacity>
               <Icon as={icons.trash} size='16' />
               {deleteStatus ? 'Eliminar defenitivamente' : 'Eliminar tarea'}
             </SubLabel>
           </div>
           <IconButton onClick={() => setShowMore(null)}>
-            <Icon noText as={icons.arrowUp} white={'white'} />
+            <Icon as={icons.arrowUp} white={'white'} />
           </IconButton>
         </>
       )}
