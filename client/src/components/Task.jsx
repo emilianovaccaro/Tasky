@@ -12,17 +12,23 @@ import { Profile } from './Profile'
 
 export const Task = ({task, showMore, setShowMore}) => {
   const { team } = useSelector(state => state.user)
-  const {_id, title, createdAt, assignedTo, description, comments, deleteStatus } = task
-  const tasks = useSelector(state => state.tasks)
+  const {_id, title, createdAt, assignedTo, description, comments, deleteStatus, userId } = task
   const token = localStorage.getItem('token')
-  const dispatch = useDispatch()
+  const dispatch = useDispatch()  
 
-  const lastComment = comments[comments.length-1]
 
-  const userLastComment = () => {
-    const person = team.find(teammate => teammate.username == lastComment.author)
-    return person
+  let lastComment = []
+  if ( comments.length > 0 ) {
+    lastComment = comments[comments.length - 1]
   }
+  console.log("lastcomment", lastComment)
+
+  const creator = team.find(teammate => teammate._id == userId )?.username
+  const commentor = team.find(teammate => teammate.username == lastComment?.author)
+
+
+
+
 
   const handleDeleteTask = async () => {
     await dispatch(updateTask(_id, {deleteStatus: !deleteStatus}, token))
@@ -45,13 +51,13 @@ export const Task = ({task, showMore, setShowMore}) => {
       {_id === showMore && (
         <>
           <SubLabel> {description}</SubLabel>
-          <SubLabel lowOpacity> Creado por aaaaaaaaaaa</SubLabel>
+          <SubLabel lowOpacity>{creator}</SubLabel>
           <SubLabel lowOpacity>
             Inicio: {createdAt.split('T', 1)} | Finalización: 1232-13-12
           </SubLabel>
           <Line />
           <ContainerInfoTask>
-            {comments?.length > 0 && (
+            {(comments.length > 0) && (
               <>
                 <CommentsSection>
                   <SubLabel>Comentarios</SubLabel>
@@ -61,11 +67,11 @@ export const Task = ({task, showMore, setShowMore}) => {
                   </SubLabel>
                 </CommentsSection>
                 <Card comment>
-                  <SubLabel>{lastComment.comment}</SubLabel>
+                  <SubLabel>{lastComment.comment || false}</SubLabel>
                   <Profile
                     imageSize={16}
-                    imagePath={userLastComment().profilePhoto}
-                    subLabelText={lastComment.author}
+                    imagePath={commentor.profilePhoto || false}
+                    subLabelText={commentor.fullname || lastComment.author}
                   />
                 </Card>
               </>
