@@ -17,7 +17,6 @@ export const Tasks = ( {section}) => {
   const token = localStorage.getItem('token')
   const tasks = useSelector(state => state.tasks)
   const user = useSelector(state => state.user.user)
-  console.log(user)
 
   const [loading, setLoading] = useState(true)
   const [showMore, setShowMore] = useState(null)

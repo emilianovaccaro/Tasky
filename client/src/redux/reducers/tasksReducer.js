@@ -21,7 +21,7 @@ const tasksReducer = ( state = [], action ) => {
       }
       return item
     })
-    return updatedItems
+    return [...state, updatedItems]
   }
   default:
     return state

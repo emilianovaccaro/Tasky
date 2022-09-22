@@ -40,7 +40,7 @@ const CardContainer = styled.div`
 const CardContent = styled.div`
   display: flex;
   flex-direction: column;
-  padding: ${p => p.theme.styles.padding.medium};
+  padding: ${p => p.tasksContent && p.theme.styles.padding.medium};
   gap: 24px;
   overflow-x: ${p => p.tasksContent && 'hidden'};
   margin-top: ${p => p.tasksContent && '-24px'};

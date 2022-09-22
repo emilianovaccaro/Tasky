@@ -20,12 +20,12 @@ export const Sidebar = () => {
 
   const getUserInfo = async () => {
     try {
-      dispatch(getUser(token))
+      await dispatch(getUser(token))
       dispatch(getTeam(token))
-      setLoading(false)
+      return setLoading(false)
     } catch(error) {
       console.log(error)
-      setLoading(true)
+      return setLoading(true)
     }
   }
 
@@ -88,9 +88,7 @@ export const Sidebar = () => {
         </li>
       </NavLinks>
       <ProfileContainer openSidebar={openSidebar}>
-
         {loading ? <Spinner /> : <Profile imageSize={32} imagePath={user.profilePhoto} labelText={user.fullname} subLabelText={`Miembro de ${user.teamId}`}/>}
-
       </ProfileContainer>
     </SidebarContainer>
   )
