@@ -1,10 +1,11 @@
-import { FETCH_PROFILE, REGISTER_USER, SIGN_IN, SIGN_OUT } from '../actions/types'
+import { FETCH_PROFILE, FETCH_TEAM, REGISTER_USER, SIGN_IN, SIGN_OUT } from '../actions/types'
 
 const token = localStorage.getItem('token')
 
 const INITIAL_STATE = {
   isSignedIn: token ? true : false,
-  user: {}
+  user: {},
+  team: []
 }
 
 const usersReducer = (state = INITIAL_STATE, action) => {
@@ -14,6 +15,8 @@ const usersReducer = (state = INITIAL_STATE, action) => {
     return { ...state, isSignedIn: true }
   case FETCH_PROFILE:
     return { ...state, user: action.payload }
+  case FETCH_TEAM: 
+    return { ...state, team: action.payload }
   case SIGN_OUT: 
     return { ...state, isSignedIn: false }
   default:
