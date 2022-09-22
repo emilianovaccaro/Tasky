@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getUser, signOut } from '../redux/actions/userActions'
 import { Spinner } from './Spinner'
 
+
 export const Sidebar = () => {
 
   const [openSidebar, setOpenSidebar] = useState(false)
@@ -27,6 +28,21 @@ export const Sidebar = () => {
     setPath(newPath)
     setOpenSidebar(openSidebar => !openSidebar)
   }
+
+  const dispatch = useDispatch()
+  const user = useSelector(state => state.user.user)
+  const token = localStorage.getItem('token')
+  const signedIn = useSelector(state => state.user.isSignedIn)
+  const [ loading, setLoading ] = useState(true)
+
+  useEffect(() => {
+    if (signedIn) {
+      dispatch(getUser(token))
+      setLoading(false)
+    } else {
+      setLoading(true)
+    }
+  }, [signedIn])
 
   return(
     <SidebarContainer openSidebar={openSidebar}>
@@ -78,7 +94,9 @@ export const Sidebar = () => {
         </li>
       </NavLinks>
       <ProfileContainer openSidebar={openSidebar}>
+
         {loading ? <Spinner /> : <Profile imageSize={32} imagePath={user.profilePhoto} labelText={user.fullname} subLabelText={`Miembro de ${user.teamId}`}/>}
+
       </ProfileContainer>
     </SidebarContainer>
   )

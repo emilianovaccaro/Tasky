@@ -1,4 +1,4 @@
-import React,{ useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Content } from '../components/Content'
 import { Title } from '../components/Text/Title'
 import { SubTitle } from '../components/Text/SubTitle'
@@ -12,7 +12,6 @@ import { Task } from '../components/Task'
 import { Spinner } from '../components/Spinner'
 
 export const Tasks = ( {section}) => {
-
   const dispatch = useDispatch()
   const token = localStorage.getItem('token')
   const tasks = useSelector(state => state.tasks)
@@ -34,6 +33,7 @@ export const Tasks = ( {section}) => {
     setInProgressTasks(tasks.filter(task => task.status === 'inProgress'))
     setFinishedTasks(tasks.filter(task => task.status === 'finished'))
   }, [tasks])
+
 
   return (
     <>
@@ -80,6 +80,7 @@ export const Tasks = ( {section}) => {
   )
 }
 
+
 const TasksHeader = styled.div`
   display: flex;
   justify-content: space-between;
@@ -90,6 +91,4 @@ const TasksList = styled.div`
   display: flex;
   gap: 32px;
   align-items: baseline;
-  
 `
-

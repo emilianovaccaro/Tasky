@@ -7,7 +7,7 @@ export const Content = styled.div`
   display: flex;
   flex-direction: column;
   gap: 32px;
-
+  
   @media screen and (max-width: ${p => p.theme.styles.breakpoints.medium}) {
     width: calc(100% - 64px);
     margin-left: 0;
