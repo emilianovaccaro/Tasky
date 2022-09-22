@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import { TaskCard } from './Card/TaskCard'
 import { Label } from './Text/Label'
@@ -12,8 +12,10 @@ import { Profile } from './Profile'
 
 export const Task = ({task}) => {
   const { team } = useSelector(state => state.user)
+
   const {_id, title, assignedTo, description, comments, deleteStatus, userId, priority, status } = task
   const [showMore, setShowMore] = useState(null)
+  const [taskDeleteStatus, setTaskDeleteStatus] = useState(null)
   const token = localStorage.getItem('token')
   const dispatch = useDispatch()  
 
@@ -22,14 +24,20 @@ export const Task = ({task}) => {
     console.log('jhola', comments[comments.length - 1])
     lastComment = comments[comments.length - 1]
   }
+
   console.log('lastcomment', lastComment)
 
   const creator = team.find(teammate => teammate._id == userId )?.username
   const commentor = team.find(teammate => teammate.username == lastComment?.author)
 
   const handleDeleteTask = async () => {
-    await dispatch(updateTask(_id, {deleteStatus: !deleteStatus}, token))
-  } 
+    setTaskDeleteStatus(!taskDeleteStatus)
+    try {
+      return await dispatch(updateTask(_id, {deleteStatus: taskDeleteStatus}, token))
+    } catch(error) {
+      return console.log(error)
+    }
+  }
 
   return (
     <TaskCard status={status} key={_id}>
@@ -44,7 +52,7 @@ export const Task = ({task}) => {
       </ContainerInfoTask>
       {_id !== showMore && (
         <IconButton onClick={() => setShowMore(_id)}>
-          <Icon noText as={icons.arrowDown} white={'white'} />
+          <Icon as={icons.arrowDown} white={'white'} />
         </IconButton>
       )}
       {_id === showMore && (
@@ -81,6 +89,7 @@ export const Task = ({task}) => {
                 </>
               </>
             )}
+
           </>
           <ActionButtons>
             <SubLabel button noUnderline onClick={() => handleDeleteTask(_id)} lowOpacity>
@@ -90,10 +99,11 @@ export const Task = ({task}) => {
             <SubLabel button noUnderline onClick={() => handleDeleteTask(_id)} lowOpacity>
               <Icon mr='8' as={icons.trash} size='16' />
               {deleteStatus ? 'Eliminar definitivamente' : 'Eliminar'}
+
             </SubLabel>
           </ActionButtons>
           <IconButton onClick={() => setShowMore(null)}>
-            <Icon noText as={icons.arrowUp} white={'white'} />
+            <Icon as={icons.arrowUp} white={'white'} />
           </IconButton>
         </>
       )}
