@@ -29,21 +29,6 @@ export const Sidebar = () => {
     setOpenSidebar(openSidebar => !openSidebar)
   }
 
-  const dispatch = useDispatch()
-  const user = useSelector(state => state.user.user)
-  const token = localStorage.getItem('token')
-  const signedIn = useSelector(state => state.user.isSignedIn)
-  const [ loading, setLoading ] = useState(true)
-
-  useEffect(() => {
-    if (signedIn) {
-      dispatch(getUser(token))
-      setLoading(false)
-    } else {
-      setLoading(true)
-    }
-  }, [signedIn])
-
   return(
     <SidebarContainer openSidebar={openSidebar}>
       <SidebarTopContainer>
