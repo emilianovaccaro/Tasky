@@ -3,7 +3,8 @@ import {
   SIGN_IN,
   SIGN_OUT,
   REGISTER_USER,
-  FETCH_PROFILE
+  FETCH_PROFILE,
+  FETCH_TEAM
 } from './types'
 
 
@@ -26,7 +27,6 @@ export const register = ( values ) => async ( dispatch ) => {
   const res = await axios.post(`${API_URL}/api/users/register`, values)
 
   localStorage.setItem('token', res.data.userToken)
-  console.log(res)
   dispatch({ type: REGISTER_USER })
 }
 
@@ -41,6 +41,16 @@ export const getUser = ( token ) => async ( dispatch ) => {
   })
 
   dispatch({ type: FETCH_PROFILE, payload: res.data })
+}
+
+export const getTeam = ( token ) => async (dispatch) => {
+  const res = await axios.get(`${API_URL}/api/users/all`, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+
+  dispatch({ type: FETCH_TEAM, payload: res.data })
 }
 
 //sign out

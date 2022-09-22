@@ -5,7 +5,7 @@ import { TextButtonSmall } from './Button/TextButtonSmall'
 import { IconButton } from './Button/IconButton'
 import { Icon, icons } from './Icon'
 import { useDispatch, useSelector } from 'react-redux'
-import { getUser, signOut } from '../redux/actions/userActions'
+import { getTeam, getUser, signOut } from '../redux/actions/userActions'
 import { Spinner } from './Spinner'
 
 
@@ -18,10 +18,19 @@ export const Sidebar = () => {
   const token = localStorage.getItem('token')
   const [ loading, setLoading ] = useState(true)
 
-  useEffect(() => {
-    dispatch(getUser(token)).then(()=>
+  const getUserInfo = async () => {
+    try {
+      dispatch(getUser(token))
+      dispatch(getTeam(token))
       setLoading(false)
-    )
+    } catch(error) {
+      console.log(error)
+      setLoading(true)
+    }
+  }
+
+  useEffect(() => {
+    getUserInfo()
   }, [])
 
   const handleClick = newPath => {
