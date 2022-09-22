@@ -17,38 +17,91 @@ export const Tasks = ( {section}) => {
   const token = localStorage.getItem('token')
   const tasks = useSelector(state => state.tasks)
   const user = useSelector(state => state.user.user)
-  console.log(user)
 
   const [loading, setLoading] = useState(true)
   const [showMore, setShowMore] = useState(null)
+
+  const [ list, setList ] = useState([])
+  
   const [newTasks, setNewTasks] = useState([])
   const [inProgressTasks, setInProgressTasks] = useState([])
   const [finishedTasks, setFinishedTasks] = useState([])
   
   const sampleLocation = useLocation()
 
+  
+  const fetchTaskReq = async () => {
+    setLoading(true)
+    try {
+      await dispatch(fetchTasks(token))
+    } catch(error) {
+      console.log(error)
+      setLoading(true)
+    }
+  }
+
+
   useEffect(() => {
-    dispatch(fetchTasks(token)).then(()=> {setLoading(false)})
+    fetchTaskReq()
   }, [])
 
   useEffect(() => {
-    setNewTasks(tasks.filter(task => task.status === 'new' && !task.deleteStatus ))
-    setInProgressTasks(tasks.filter(task => task.status === 'inProgress' && !task.deleteStatus ))
-    setFinishedTasks(tasks.filter(task => task.status === 'finished' && !task.deleteStatus))
+    setList(tasks)
+    updateNewTasks()
+    updateInProgressTasks()
+    updateFinishedTasks()
+  
+    if (list.length > 0) {
+      return setLoading(false)
+    }
+  }, [tasks, sampleLocation])
 
-    if(section === 'trash') {
-      setNewTasks(tasks.filter(task => task.status === 'new' && task.deleteStatus))
-      setInProgressTasks(tasks.filter(task => task.status === 'inProgress' && task.deleteStatus))
-      setFinishedTasks(tasks.filter(task => task.status === 'finished' && task.deleteStatus))
+  
+
+  const updateNewTasks = () => {
+    let deleteStat = false
+    if (section === 'trash') {
+      deleteStat = true
     }
 
-    if(section === 'assigned') {
-      setNewTasks(tasks.filter(task => task.status === 'new' && task.assignedTo === user.fullname && !task.deleteStatus))
-      setInProgressTasks(tasks.filter(task => task.status === 'inProgress' && task.assignedTo === user.fullname && !task.deleteStatus))
-      setFinishedTasks(tasks.filter(task => task.status === 'finished' && task.assignedTo === user.fullname && !task.deleteStatus))
+    if (section === 'assigned') {
+      return setNewTasks(list.filter(task => task.status === 'new' && task.assignedTo === user.fullname && !task.deleteStatus))
+    }
+
+    return setNewTasks(list.filter(task => task.status === 'new' && task.deleteStatus === deleteStat))
+  }
+
+  const updateInProgressTasks = () => {
+    let deleteStat = false
+    if (section === 'trash') {
+      deleteStat = true
+    }
+
+    if (section === 'assigned') {
+      return setInProgressTasks(list.filter(task => task.status === 'inProgress' && task.assignedTo === user.fullname && !task.deleteStatus))
+    }
+
+    return setInProgressTasks(list.filter(task => task.status === 'inProgress' && task.deleteStatus === deleteStat ))
+  }
+
+  const updateFinishedTasks = () => {
+    let deleteStat = false
+    if (section === 'trash') {
+      deleteStat = true
+    } 
+
+    if (section === 'assigned') {
+      return setFinishedTasks(list.filter(task => task.status === 'finished' && task.assignedTo === user.fullname && !task.deleteStatus))
     }
     
-  }, [tasks, sampleLocation])
+    return setFinishedTasks(list.filter(task => task.status === 'finished' && task.deleteStatus === deleteStat))
+  }
+
+
+
+
+
+
 
 
   return (

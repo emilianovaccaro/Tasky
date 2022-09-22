@@ -4,8 +4,10 @@ export const SubLabel = styled.label`
   color: ${({theme}) => theme.styles.colors.white};
   font-size: ${({theme}) => theme.styles.fontSize.extraSmall};
   
+  display: inline-block;
   opacity: ${p => p.lowOpacity && '50%'};
   text-decoration: ${p => p.button && 'underline'};
+  text-decoration: ${p => p.noUnderline && 'none'};
   cursor: ${p => p.button && 'pointer'};
   font-weight: ${p => p.priority && p.theme.styles.fontWeight.semiBold};
   padding: ${p => p.priority && p.theme.styles.padding.extraSmall};

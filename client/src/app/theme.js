@@ -9,6 +9,7 @@ export const styles = {
   padding: {
     extraSmall: '4px 8px',
     small: '8px 16px',
+    intermediate: '16px',
     medium: '12px 32px',
     large: '24px 32px',
     extraLarge: '32px 64px'

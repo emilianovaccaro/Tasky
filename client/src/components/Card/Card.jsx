@@ -27,7 +27,7 @@ const CardContainer = styled.div`
   max-width: ${p => p.inputs && '384px'};
   max-width: ${p => p.multipleInputs && '788px'};
   padding: ${p => p.theme.styles.padding.large};
-  padding: ${p => p.comment && p.theme.styles.padding.medium};
+  padding: ${p => p.comment && p.theme.styles.padding.small};
   padding-right: ${p => p.tasks && '0'};
   padding-left: ${p => p.tasks && '0'};
   padding-bottom: ${p => p.tasks && '0'};
@@ -40,7 +40,7 @@ const CardContainer = styled.div`
 const CardContent = styled.div`
   display: flex;
   flex-direction: column;
-  padding: ${p => p.theme.styles.padding.medium};
+  padding: ${p => p.tasksContent && p.theme.styles.padding.medium};
   gap: 24px;
   overflow-x: ${p => p.tasksContent && 'hidden'};
   margin-top: ${p => p.tasksContent && '-24px'};

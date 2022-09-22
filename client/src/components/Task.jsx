@@ -1,14 +1,40 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import { TaskCard } from './Card/TaskCard'
 import { Label } from './Text/Label'
 import { SubLabel } from './Text/SubLabel'
 import { IconButton } from './Button/IconButton'
 import { Icon, icons } from './Icon'
+import { useDispatch, useSelector } from 'react-redux'
+import { updateTask } from '../redux/actions/tasksActions'
+import { Card } from './Card/Card'
+import { Profile } from './Profile'
 
 export const Task = ({task, showMore, setShowMore}) => {
+  const { team } = useSelector(state => state.user)
+  const {_id, title, createdAt, assignedTo, description, comments, deleteStatus, userId } = task
+  const [ taskDeleteStat, setTaskDeleteStat ] = useState(deleteStatus)
+  const token = localStorage.getItem('token')
+  const dispatch = useDispatch()  
 
-  const {_id, title, createdAt, assignedTo, description } = task
+
+  let lastComment = []
+  if ( comments.length > 0 ) {
+    lastComment = comments[comments.length - 1]
+  }
+  const creator = team.find(teammate => teammate._id == userId )?.username
+  const commentor = team.find(teammate => teammate.username == lastComment?.author)
+
+
+  const handleDeleteTask = async () => {
+    setTaskDeleteStat(!taskDeleteStat)
+    try {
+      return await dispatch(updateTask(_id, {deleteStatus: taskDeleteStat}, token))
+    } catch(error) {
+      return console.log(error)
+    }
+  }
+
 
   return (
     <TaskCard status={'toDo'} key={_id}>
@@ -16,7 +42,7 @@ export const Task = ({task, showMore, setShowMore}) => {
       <ContainerInfoTask>
         <SubLabel lowOpacity>{assignedTo}</SubLabel>
         <SubLabel priority lowPriority>
-          Bajo
+          bajo
         </SubLabel>
       </ContainerInfoTask>
       {_id !== showMore && (
@@ -27,26 +53,41 @@ export const Task = ({task, showMore, setShowMore}) => {
       {_id === showMore && (
         <>
           <SubLabel> {description}</SubLabel>
-          <SubLabel lowOpacity> Creado por aaaaaaaaaaa</SubLabel>
+          <SubLabel lowOpacity>{creator}</SubLabel>
           <SubLabel lowOpacity>
-            Inicio: {createdAt.split('T', 1)} | Finalizacion: 1232-13-12
+            Inicio: {createdAt.split('T', 1)} | Finalización: 1232-13-12
           </SubLabel>
-          <hr/>
+          <Line />
           <ContainerInfoTask>
-            <SubLabel>Comentarios</SubLabel>
-            <SubLabel lowOpacity>
-              <Icon as={icons.plus} />
-              Añadir comentario
-            </SubLabel>
+            {(comments.length > 0) && (
+              <>
+                <CommentsSection>
+                  <SubLabel>Comentarios</SubLabel>
+                  <SubLabel button noUnderline lowOpacity>
+                    <Icon mr='4' as={icons.plus} size='12' />
+                    Añadir
+                  </SubLabel>
+                </CommentsSection>
+                <Card comment>
+                  <SubLabel>{lastComment.comment || false}</SubLabel>
+                  <Profile
+                    imageSize={16}
+                    imagePath={commentor.profilePhoto || false}
+                    subLabelText={commentor.fullname || lastComment.author}
+                  />
+                </Card>
+              </>
+            )}
+            
           </ContainerInfoTask>
           <div>
-            <SubLabel lowOpacity>
-              <Icon as={icons.edit} />
-              Editar tarea
+            <SubLabel button noUnderline onClick={() => handleDeleteTask()} lowOpacity>
+              <Icon as={deleteStatus ? icons.restore : icons.edit} size='16' />
+              {deleteStatus ? 'Restaurar tarea' : 'Editar tarea'}
             </SubLabel>
-            <SubLabel lowOpacity>
-              <Icon as={icons.delete} />
-              Eliminar tarea
+            <SubLabel button noUnderline onClick={() => handleDeleteTask()} lowOpacity>
+              <Icon as={icons.trash} size='16' />
+              {deleteStatus ? 'Eliminar defenitivamente' : 'Eliminar tarea'}
             </SubLabel>
           </div>
           <IconButton onClick={() => setShowMore(null)}>
@@ -60,7 +101,23 @@ export const Task = ({task, showMore, setShowMore}) => {
 
 const ContainerInfoTask = styled.div`
   display: flex;
+  flex-direction: column;
+  gap: 10px;
   justify-content: space-between;
-  align-items: center;
   width: 100%;
+`
+
+const CommentsSection = styled.div`
+  display: flex;
+  justify-content: space-between;
+`
+
+const Line = styled.hr`
+  border: none;
+  height: 1px;
+  width: 100%;
+  opacity: .5;
+  color: ${p => p.theme.styles.colors.white};
+  background-color: ${p => p.theme.styles.colors.white};
+  margin: 16px 0;
 `
