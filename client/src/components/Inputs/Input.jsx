@@ -36,7 +36,7 @@ export const Input = ({ inputLabel, accept, fullWidth, type, name, onChange, val
           accept={accept}
         />
         {type === 'radio' && <SubLabel className='radio-label' htmlFor={id}>{radioSubLabel}</SubLabel>}
-        {type === 'password' && <Icon as={eye ? icons.eye : icons.eyeCross} white={'white'} onClick={() => changeVisibility()}/>}
+        {type === 'password' && <Icon noText as={eye ? icons.eye : icons.eyeCross} white={'white'} onClick={() => changeVisibility()}/>}
       </InputContainer>
       {touched && error &&  <SubLabel error>{error}</SubLabel>}
     </InputBoxContainer>

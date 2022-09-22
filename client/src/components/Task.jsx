@@ -34,12 +34,12 @@ export const Task = ({task, showMore, setShowMore}) => {
       <ContainerInfoTask>
         <SubLabel lowOpacity>{assignedTo}</SubLabel>
         <SubLabel priority lowPriority>
-          Bajo
+          bajo
         </SubLabel>
       </ContainerInfoTask>
       {_id !== showMore && (
         <IconButton onClick={() => setShowMore(_id)}>
-          <Icon as={icons.arrowDown} white={'white'} />
+          <Icon noText as={icons.arrowDown} white={'white'} />
         </IconButton>
       )}
       {_id === showMore && (
@@ -53,21 +53,24 @@ export const Task = ({task, showMore, setShowMore}) => {
           <ContainerInfoTask>
             {comments?.length > 0 && (
               <>
-                <SubLabel>Último comentario</SubLabel>
+                <CommentsSection>
+                  <SubLabel>Comentarios</SubLabel>
+                  <SubLabel button noUnderline lowOpacity>
+                    <Icon mr='4' as={icons.plus} size='12' />
+                    Añadir
+                  </SubLabel>
+                </CommentsSection>
                 <Card comment>
                   <SubLabel>{lastComment.comment}</SubLabel>
                   <Profile
-                    imageSize={15}
+                    imageSize={16}
                     imagePath={userLastComment().profilePhoto}
-                    labelText={lastComment.author}
+                    subLabelText={lastComment.author}
                   />
                 </Card>
               </>
             )}
-            <SubLabel button noUnderline lowOpacity>
-              <Icon as={icons.plus} size='16' />
-              Añadir comentario
-            </SubLabel>
+            
           </ContainerInfoTask>
           <div>
             <SubLabel button noUnderline onClick={() => handleDeleteTask(_id)} lowOpacity>
@@ -80,7 +83,7 @@ export const Task = ({task, showMore, setShowMore}) => {
             </SubLabel>
           </div>
           <IconButton onClick={() => setShowMore(null)}>
-            <Icon as={icons.arrowUp} white={'white'} />
+            <Icon noText as={icons.arrowUp} white={'white'} />
           </IconButton>
         </>
       )}
@@ -96,6 +99,11 @@ const ContainerInfoTask = styled.div`
   width: 100%;
 `
 
+const CommentsSection = styled.div`
+  display: flex;
+  justify-content: space-between;
+`
+
 const Line = styled.hr`
   border: none;
   height: 1px;
@@ -103,4 +111,5 @@ const Line = styled.hr`
   opacity: .5;
   color: ${p => p.theme.styles.colors.white};
   background-color: ${p => p.theme.styles.colors.white};
+  margin: 16px 0;
 `
