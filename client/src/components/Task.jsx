@@ -12,11 +12,11 @@ export const Task = ({task, showMore, setShowMore}) => {
 
   return (
     <TaskCard status={'toDo'} key={_id}>
-      <Label>{title}</Label>
+      <Label>{title.substring(0, 20)}</Label>
       <ContainerInfoTask>
         <SubLabel lowOpacity>{assignedTo}</SubLabel>
         <SubLabel priority lowPriority>
-          Low Priority
+          Bajo
         </SubLabel>
       </ContainerInfoTask>
       {_id !== showMore && (
@@ -33,20 +33,20 @@ export const Task = ({task, showMore, setShowMore}) => {
           </SubLabel>
           <hr/>
           <ContainerInfoTask>
-            <SubLabel> commentarios</SubLabel>
+            <SubLabel>Comentarios</SubLabel>
             <SubLabel lowOpacity>
               <Icon as={icons.plus} />
-              Aniadir comentario
+              Añadir comentario
             </SubLabel>
           </ContainerInfoTask>
           <div>
             <SubLabel lowOpacity>
               <Icon as={icons.edit} />
-              Editar Tarea
+              Editar tarea
             </SubLabel>
             <SubLabel lowOpacity>
               <Icon as={icons.delete} />
-              Eleminar Tarea
+              Eliminar tarea
             </SubLabel>
           </div>
           <IconButton onClick={() => setShowMore(null)}>
@@ -57,7 +57,6 @@ export const Task = ({task, showMore, setShowMore}) => {
     </TaskCard>
   )
 }
-
 
 const ContainerInfoTask = styled.div`
   display: flex;

@@ -6,6 +6,7 @@ import { IconButton } from './Button/IconButton'
 import { Icon, icons } from './Icon'
 import { useDispatch, useSelector } from 'react-redux'
 import { getUser, signOut } from '../redux/actions/userActions'
+import { Spinner } from './Spinner'
 
 export const Sidebar = () => {
 
@@ -14,17 +15,13 @@ export const Sidebar = () => {
   const dispatch = useDispatch()
   const user = useSelector(state => state.user.user)
   const token = localStorage.getItem('token')
-  const signedIn = useSelector(state => state.user.isSignedIn)
   const [ loading, setLoading ] = useState(true)
 
   useEffect(() => {
-    if (signedIn) {
-      dispatch(getUser(token))
+    dispatch(getUser(token)).then(()=>
       setLoading(false)
-    } else {
-      setLoading(true)
-    }
-  }, [signedIn])
+    )
+  }, [])
 
   const handleClick = newPath => {
     setPath(newPath)
@@ -81,7 +78,7 @@ export const Sidebar = () => {
         </li>
       </NavLinks>
       <ProfileContainer openSidebar={openSidebar}>
-        {!loading ? <Profile imageSize={32} imagePath={user.profilePhoto} labelText={user.fullname} subLabelText={`Miembro de ${user.teamId}`}/> : <>Cargando...</>}
+        {loading ? <Spinner /> : <Profile imageSize={32} imagePath={user.profilePhoto} labelText={user.fullname} subLabelText={`Miembro de ${user.teamId}`}/>}
       </ProfileContainer>
     </SidebarContainer>
   )

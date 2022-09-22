@@ -6,6 +6,7 @@ export const Label = styled.label`
   color: ${({theme}) => theme.styles.colors.white};
   font-size: ${({theme}) => theme.styles.fontSize.small};
   
+  text-align: ${p => p.center && 'center'};
   line-height: ${p => p.paragraph && '20px'};
   opacity: ${p => p.lowOpacity && '50%'};
   opacity: ${p => p.active && '100%'};

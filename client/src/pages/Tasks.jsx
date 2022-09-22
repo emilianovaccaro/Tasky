@@ -1,6 +1,7 @@
 import React,{ useEffect, useState } from 'react'
 import { Content } from '../components/Content'
 import { Title } from '../components/Text/Title'
+import { SubTitle } from '../components/Text/SubTitle'
 import { Card } from '../components/Card/Card'
 import { BoxButton } from '../components/Button/BoxButton'
 import { fetchTasks } from '../redux/actions/tasksActions'
@@ -8,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { Label } from '../components/Text/Label'
 import { Task } from '../components/Task'
+import { Spinner } from '../components/Spinner'
 
 export const Tasks = ( {section}) => {
 
@@ -15,19 +17,22 @@ export const Tasks = ( {section}) => {
   const token = localStorage.getItem('token')
   const tasks = useSelector(state => state.tasks)
 
+  const [loading, setLoading] = useState(true)
   const [showMore, setShowMore] = useState(null)
-  const [taskNew, setTaskNew] = useState([])
-  const [taskInProgress, setTaskInProgress] = useState([])
-  const [taskFinished, setTaskFinished] = useState([])
+  const [newTasks, setNewTasks] = useState([])
+  const [inProgressTasks, setInProgressTasks] = useState([])
+  const [finishedTasks, setFinishedTasks] = useState([])
 
   useEffect(() => {
-    dispatch(fetchTasks(token))
+    dispatch(fetchTasks(token)).then(()=> {
+      setLoading(false)
+    })
   }, [])
 
   useEffect(() => {
-    setTaskNew(tasks.filter(task => task.status === 'new'))
-    setTaskInProgress(tasks.filter(task => task.status === 'inProgress'))
-    setTaskFinished(tasks.filter(task => task.status === 'finished'))
+    setNewTasks(tasks.filter(task => task.status === 'new'))
+    setInProgressTasks(tasks.filter(task => task.status === 'inProgress'))
+    setFinishedTasks(tasks.filter(task => task.status === 'finished'))
   }, [tasks])
 
   return (
@@ -41,25 +46,35 @@ export const Tasks = ( {section}) => {
         </TasksHeader>
 
         <TasksList>
-          <Card headerChildren={<Label semiBold>Próximas</Label>}>
-            {taskNew.length === 0 && <Label semiBold>No hay tareas</Label>}
-            {taskNew.map(task => (
-              <Task key={task._id} task={task} showMore={showMore} setShowMore={setShowMore} />
-            ))}
+          
+          <Card tasks tasksContent headerChildren={<SubTitle>Próximas</SubTitle>}>
+            {
+              loading ? <Spinner /> :
+                newTasks.length === 0 ? <Label center>No hay tareas</Label> :
+                  newTasks.map(task => ( 
+                    <Task key={task._id} task={task} showMore={showMore} setShowMore={setShowMore} />))
+            }
           </Card>
-          <Card headerChildren={<Label semiBold>En proceso</Label>}>
-            {taskInProgress.length === 0 && <Label semiBold>No hay tareas</Label>}
-            {taskInProgress.map(task => (
-              <Task key={task._id} task={task} showMore={showMore} setShowMore={setShowMore} />
-            ))}
+          
+          <Card tasks tasksContent headerChildren={<SubTitle>En proceso</SubTitle>}>
+            {
+              loading ? <Spinner /> :
+                inProgressTasks.length === 0 ? <Label center>No hay tareas</Label> :
+                  inProgressTasks.map(task => ( 
+                    <Task key={task._id} task={task} showMore={showMore} setShowMore={setShowMore} />))
+            }
           </Card>
-          <Card headerChildren={<Label semiBold>Realizadas</Label>}>
-            {taskFinished.length === 0 && <Label semiBold>No hay tareas</Label>}
-            {taskFinished.map(task => (
-              <Task key={task._id} task={task} showMore={showMore} setShowMore={setShowMore} />
-            ))}
+
+          <Card tasks tasksContent headerChildren={<SubTitle>Realizadas</SubTitle>}>
+            {
+              loading ? <Spinner /> :
+                finishedTasks.length === 0 ? <Label center>No hay tareas</Label> :
+                  finishedTasks.map(task => ( 
+                    <Task key={task._id} task={task} showMore={showMore} setShowMore={setShowMore} />))
+            }
           </Card>
         </TasksList>
+        
       </Content>
     </>
   )
