@@ -26,7 +26,7 @@ export const Task = ({task, showMore, setShowMore}) => {
       )}
       {_id === showMore && (
         <>
-          <Label>{description}</Label>
+          <SubLabel> {description}</SubLabel>
           <SubLabel lowOpacity> Creado por aaaaaaaaaaa</SubLabel>
           <SubLabel lowOpacity>
             Inicio: {createdAt.split('T', 1)} | Finalizacion: 1232-13-12
@@ -63,4 +63,5 @@ const ContainerInfoTask = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 100%;
 `

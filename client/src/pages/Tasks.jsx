@@ -13,14 +13,22 @@ export const Tasks = ( {section}) => {
 
   const dispatch = useDispatch()
   const token = localStorage.getItem('token')
-
   const tasks = useSelector(state => state.tasks)
+
+  const [showMore, setShowMore] = useState(null)
+  const [taskNew, setTaskNew] = useState([])
+  const [taskInProgress, setTaskInProgress] = useState([])
+  const [taskFinished, setTaskFinished] = useState([])
 
   useEffect(() => {
     dispatch(fetchTasks(token))
   }, [])
 
-  const [showMore, setShowMore] = useState(null)
+  useEffect(() => {
+    setTaskNew(tasks.filter(task => task.status === 'new'))
+    setTaskInProgress(tasks.filter(task => task.status === 'inProgress'))
+    setTaskFinished(tasks.filter(task => task.status === 'finished'))
+  }, [tasks])
 
   return (
     <>
@@ -34,12 +42,23 @@ export const Tasks = ( {section}) => {
 
         <TasksList>
           <Card headerChildren={<Label semiBold>Próximas</Label>}>
-            {tasks.filter(task => task.status === 'new').map(task => (
+            {taskNew.length === 0 && <Label semiBold>No hay tareas</Label>}
+            {taskNew.map(task => (
               <Task key={task._id} task={task} showMore={showMore} setShowMore={setShowMore} />
             ))}
           </Card>
-          <Card headerChildren={<Label semiBold>En proceso</Label>}></Card>
-          <Card headerChildren={<Label semiBold>Realizadas</Label>}></Card>
+          <Card headerChildren={<Label semiBold>En proceso</Label>}>
+            {taskInProgress.length === 0 && <Label semiBold>No hay tareas</Label>}
+            {taskInProgress.map(task => (
+              <Task key={task._id} task={task} showMore={showMore} setShowMore={setShowMore} />
+            ))}
+          </Card>
+          <Card headerChildren={<Label semiBold>Realizadas</Label>}>
+            {taskFinished.length === 0 && <Label semiBold>No hay tareas</Label>}
+            {taskFinished.map(task => (
+              <Task key={task._id} task={task} showMore={showMore} setShowMore={setShowMore} />
+            ))}
+          </Card>
         </TasksList>
       </Content>
     </>
@@ -55,5 +74,7 @@ const TasksHeader = styled.div`
 const TasksList = styled.div`
   display: flex;
   gap: 32px;
+  align-items: baseline;
+  
 `
 

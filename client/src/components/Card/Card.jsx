@@ -28,6 +28,7 @@ const CardContainer = styled.div`
   background-color: ${({theme}) => theme.mode.primary}E0;
   background-color: ${p => p.defaultColor && p.theme.mode.primary}E0;
   background-color: ${p => p.comment && p.theme.mode.alternative}E0;
+  width: 100%;
 `
 
 const CardHeader = styled.div`
