@@ -12,6 +12,7 @@ import { Components } from './pages/Components'
 import ProtectRoute from './helpers/ProtectRoute'
 import { theme, styles } from './app/theme'
 import ProtectSidebar from './helpers/ProtectSidebar'
+import RedirectLogin from './helpers/RedirectLogin'
  
 function App() {
   const mode = theme.dark
@@ -26,8 +27,8 @@ function App() {
         <Route path="/trash" element={<ProtectRoute> <Tasks section={'trash'} /> </ProtectRoute>} />
         <Route path="/my-team" element={<ProtectRoute> <MyTeam /> </ProtectRoute>} />
         <Route path="/settings" element={<ProtectRoute> <Settings /> </ProtectRoute>} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<RedirectLogin><Login /></RedirectLogin>} />
+        <Route path="/register" element={<RedirectLogin> <Register /> </RedirectLogin>} />
         <Route path="/components" element={<ProtectRoute> <Components /> </ProtectRoute>} />
         <Route path="*" element={<ProtectRoute> <Error404 /> </ProtectRoute>} />
       </Routes>

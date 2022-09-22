@@ -5,12 +5,29 @@ import { TextButtonSmall } from './Button/TextButtonSmall'
 import { IconButton } from './Button/IconButton'
 import { Icon, icons } from './Icon'
 import { useDispatch, useSelector } from 'react-redux'
-import { getUser } from '../redux/actions/userActions'
+import { getUser, signOut } from '../redux/actions/userActions'
+import { Spinner } from './Spinner'
+
 
 export const Sidebar = () => {
 
   const [openSidebar, setOpenSidebar] = useState(false)
   const [path, setPath] = useState(window.location.pathname)
+  const dispatch = useDispatch()
+  const user = useSelector(state => state.user.user)
+  const token = localStorage.getItem('token')
+  const [ loading, setLoading ] = useState(true)
+
+  useEffect(() => {
+    dispatch(getUser(token)).then(()=>
+      setLoading(false)
+    )
+  }, [])
+
+  const handleClick = newPath => {
+    setPath(newPath)
+    setOpenSidebar(openSidebar => !openSidebar)
+  }
 
   const dispatch = useDispatch()
   const user = useSelector(state => state.user.user)
@@ -36,48 +53,50 @@ export const Sidebar = () => {
       </SidebarTopContainer>
       <NavLinks openSidebar={openSidebar}>
         <li>
-          <TextButtonSmall noUnderline lowOpacity to='/' onClick={() => setPath('/')} active={path === '/' || path === '/assigned'}>
+          <TextButtonSmall noUnderline lowOpacity to='/' onClick={() => handleClick('/')} active={path === '/' || path === '/assigned' || path === '/login'}>
             <Icon as={icons.task} size={20} mr={8} />
             Tareas
           </TextButtonSmall>
           <ul className='innerList'>
-            <TextButtonSmall noUnderline lowOpacity to='/' onClick={() => setPath('/')} active={path === '/'}>
+            <TextButtonSmall noUnderline lowOpacity to='/' onClick={() => handleClick('/')} active={path === '/' || path === '/login'}>
               <Icon as={icons.allTasks} size={20} mr={8} />
               Todas
             </TextButtonSmall>
-            <TextButtonSmall noUnderline lowOpacity to='/assigned' onClick={() => setPath('/assigned')} active={path === '/assigned'}>
+            <TextButtonSmall noUnderline lowOpacity to='/assigned' onClick={() => handleClick('/assigned')} active={path === '/assigned'}>
               <Icon as={icons.assigned} size={20} mr={8} />
               Asignadas
             </TextButtonSmall>
           </ul>
         </li>
         <li>
-          <TextButtonSmall noUnderline lowOpacity to='/trash' onClick={() => setPath('/trash')} active={path === '/trash'}>
+          <TextButtonSmall noUnderline lowOpacity to='/trash' onClick={() => handleClick('/trash')} active={path === '/trash'}>
             <Icon as={icons.trash} size={20} mr={8} />
             Papelera
           </TextButtonSmall>
         </li>
         <li>
-          <TextButtonSmall noUnderline lowOpacity to='/my-team' onClick={() => setPath('/my-team')} active={path === '/my-team'}>
+          <TextButtonSmall noUnderline lowOpacity to='/my-team' onClick={() => handleClick('/my-team')} active={path === '/my-team'}>
             <Icon as={icons.team} size={20} mr={8} />
             Mi equipo
           </TextButtonSmall>
         </li>
         <li>
-          <TextButtonSmall noUnderline lowOpacity to='/settings' onClick={() => setPath('/settings')} active={path === '/settings'}>
+          <TextButtonSmall noUnderline lowOpacity to='/settings' onClick={() => handleClick('/settings')} active={path === '/settings'}>
             <Icon as={icons.settings} size={20} mr={8} />
             Configuración
           </TextButtonSmall>
         </li>
         <li>
-          <TextButtonSmall noUnderline lowOpacity to='#'>
+          <TextButtonSmall noUnderline lowOpacity onClick={() => dispatch(signOut())}>
             <Icon as={icons.logOut} size={20} mr={8} />
             Cerrar sesión
           </TextButtonSmall>
         </li>
       </NavLinks>
       <ProfileContainer openSidebar={openSidebar}>
-        {!loading ? <Profile imageSize={32} imagePath={user.profilePhoto} labelText={user.fullname} subLabelText={user.teamId}/> : <>Cargando...</>}
+
+        {loading ? <Spinner /> : <Profile imageSize={32} imagePath={user.profilePhoto} labelText={user.fullname} subLabelText={`Miembro de ${user.teamId}`}/>}
+
       </ProfileContainer>
     </SidebarContainer>
   )
@@ -92,6 +111,7 @@ const SidebarContainer = styled.nav`
   background-color: ${({theme}) => theme.mode.secondary};
   display: flex;
   flex-direction: column;
+  user-select: none;
 
   .logo {
     width: 60%;

@@ -73,8 +73,20 @@ option { color: white; }
 
 html {
 	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+	overflow-y: scroll;
 }
 
 * {
 	font-family: "Noto Sans"!important;
+}
+
+::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 9px;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: rgba(0,0,0);
 }
