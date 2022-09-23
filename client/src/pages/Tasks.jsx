@@ -19,16 +19,13 @@ export const Tasks = ( {section}) => {
   const user = useSelector(state => state.user.user)
 
   const [loading, setLoading] = useState(true)
-  const [showMore, setShowMore] = useState(null)
-
-  const [ list, setList ] = useState([])
-  
+  const [list, setList] = useState([])
   const [newTasks, setNewTasks] = useState([])
   const [inProgressTasks, setInProgressTasks] = useState([])
   const [finishedTasks, setFinishedTasks] = useState([])
+  const [openCloseModal, setOpenCloseModal] = useState(false)
   
   const sampleLocation = useLocation()
-
   
   const fetchTaskReq = async () => {
     setLoading(true)
@@ -36,10 +33,9 @@ export const Tasks = ( {section}) => {
       await dispatch(fetchTasks(token))
     } catch(error) {
       console.log(error)
-      setLoading(true)
     }
+    setLoading(false)
   }
-
 
   useEffect(() => {
     fetchTaskReq()
@@ -50,11 +46,7 @@ export const Tasks = ( {section}) => {
     updateNewTasks()
     updateInProgressTasks()
     updateFinishedTasks()
-  
-    if (list.length > 0) {
-      return setLoading(false)
-    }
-  }, [tasks, sampleLocation])
+  }, [tasks, sampleLocation, list])
 
   
 
@@ -97,21 +89,15 @@ export const Tasks = ( {section}) => {
     return setFinishedTasks(list.filter(task => task.status === 'finished' && task.deleteStatus === deleteStat))
   }
 
-
-
-
-
-
-
-
   return (
     <>
       <Content>
+        
         <TasksHeader>
           {!section && <Title>Todas las tareas</Title>}
           {section === 'assigned' && <Title>Mis tareas</Title>}
           {section === 'trash' && <Title>Papelera</Title>}
-          {(!section || section === 'assigned') && <BoxButton><Label black medium>Crear tarea</Label></BoxButton>}
+          {(!section || section === 'assigned') && <BoxButton onClick={()=>{setOpenCloseModal(!openCloseModal)}}><Label black medium>Crear tarea</Label></BoxButton>}
         </TasksHeader>
 
         <TasksList>
@@ -121,7 +107,7 @@ export const Tasks = ( {section}) => {
               loading ? <Spinner /> :
                 newTasks.length === 0 ? <Label center>No hay tareas</Label> :
                   newTasks.map(task => ( 
-                    <Task key={task._id} task={task} showMore={showMore} setShowMore={setShowMore} />))
+                    <Task status='new' key={task._id} task={task}/>))
             }
           </Card>
           
@@ -130,7 +116,7 @@ export const Tasks = ( {section}) => {
               loading ? <Spinner /> :
                 inProgressTasks.length === 0 ? <Label center>No hay tareas</Label> :
                   inProgressTasks.map(task => ( 
-                    <Task key={task._id} task={task} showMore={showMore} setShowMore={setShowMore} />))
+                    <Task status='inProgress' key={task._id} task={task}/>))
             }
           </Card>
 
@@ -139,7 +125,7 @@ export const Tasks = ( {section}) => {
               loading ? <Spinner /> :
                 finishedTasks.length === 0 ? <Label center>No hay tareas</Label> :
                   finishedTasks.map(task => ( 
-                    <Task key={task._id} task={task} showMore={showMore} setShowMore={setShowMore} />))
+                    <Task status='finished' key={task._id} task={task}/>))
             }
           </Card>
         </TasksList>
@@ -148,7 +134,6 @@ export const Tasks = ( {section}) => {
     </>
   )
 }
-
 
 const TasksHeader = styled.div`
   display: flex;
@@ -161,7 +146,7 @@ const TasksList = styled.div`
   gap: 32px;
   align-items: baseline;
 
-  @media screen and (max-width: ${p => p.theme.styles.breakpoints.large}) {
+  @media screen and (max-width: ${p => p.theme.styles.breakpoints.medium}) {
     flex-direction: column;
   }
 `

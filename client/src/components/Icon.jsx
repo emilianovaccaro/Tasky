@@ -37,7 +37,7 @@ export const Icon = styled.svg`
   vertical-align: middle;
   margin-right: ${p => p.mr}px;
   ${p => getSize(p)}
-  margin-top: ${p => p.noText && '0'};
+  margin-top: ${p => p.notext && '0'};
 
   color: ${p => p.white && p.theme.styles.colors.white};
 `

@@ -20,5 +20,6 @@ export const Label = styled.label`
 
   &:hover {
     opacity: ${p => p.button && '100%'};
+    transform: ${p => p.sidebar && 'scale(1.05)'};
   }
 `

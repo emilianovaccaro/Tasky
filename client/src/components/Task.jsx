@@ -6,43 +6,53 @@ import { SubLabel } from './Text/SubLabel'
 import { IconButton } from './Button/IconButton'
 import { Icon, icons } from './Icon'
 import { useDispatch, useSelector } from 'react-redux'
-import { updateTask } from '../redux/actions/tasksActions'
+import { deleteTask, updateTask } from '../redux/actions/tasksActions'
 import { Card } from './Card/Card'
 import { Profile } from './Profile'
 
-export const Task = ({task, showMore, setShowMore}) => {
+export const Task = ({task}) => {
   const { team } = useSelector(state => state.user)
-  const {_id, title, createdAt, assignedTo, description, comments, deleteStatus, userId } = task
-  const [ taskDeleteStat, setTaskDeleteStat ] = useState(deleteStatus)
+
+  const {_id, title, assignedTo, description, comments, deleteStatus, userId, priority, status } = task
+  const [showMore, setShowMore] = useState(null)
+
   const token = localStorage.getItem('token')
   const dispatch = useDispatch()  
 
-
-  let lastComment = []
+  let lastComment 
   if ( comments.length > 0 ) {
     lastComment = comments[comments.length - 1]
   }
+
+
   const creator = team.find(teammate => teammate._id == userId )?.username
   const commentor = team.find(teammate => teammate.username == lastComment?.author)
 
-
   const handleDeleteTask = async () => {
-    setTaskDeleteStat(!taskDeleteStat)
     try {
-      return await dispatch(updateTask(_id, {deleteStatus: taskDeleteStat}, token))
+      return await dispatch(updateTask(_id, {deleteStatus: !deleteStatus}, token))
     } catch(error) {
       return console.log(error)
     }
   }
 
+  const finishDeleting = async () => {
+    try {
+      return await dispatch(deleteTask(_id, token))
+    } catch(error) {
+      return console.log(error)
+    }
+  }
 
   return (
-    <TaskCard status={'toDo'} key={_id}>
-      <Label>{title.substring(0, 35)}</Label>
+    <TaskCard status={status} key={_id}>
+      <Label>{title.substring(0, 32)}</Label>
       <ContainerInfoTask>
-        <SubLabel lowOpacity>{assignedTo}</SubLabel>
-        <SubLabel priority lowPriority>
-          bajo
+        <SubLabel lowOpacity>Asignada a {assignedTo}</SubLabel>
+        <SubLabel priority lowPriority={priority === 'low'} mediumPriority={priority === 'medium'} highPriority={priority === 'high'}>
+          {priority === 'low' && 'bajo'}
+          {priority === 'medium' && 'medio'}
+          {priority === 'high' && 'alto'}
         </SubLabel>
       </ContainerInfoTask>
       {_id !== showMore && (
@@ -52,44 +62,53 @@ export const Task = ({task, showMore, setShowMore}) => {
       )}
       {_id === showMore && (
         <>
-          <SubLabel> {description}</SubLabel>
-          <SubLabel lowOpacity>{creator}</SubLabel>
-          <SubLabel lowOpacity>
-            Inicio: {createdAt.split('T', 1)} | Finalización: 1232-13-12
-          </SubLabel>
-          <Line />
           <ContainerInfoTask>
+            <SubLabel> {description}</SubLabel>
+          </ContainerInfoTask>
+          <ContainerInfoTask>
+            <SubLabel lowOpacity>Creada por {creator}</SubLabel>
+          </ContainerInfoTask>
+          <Line />
+          <>
             {(comments.length > 0) && (
               <>
-                <CommentsSection>
+                <ContainerInfoTask marginBottom>
                   <SubLabel>Comentarios</SubLabel>
-                  <SubLabel button noUnderline lowOpacity>
-                    <Icon mr='4' as={icons.plus} size='12' />
-                    Añadir
-                  </SubLabel>
-                </CommentsSection>
-                <Card comment>
-                  <SubLabel>{lastComment.comment || false}</SubLabel>
-                  <Profile
-                    imageSize={16}
-                    imagePath={commentor.profilePhoto || false}
-                    subLabelText={commentor.fullname || lastComment.author}
-                  />
-                </Card>
+                  {
+                    !deleteStatus && 
+                    <SubLabel button noUnderline lowOpacity>
+                      <Icon mr='4' as={icons.plus} size='12' />
+                        Añadir
+                    </SubLabel>
+                  }
+                </ContainerInfoTask>
+                <>
+                  <Card comment>
+                    <SubLabel>{lastComment.comment || false}</SubLabel>
+                    <Profile
+                      imageSize={16}
+                      imagePath={commentor.profilePhoto || false}
+                      subLabelText={commentor.fullname || lastComment.author}
+                    />
+                  </Card>
+                </>
               </>
             )}
-            
-          </ContainerInfoTask>
-          <div>
-            <SubLabel button noUnderline onClick={() => handleDeleteTask()} lowOpacity>
-              <Icon as={deleteStatus ? icons.restore : icons.edit} size='16' />
-              {deleteStatus ? 'Restaurar tarea' : 'Editar tarea'}
+
+          </>
+          <ActionButtons>
+            <SubLabel button noUnderline onClick={() => handleDeleteTask(_id)} lowOpacity>
+              <Icon mr='8' as={deleteStatus ? icons.restore : icons.edit} size='16' />
+              {deleteStatus ? 'Restaurar' : 'Editar'}
             </SubLabel>
-            <SubLabel button noUnderline onClick={() => handleDeleteTask()} lowOpacity>
-              <Icon as={icons.trash} size='16' />
-              {deleteStatus ? 'Eliminar defenitivamente' : 'Eliminar tarea'}
+            <SubLabel button noUnderline 
+              onClick={deleteStatus ? () => finishDeleting(_id) : () => handleDeleteTask(_id)} lowOpacity
+            >
+              <Icon mr='8' as={icons.trash} size='16' />
+              {deleteStatus ? 'Eliminar definitivamente' : 'Enviar a papelera'}
+
             </SubLabel>
-          </div>
+          </ActionButtons>
           <IconButton onClick={() => setShowMore(null)}>
             <Icon as={icons.arrowUp} white={'white'} />
           </IconButton>
@@ -101,15 +120,18 @@ export const Task = ({task, showMore, setShowMore}) => {
 
 const ContainerInfoTask = styled.div`
   display: flex;
-  flex-direction: column;
-  gap: 10px;
+  gap: 8px;
   justify-content: space-between;
   width: 100%;
+  align-items: center;
+  margin: 5px 0 ;
+  margin: ${p => p.marginBottom && '5px 0 10px 0'};
 `
 
-const CommentsSection = styled.div`
+const ActionButtons = styled.div`
   display: flex;
-  justify-content: space-between;
+  gap: 16px;
+  margin: 16px 0;
 `
 
 const Line = styled.hr`
@@ -119,5 +141,5 @@ const Line = styled.hr`
   opacity: .5;
   color: ${p => p.theme.styles.colors.white};
   background-color: ${p => p.theme.styles.colors.white};
-  margin: 16px 0;
+  
 `

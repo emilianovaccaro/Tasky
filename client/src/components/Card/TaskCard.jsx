@@ -16,9 +16,12 @@ const CardContainer = styled.div`
   align-items: center;
   border-radius: ${p => p.theme.styles.borderRadius.medium};
   background-color: ${({theme}) => theme.mode.tertiary}E0;
-  border-left: 24px solid ${p => p.status === 'finished' ? p.theme.styles.colors.lightblue : p.status === 'inProgress' ? p.theme.styles.colors.yellow : p.status === 'toDo' && p.theme.styles.colors.green};
+  border-left: 32px solid ${p => p.status === 'finished' ? p.theme.styles.colors.lightblue : p.status === 'inProgress' ? p.theme.styles.colors.yellow : p.theme.styles.colors.green};
   padding: ${p => p.theme.styles.padding.intermediate};
   
+  @media screen and (max-width: ${p => p.theme.styles.breakpoints.medium}) {
+    border-left: 24px solid ${p => p.status === 'finished' ? p.theme.styles.colors.lightblue : p.status === 'inProgress' ? p.theme.styles.colors.yellow : p.theme.styles.colors.green};
+  }
 `
 
 const CardChildren = styled.div`

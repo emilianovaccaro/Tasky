@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import { Card } from '../components/Card/Card'
 import { Label } from '../components/Text/Label'
@@ -12,13 +12,15 @@ import * as yup from 'yup'
 import { useDispatch } from 'react-redux'
 import { register } from '../redux/actions/userActions'
 import { useNavigate } from 'react-router-dom'
+import { SubLabel } from '../components/Text/SubLabel'
 
 
 export const Register = () => {
-  const [section, setSection] = React.useState('page-1')
-
+  const [section, setSection] = useState('page-1')
+  const [ dbError, setDbError ] = useState('')
   const navigate = useNavigate()
   const dispatch = useDispatch()
+
 
   const validationSchema = yup.object().shape({
     fullname: 
@@ -32,16 +34,16 @@ export const Register = () => {
     email: 
       yup.string()
         .required('campo obligatorio')
-        .email('email invalido'),
+        .email('email inválido'),
     password: 
       yup.string()
-        .min(6, 'el minimo de caracteres es 6')
+        .min(6, 'mínimo 6 caracteres')
         .required('campo obligatorio'),
     repeatPassword:
       yup.string()
         .required('campo obligatorio')
-        .min(6, 'El minimo de caracteres es 6')
-        .oneOf([yup.ref('password')], 'La contraseña no coincide'),
+        .min(6, 'mínimo 6 caracteres')
+        .oneOf([yup.ref('password')], 'las contraseñas no coinciden'),
     teamId: 
       yup.string()
         .required('ingrese un ID'),
@@ -51,7 +53,7 @@ export const Register = () => {
     phone:
       yup.number('solo se permiten números')
         .required('campo obligatorio')
-        .min(6, 'el minimo de caracteres es 6'),
+        .min(6, 'mínimo 6 caracteres'),
     file: 
       yup.mixed(),
   })
@@ -72,22 +74,20 @@ export const Register = () => {
     },
     validationSchema,
     onSubmit: async(values) => {
-
       
-
-      // formData.append('image', values.file)
-      // formData.append('name', 'asdfad')
+      if (values.isAdmin === 'true') {
+        values.isAdmin = true
+      } else if ( values.isAdmin === 'false') {
+        values.isAdmin = false
+      }
       
-
-      console.log(values)
-      alert(JSON.stringify(values, null, 2))
       try {
+        setDbError('')
         await dispatch(register(values))
         navigate('/')
       } catch (error) {
-        console.log(error.message)
+        setDbError(error.response.data)
       }
-      
     },
   })
 
@@ -147,6 +147,7 @@ export const Register = () => {
               <Label button icon onClick={() => setSection('page-1')}><Icon as={icons.back} size={20} mr={8} />Atrás</Label>
               <BoxButton type='submit' ><Label black medium>Confirmar</Label></BoxButton>
             </ButtonsContainer>
+            {dbError && <SubLabel error registerError>{`${dbError?.msg}`}</SubLabel>}
           </>
           }
         </form>

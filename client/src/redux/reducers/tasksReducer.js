@@ -13,7 +13,7 @@ const tasksReducer = ( state = [], action ) => {
   case CREATE_TASK:
     return [ ...state, action.payload ]
   case DELETE_TASK:
-    return state = state.filter(( id ) => id !== action.payload)
+    return state = state.filter(({ _id }) => _id !== action.payload)
   case UPDATE_TASK: {
     const updatedItems = state.map(item => {
       if(item._id === action.payload._id){

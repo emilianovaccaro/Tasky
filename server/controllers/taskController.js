@@ -18,10 +18,11 @@ const getTasks = async (req,res) => {
 // post api/task
 // access private
 const postTask = async (req, res) => {
-  const { title, priority, description, status, assignedTo, timeLimit, deleteStatus } = req.body
+  const { title, priority, description, status, assignedTo, deleteStatus } = req.body
+
   //validate body
   if (!title || !priority || !status) {
-   return res.status(400).json({msg: 'Body/Form incomplete'})
+   return res.status(400).json({msg: 'Formulario incompleto'})
   }
 
   try {
@@ -31,7 +32,6 @@ const postTask = async (req, res) => {
       status,
       description,
       assignedTo,
-      timeLimit,
       deleteStatus,
       teamId: req.user.teamId,
       userId: req.user.id,
@@ -50,26 +50,31 @@ const postTask = async (req, res) => {
 // private
 const editTask = async (req, res) => {
   try {
-    const { title, description, timeLimit, status, priority, assignedTo, deleteStatus, comments } = req.body
+    const { title, description, status, priority, assignedTo, deleteStatus, comments } = req.body
     const { id } = req.params
-    
+
     const task = await Task.findById(id)
 
-    if (!task) { return res.status(404).json({ msg: 'Task not found' }) }
-    if (task.teamId !== req.user.teamId) return res.status(403).json({msg: "You don't have the permissions"})
+    if (!task) { return res.status(404).json({ msg: 'Tarea no encontrada' }) }
+    if (task.teamId !== req.user.teamId) return res.status(403).json({msg: "No tienes los permisos"})
 
 
     if(comments) {
       task.comments = [...task.comments, { comment: comments, author: req.user.username }]
     }
 
+    if (deleteStatus === false) {
+      task.deleteStatus = false
+    } else if (deleteStatus === true) {
+      task.deleteStatus = true
+    }
+
+
     task.title = title || task.title
     task.description = description || task.description
-    task.timeLimit = timeLimit || task.timeLimit
     task.status = status || task.status
     task.priority = priority || task.priority
     task.assignedTo = assignedTo || task.assignedTo
-    task.deleteStatus = deleteStatus || task.deleteStatus
     
     await task.save()
 
@@ -88,11 +93,11 @@ const deleteTask = async (req, res) => {
 
     const task = await Task.findById(req.params.id)
 
-    if (!task) { return res.status(404).json({ msg: 'Task not found' }) }
-    if (task.teamId !== req.user.teamId) return res.status(403).json({msg: "You don't have the permissions"})
+    if (!task) { return res.status(404).json({ msg: 'Tarea no encontrada' }) }
+    if (task.teamId !== req.user.teamId) return res.status(403).json({msg: 'No tienes los permisos'})
 
     if ((task.userId.toString() !== req.user.id) || ((task.teamId.toString() !== req.user.teamId) && !req.user.isAdmin)) {
-      return res.status(401).json({ msg: 'Error-User not authorized' })
+      return res.status(401).json({ msg: 'Usuario no autorizado' })
     }
     
     await task.remove()
@@ -109,14 +114,14 @@ const addComment = async(req, res) => {
 
     const task = await Task.findById(req.params.id)
     
-    if (!task) return res.status(404).json({ msg: 'Task not found' }) 
+    if (!task) return res.status(404).json({ msg: 'Tarea no encontrada' }) 
 
     if ((task.userId.toString() !== req.user.id) || ((task.teamId.toString() !== req.user.teamId) && !req.user.isAdmin)) {
-      return res.status(401).json({ msg: 'Error-User not authorized' })
+      return res.status(401).json({ msg: 'Usuario no autorizado' })
     }
 
-    if (!body) return res.status(404).json({ msg: 'Fill in all the fields' }) 
-    if (task.teamId !== req.user.teamId) return res.status(403).json({msg: "You don't have the permissions"})
+    if (!body) return res.status(404).json({ msg: 'Usuario no autorizado' }) 
+    if (task.teamId !== req.user.teamId) return res.status(403).json({msg: 'No tienes los permisos'})
     
     task.comments = [...task.comments, { body,author: req.user.username }]
 
@@ -128,7 +133,6 @@ const addComment = async(req, res) => {
     return res.status(500).json({ message: error.message })
   }
 }
-
 
 module.exports = {
   getTasks,

@@ -7,6 +7,7 @@ import { Icon, icons } from './Icon'
 import { useDispatch, useSelector } from 'react-redux'
 import { getTeam, getUser, signOut } from '../redux/actions/userActions'
 import { Spinner } from './Spinner'
+import { Link } from 'react-router-dom'
 
 
 export const Sidebar = () => {
@@ -41,47 +42,47 @@ export const Sidebar = () => {
   return(
     <SidebarContainer openSidebar={openSidebar}>
       <SidebarTopContainer>
-        <img src={'../src/assets/logo-banner.svg'} alt={'Tasky logo'} className='logo' />
+        <Link to='/' style={{'textAlign': 'center'}}><img src={'../src/assets/logo-banner.svg'} alt={'Tasky logo'} className='logo' /></Link>
         <hr />
         <IconButton className='hamburgerMenu' onClick={() => setOpenSidebar(openSidebar => !openSidebar)}><Icon as={icons.hamburgerMenu} white={'white'} /></IconButton>
       </SidebarTopContainer>
       <NavLinks openSidebar={openSidebar}>
         <li>
-          <TextButtonSmall noUnderline lowOpacity to='/' onClick={() => handleClick('/')} active={path === '/' || path === '/assigned' || path === '/login'}>
+          <TextButtonSmall sidebar noUnderline lowOpacity to='/' onClick={() => handleClick('/')} active={path === '/' || path === '/assigned' || path === '/login'}>
             <Icon as={icons.task} size={20} mr={8} />
             Tareas
           </TextButtonSmall>
           <ul className='innerList'>
-            <TextButtonSmall noUnderline lowOpacity to='/' onClick={() => handleClick('/')} active={path === '/' || path === '/login'}>
+            <TextButtonSmall sidebar noUnderline lowOpacity to='/' onClick={() => handleClick('/')} active={path === '/' || path === '/login'}>
               <Icon as={icons.allTasks} size={20} mr={8} />
               Todas
             </TextButtonSmall>
-            <TextButtonSmall noUnderline lowOpacity to='/assigned' onClick={() => handleClick('/assigned')} active={path === '/assigned'}>
+            <TextButtonSmall sidebar noUnderline lowOpacity to='/assigned' onClick={() => handleClick('/assigned')} active={path === '/assigned'}>
               <Icon as={icons.assigned} size={20} mr={8} />
               Asignadas
             </TextButtonSmall>
           </ul>
         </li>
         <li>
-          <TextButtonSmall noUnderline lowOpacity to='/trash' onClick={() => handleClick('/trash')} active={path === '/trash'}>
+          <TextButtonSmall sidebar noUnderline lowOpacity to='/trash' onClick={() => handleClick('/trash')} active={path === '/trash'}>
             <Icon as={icons.trash} size={20} mr={8} />
             Papelera
           </TextButtonSmall>
         </li>
         <li>
-          <TextButtonSmall noUnderline lowOpacity to='/my-team' onClick={() => handleClick('/my-team')} active={path === '/my-team'}>
+          <TextButtonSmall sidebar noUnderline lowOpacity to='/my-team' onClick={() => handleClick('/my-team')} active={path === '/my-team'}>
             <Icon as={icons.team} size={20} mr={8} />
             Mi equipo
           </TextButtonSmall>
         </li>
         <li>
-          <TextButtonSmall noUnderline lowOpacity to='/settings' onClick={() => handleClick('/settings')} active={path === '/settings'}>
+          <TextButtonSmall sidebar noUnderline lowOpacity to='/settings' onClick={() => handleClick('/settings')} active={path === '/settings'}>
             <Icon as={icons.settings} size={20} mr={8} />
             Configuración
           </TextButtonSmall>
         </li>
         <li>
-          <TextButtonSmall noUnderline lowOpacity onClick={() => dispatch(signOut())}>
+          <TextButtonSmall sidebar noUnderline lowOpacity onClick={() => dispatch(signOut())}>
             <Icon as={icons.logOut} size={20} mr={8} />
             Cerrar sesión
           </TextButtonSmall>
