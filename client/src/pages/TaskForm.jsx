@@ -44,6 +44,8 @@ const TaskForm = ({ toggleModal, taskValues = {} }) => {
   const { team } = useSelector(state => state.user)
   const [ taskError, setTaskError ] = useState('')
 
+  console.log(taskValues)
+
   const defaultValues = taskValues || {
     title: '',
     priority: 'low',

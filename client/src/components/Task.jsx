@@ -36,6 +36,8 @@ export const Task = ({task, toggleModal}) => {
     }
   }
 
+  console.log(task)
+
   const handleEditTask = async () => {
     toggleModal(true)
     return <TaskForm taskValues={task} />

@@ -7,7 +7,7 @@ const User = require('../models/userModel')
 // private access - userId, teamId
 const getTasks = async (req,res) => {
   try {
-    const tasks = await Task.find({ user: req.user.teamId })
+    const tasks = await Task.find({ teamId: req.user.teamId })
     res.status(200).json(tasks)
   } catch (error) {
     return res.status(500).json({ message: error.message })
