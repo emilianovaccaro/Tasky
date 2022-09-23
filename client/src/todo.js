@@ -4,6 +4,7 @@
     Hacer el reducer y acción para consumir el endpoint update profile
     Terminar el register con la foto de perfil y hacerlo funcionar (revisar un proyecto anterior)
     Ver porque hay que darle al botón de registrar arriba a la izquierda
+    La primera vez de abrir el modal se cierra
 */
 
 /*

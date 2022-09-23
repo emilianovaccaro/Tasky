@@ -13,7 +13,7 @@ import * as yup from 'yup'
 import { useDispatch } from 'react-redux'
 import { signIn } from '../redux/actions/userActions'
 import { useNavigate } from 'react-router-dom'
-
+import TaskyLogoDark from '../assets/logo-banner-dark.svg'
 
 export const Login = () => {
   const [section, setSection] = React.useState('login')
@@ -55,7 +55,7 @@ export const Login = () => {
   
   return (
     <LoginContainer>
-      <Card inputs headerChildren={ <img src={'../src/assets/logo-banner-dark.svg'} alt={'Tasky logo'} className='logo' />} defaultColor>
+      <Card inputs headerChildren={ <img src={TaskyLogoDark} alt={'Tasky logo'} className='logo' />} defaultColor>
 
         {section === 'login' &&
         <form onSubmit={handleSubmit}>

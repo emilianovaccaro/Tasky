@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getTeam, getUser, signOut } from '../redux/actions/userActions'
 import { Spinner } from './Spinner'
 import { Link } from 'react-router-dom'
-
+import TaskyLogo from '../assets/logo-banner.svg'
 
 export const Sidebar = () => {
 
@@ -42,7 +42,7 @@ export const Sidebar = () => {
   return(
     <SidebarContainer openSidebar={openSidebar}>
       <SidebarTopContainer>
-        <Link to='/' style={{'textAlign': 'center'}}><img src={'../src/assets/logo-banner.svg'} alt={'Tasky logo'} className='logo' /></Link>
+        <Link to='/' style={{'textAlign': 'center'}}><img src={TaskyLogo} alt={'Tasky logo'} className='logo' /></Link>
         <hr />
         <IconButton className='hamburgerMenu' onClick={() => setOpenSidebar(openSidebar => !openSidebar)}><Icon as={icons.hamburgerMenu} white={'white'} /></IconButton>
       </SidebarTopContainer>
