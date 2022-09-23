@@ -52,8 +52,6 @@ const editTask = async (req, res) => {
   try {
     const { title, description, status, priority, assignedTo, deleteStatus, comments } = req.body
     const { id } = req.params
-    
-    console.log(req.body)
 
     const task = await Task.findById(id)
 
