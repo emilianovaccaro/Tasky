@@ -8,15 +8,23 @@ import { fetchTasks } from '../redux/actions/tasksActions'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { Label } from '../components/Text/Label'
+import { IconButton } from '../components/Button/IconButton'
+import { Input } from '../components/Inputs/Input'
+import { Select } from '../components/Inputs/Select'
+import { TextArea } from '../components/Inputs/TextArea'
 import { Task } from '../components/Task'
 import { Spinner } from '../components/Spinner'
+import { Modal } from '../components/Modal'
 import { useLocation } from 'react-router-dom'
+import { SubLabel } from '../components/Text/SubLabel'
+import { Icon, icons } from '../components/Icon'
 
 export const Tasks = ( {section}) => {
   const dispatch = useDispatch()
   const token = localStorage.getItem('token')
   const tasks = useSelector(state => state.tasks)
   const user = useSelector(state => state.user.user)
+  const { team } = useSelector(state => state.user)
 
   const [loading, setLoading] = useState(true)
   const [list, setList] = useState([])
@@ -42,6 +50,7 @@ export const Tasks = ( {section}) => {
   }, [])
 
   useEffect(() => {
+    setOpenCloseModal(false)
     setList(tasks)
     updateNewTasks()
     updateInProgressTasks()
@@ -92,7 +101,36 @@ export const Tasks = ( {section}) => {
   return (
     <>
       <Content>
-        
+        {openCloseModal && 
+        <Modal inputs multipleInputs>
+          <InputsContainer>
+            <SubTitle>Crear tarea</SubTitle>
+            <IconButton button onClick={() => setOpenCloseModal(false)}> <Icon as={icons.close} white={'white'}  /></IconButton>
+          </InputsContainer>
+          <InputsContainer>
+            <Input name='email'  type={'email'} id="email" inputLabel={'Correo electrónico'} />
+            <Select type={'text'} id="status" inputLabel={'Estado'} >
+              <option value='new'>Nueva</option>
+              <option value='inProgress'>En proceso</option>
+              <option value='finished'>Realizada</option>
+            </Select>
+          </InputsContainer>
+          <InputsContainer>
+            <Select type={'text'} id="priority" inputLabel={'Prioridad'} >
+              <option value='low'>Baja</option>
+              <option value='medium'>Media</option>
+              <option value='high'>Alta</option>
+            </Select>
+            <Select type={'text'} id="assigned" inputLabel={'Asignado'} >
+              {team?.map(member => <option key={member._id} value={member.fullname}>{member.fullname}</option>)}
+            </Select>
+          </InputsContainer>
+          <TextArea name='description' id='description' inputLabel={'Descripción'}/>
+          <div>
+            <SubLabel button onClick={() => setOpenCloseModal(false)}>Cerrar</SubLabel>
+            <BoxButton>Crear</BoxButton>
+          </div>
+        </Modal>}
         <TasksHeader>
           {!section && <Title>Todas las tareas</Title>}
           {section === 'assigned' && <Title>Mis tareas</Title>}
@@ -102,7 +140,7 @@ export const Tasks = ( {section}) => {
 
         <TasksList>
           
-          <Card tasks tasksContent headerChildren={<SubTitle>Próximas</SubTitle>}>
+          <Card tasks tasksContent headerChildren={<SubTitle>Nuevas</SubTitle>}>
             {
               loading ? <Spinner /> :
                 newTasks.length === 0 ? <Label center>No hay tareas</Label> :
@@ -145,6 +183,17 @@ const TasksList = styled.div`
   display: flex;
   gap: 32px;
   align-items: baseline;
+
+  @media screen and (max-width: ${p => p.theme.styles.breakpoints.medium}) {
+    flex-direction: column;
+  }
+`
+
+const InputsContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
 
   @media screen and (max-width: ${p => p.theme.styles.breakpoints.medium}) {
     flex-direction: column;

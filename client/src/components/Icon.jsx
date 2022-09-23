@@ -3,7 +3,7 @@ import { AiOutlineEye, AiOutlineEyeInvisible, AiOutlineTeam, AiOutlinePlus, AiOu
 import { MdOutlineTaskAlt, MdKeyboardBackspace, MdOutlineSettingsBackupRestore } from 'react-icons/md'
 import { BsTrash, BsListUl, BsPerson, BsTelephone, BsCodeSlash } from 'react-icons/bs'
 import { FiSettings } from 'react-icons/fi'
-import { IoLogOutOutline } from 'react-icons/io5'
+import { IoLogOutOutline, IoCloseCircleOutline } from 'react-icons/io5'
 import { GiHamburgerMenu } from 'react-icons/gi'
 import { RiArrowDownSLine, RiArrowUpSLine } from 'react-icons/ri'
 import { FiEdit2 } from 'react-icons/fi'
@@ -28,6 +28,7 @@ export const icons = {
   email: AiOutlineMail,
   role: BsCodeSlash,
   restore: MdOutlineSettingsBackupRestore,
+  close: IoCloseCircleOutline,
 }
 
 export const Icon = styled.svg`

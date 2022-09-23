@@ -24,7 +24,6 @@ export const Task = ({task}) => {
     lastComment = comments[comments.length - 1]
   }
 
-
   const creator = team.find(teammate => teammate._id == userId )?.username
   const commentor = team.find(teammate => teammate.username == lastComment?.author)
 
@@ -50,9 +49,9 @@ export const Task = ({task}) => {
       <ContainerInfoTask>
         <SubLabel lowOpacity>Asignada a {assignedTo}</SubLabel>
         <SubLabel priority lowPriority={priority === 'low'} mediumPriority={priority === 'medium'} highPriority={priority === 'high'}>
-          {priority === 'low' && 'bajo'}
-          {priority === 'medium' && 'medio'}
-          {priority === 'high' && 'alto'}
+          {priority === 'low' && 'baja'}
+          {priority === 'medium' && 'media'}
+          {priority === 'high' && 'alta'}
         </SubLabel>
       </ContainerInfoTask>
       {_id !== showMore && (

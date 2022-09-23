@@ -193,7 +193,6 @@ const InputsContainer = styled.div`
   @media screen and (max-width: ${p => p.theme.styles.breakpoints.medium}) {
     flex-direction: column;
   }
-
 `
 
 const ButtonsContainer = styled.div`
