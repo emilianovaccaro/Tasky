@@ -22,9 +22,9 @@ export const Settings = ({setMode}) => {
 
   const handleBackground = (values) => {
     localStorage.setItem('background', values)
-    values === 'forest' && (document.body.style.backgroundImage = Forest)
-    values === 'sunset' && (document.body.style.backgroundImage = Sunset)
-    values === 'mountain' && (document.body.style.backgroundImage = Mountain)
+    values === 'forest' && (document.body.style.backgroundImage = `url(${Forest})`)
+    values === 'sunset' && (document.body.style.backgroundImage = `url(${Sunset})`)
+    values === 'mountain' && (document.body.style.backgroundImage = `url(${Mountain}`)
   }
 
   return (

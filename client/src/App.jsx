@@ -23,10 +23,10 @@ function App() {
   
   useEffect(()=> {
     setMode(currentTheme(localStorage.getItem('theme')))
-    const background = localStorage.getItem('background')
-    background === 'forest' && (document.body.style.backgroundImage = Forest)
-    background === 'sunset' && (document.body.style.backgroundImage = Sunset)
-    background === 'mountain' && (document.body.style.backgroundImage = Mountain)
+    const background = localStorage.getItem('background') || 'forest'
+    background === 'forest' && (document.body.style.backgroundImage = `url(${Forest})`)
+    background === 'sunset' && (document.body.style.backgroundImage = `url(${Sunset})`)
+    background === 'mountain' && (document.body.style.backgroundImage = `url(${Mountain}`)
   },[])
 
   return (
