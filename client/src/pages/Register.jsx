@@ -16,11 +16,10 @@ import { useNavigate } from 'react-router-dom'
 
 export const Register = () => {
   const [section, setSection] = useState('page-1')
-  const [ dbError, setDbError ] = useState([])
+  const [ dbError, setDbError ] = useState('')
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  
-  console.log(dbError)
+
 
   const validationSchema = yup.object().shape({
     fullname: 
@@ -80,15 +79,15 @@ export const Register = () => {
       } else if ( values.isAdmin === 'false') {
         values.isAdmin = false
       }
-
+      
       try {
+        setDbError('')
         await dispatch(register(values))
         navigate('/')
       } catch (error) {
         setDbError(JSON.stringify(error.response.data))
         alert(JSON.stringify(error.response.data))
       }
-      
     },
   })
 
@@ -148,6 +147,7 @@ export const Register = () => {
               <Label button icon onClick={() => setSection('page-1')}><Icon as={icons.back} size={20} mr={8} />Atrás</Label>
               <BoxButton type='submit' ><Label black medium>Confirmar</Label></BoxButton>
             </ButtonsContainer>
+            
           </>
           }
         </form>

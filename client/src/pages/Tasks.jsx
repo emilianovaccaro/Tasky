@@ -31,6 +31,7 @@ export const Tasks = ( {section}) => {
     setLoading(true)
     try {
       await dispatch(fetchTasks(token))
+      setLoading(false)
     } catch(error) {
       console.log(error)
       setLoading(true)
@@ -46,10 +47,6 @@ export const Tasks = ( {section}) => {
     updateNewTasks()
     updateInProgressTasks()
     updateFinishedTasks()
-  
-    if (list.length > 0) {
-      return setLoading(false)
-    }
   }, [tasks, sampleLocation, list])
 
   
