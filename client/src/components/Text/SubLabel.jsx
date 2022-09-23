@@ -18,4 +18,7 @@ export const SubLabel = styled.label`
   color: ${p => p.error && p.theme.styles.colors.red};
   margin-top: ${p => p.error && '8px'};
   margin-bottom: ${p => p.error && '8px'};
+  margin-bottom: ${p => p.registerError && '0'};
+  margin-bottom: ${p => p.registerError && '0'};
+  text-align: ${p => p.registerError && 'center'};
 `

@@ -31,11 +31,10 @@ export const Tasks = ( {section}) => {
     setLoading(true)
     try {
       await dispatch(fetchTasks(token))
-      setLoading(false)
     } catch(error) {
       console.log(error)
-      setLoading(true)
     }
+    setLoading(false)
   }
 
   useEffect(() => {
@@ -150,10 +149,4 @@ const TasksList = styled.div`
   @media screen and (max-width: ${p => p.theme.styles.breakpoints.medium}) {
     flex-direction: column;
   }
-`
-
-const ModalContainer = styled.div`
-  width: 100vw;
-  height: 100vh;
-  background: red;
 `

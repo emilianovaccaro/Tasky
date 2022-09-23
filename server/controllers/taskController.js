@@ -22,7 +22,7 @@ const postTask = async (req, res) => {
 
   //validate body
   if (!title || !priority || !status) {
-   return res.status(400).json({msg: 'Body/Form incomplete'})
+   return res.status(400).json({msg: 'Formulario incompleto'})
   }
 
   try {
@@ -55,8 +55,8 @@ const editTask = async (req, res) => {
 
     const task = await Task.findById(id)
 
-    if (!task) { return res.status(404).json({ msg: 'Task not found' }) }
-    if (task.teamId !== req.user.teamId) return res.status(403).json({msg: "You don't have the permissions"})
+    if (!task) { return res.status(404).json({ msg: 'Tarea no encontrada' }) }
+    if (task.teamId !== req.user.teamId) return res.status(403).json({msg: "No tienes los permisos"})
 
 
     if(comments) {
@@ -93,11 +93,11 @@ const deleteTask = async (req, res) => {
 
     const task = await Task.findById(req.params.id)
 
-    if (!task) { return res.status(404).json({ msg: 'Task not found' }) }
-    if (task.teamId !== req.user.teamId) return res.status(403).json({msg: "You don't have the permissions"})
+    if (!task) { return res.status(404).json({ msg: 'Tarea no encontrada' }) }
+    if (task.teamId !== req.user.teamId) return res.status(403).json({msg: 'No tienes los permisos'})
 
     if ((task.userId.toString() !== req.user.id) || ((task.teamId.toString() !== req.user.teamId) && !req.user.isAdmin)) {
-      return res.status(401).json({ msg: 'Error-User not authorized' })
+      return res.status(401).json({ msg: 'Usuario no autorizado' })
     }
     
     await task.remove()
@@ -114,14 +114,14 @@ const addComment = async(req, res) => {
 
     const task = await Task.findById(req.params.id)
     
-    if (!task) return res.status(404).json({ msg: 'Task not found' }) 
+    if (!task) return res.status(404).json({ msg: 'Tarea no encontrada' }) 
 
     if ((task.userId.toString() !== req.user.id) || ((task.teamId.toString() !== req.user.teamId) && !req.user.isAdmin)) {
-      return res.status(401).json({ msg: 'Error-User not authorized' })
+      return res.status(401).json({ msg: 'Usuario no autorizado' })
     }
 
-    if (!body) return res.status(404).json({ msg: 'Fill in all the fields' }) 
-    if (task.teamId !== req.user.teamId) return res.status(403).json({msg: "You don't have the permissions"})
+    if (!body) return res.status(404).json({ msg: 'Usuario no autorizado' }) 
+    if (task.teamId !== req.user.teamId) return res.status(403).json({msg: 'No tienes los permisos'})
     
     task.comments = [...task.comments, { body,author: req.user.username }]
 
@@ -133,7 +133,6 @@ const addComment = async(req, res) => {
     return res.status(500).json({ message: error.message })
   }
 }
-
 
 module.exports = {
   getTasks,

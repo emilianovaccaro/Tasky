@@ -3,23 +3,23 @@ import { Title } from '../components/Text/Title'
 import { Label } from '../components/Text/Label'
 import { Content } from '../components/Content'
 import { TextButtonSmall } from '../components/Button/TextButtonSmall'
-import useTheme from '../hooks/useTheme'
+import ForestThumb from '../assets/background-forest-thumb.jpg'
+import SunsetThumb from '../assets/background-sunset-thumb.jpg'
+import MountainThumb from '../assets/background-mountain-thumb.jpg'
+
 import { theme } from '../app/theme'
 import styled from 'styled-components'
 
-export const Settings = () => {
-  const { setActualTheme } = useTheme()
+export const Settings = ({setMode}) => {
 
-  const handleTheme = (values) => {
-    localStorage.setItem('theme', values)
-    window.location.reload()
-    return setActualTheme(values)
+  const handleTheme = (values, theme) => {
+    localStorage.setItem('theme', theme)
+    setMode(values)
   }
 
   const handleBackground = (values) => {
     localStorage.setItem('background', values)
-    window.location.reload()
-    return setActualTheme(values)
+    document.body.style.backgroundImage = `url(../src/assets/background-${values}.jpg)`
   }
 
   return (
@@ -29,16 +29,16 @@ export const Settings = () => {
 
         <Label>Cambiar tema de la aplicación</Label>
         <SettingsContainer>
-          <ColorCard dark onClick={() => {handleTheme('dark')}} />
-          <ColorCard light onClick={() => {handleTheme('light')}} />
-          <ColorCard intermediate onClick={() => {handleTheme('intermediate')}} />
+          <ColorCard dark onClick={() => {handleTheme(theme.dark, 'dark')}} />
+          <ColorCard light onClick={() => {handleTheme(theme.light, 'light')}} />
+          <ColorCard intermediate onClick={() => {handleTheme(theme.intermediate, 'intermediate')}} />
         </SettingsContainer>
 
         <Label>Cambiar imagen de fondo</Label>
         <SettingsContainer>
-          <img onClick={() => {handleBackground('dark')}} src={'../src/assets/background-forest.jpg'} alt='background' />
-          <img onClick={() => {handleBackground('dark')}}src={'../src/assets/background-sunset.jpg'} alt='background' />
-          <img onClick={() => {handleBackground('dark')}} src={'../src/assets/background-stars.jpg'} alt='background' />
+          <img onClick={() => {handleBackground('forest')}} src={ForestThumb} alt='background' />
+          <img onClick={() => {handleBackground('sunset')}} src={SunsetThumb} alt='background' />
+          <img onClick={() => {handleBackground('mountain')}} src={MountainThumb} alt='background' />
         </SettingsContainer>
 
         <TextButtonSmall>Cambiar foto de perfil</TextButtonSmall>

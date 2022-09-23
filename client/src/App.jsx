@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { ThemeProvider } from 'styled-components'
 import { Routes, Route } from 'react-router-dom'
 
@@ -13,22 +13,27 @@ import ProtectRoute from './helpers/ProtectRoute'
 import { styles } from './app/theme'
 import ProtectSidebar from './helpers/ProtectSidebar'
 import RedirectLogin from './helpers/RedirectLogin'
-import useTheme from './hooks/useTheme'
+import { currentTheme } from './helpers/currentTheme'
+import { theme } from './app/theme'
  
 function App() {
-  const { userTheme } = useTheme()
-  const mode = userTheme
+  const [mode, setMode] = useState(theme)
+  
+  useEffect(()=> {
+    setMode(currentTheme(localStorage.getItem('theme')))
+    const background = localStorage.getItem('background') || 'forest'
+    document.body.style.backgroundImage = `url(../src/assets/background-${background}.jpg)`
+  },[])
 
   return (
     <ThemeProvider theme={{ mode, styles }}>
       <ProtectSidebar/>
-
       <Routes>
         <Route path="/" element={<ProtectRoute> <Tasks /> </ProtectRoute>} />
         <Route path="/assigned" element={<ProtectRoute> <Tasks section={'assigned'} /> </ProtectRoute>} />
         <Route path="/trash" element={<ProtectRoute> <Tasks section={'trash'} /> </ProtectRoute>} />
         <Route path="/my-team" element={<ProtectRoute> <MyTeam /> </ProtectRoute>} />
-        <Route path="/settings" element={<ProtectRoute> <Settings /> </ProtectRoute>} />
+        <Route path="/settings" element={<ProtectRoute> <Settings setMode={setMode}/> </ProtectRoute>} />
         <Route path="/login" element={<RedirectLogin><Login /></RedirectLogin>} />
         <Route path="/register" element={<RedirectLogin> <Register /> </RedirectLogin>} />
         <Route path="/components" element={<ProtectRoute> <Components /> </ProtectRoute>} />

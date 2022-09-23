@@ -25,40 +25,40 @@ const registerUser = async (req, res) => {
     const { username, email, password, teamId, isAdmin, role, phone, teamPassword, fullname } = req.body
     
     if (!username || !phone || !email || !password || !teamId || !role || !teamPassword || !fullname) {
-      return res.status(400).json({msg: 'Fill in all the fields'})
+      return res.status(400).json({msg: 'Completa todos los campos'})
     }
    
-    if(!validateEmail(email)) return res.status(400).json({msg: 'Email is invalid'})
-    if(username.length < 6)  return res.status(400).json({msg: 'Username must have at least 6 characters'})
-    if(fullname.length < 6)  return res.status(400).json({msg: 'Fullname must have at least 6 characters'})
-    if(password.length < 6) return res.status(400).json({msg: 'Password must have at least 6 characters'})
-    if(teamPassword.length < 6) return res.status(400).json({msg: 'TeamPassword must have at least 6 characters'})
-    if(phone.length < 6) return res.status(400).json({msg: 'Phone number must have at least 6 characters'})
+    if(!validateEmail(email)) return res.status(400).json({msg: 'El correo electrónico es inválido'})
+    if(username.length < 6)  return res.status(400).json({msg: 'El nombre de usuario debe tener al menos 6 caracteres'})
+    if(fullname.length < 6)  return res.status(400).json({msg: 'El nombre y apellido debe tener al menos 6 caracteres'})
+    if(password.length < 6) return res.status(400).json({msg: 'La contraseña debe tener al menos 6 caracteres'})
+    if(teamPassword.length < 6) return res.status(400).json({msg: 'La contraseña del equipo debe tener al menos 6 caracteres'})
+    if(phone.length < 6) return res.status(400).json({msg: 'El número de teléfono debe tener al menos 6 caracteres'})
 
     const emailExists = await User.findOne({ email })
     if (emailExists) {
-      return res.status(400).json({ msg: 'User already exists' })
+      return res.status(400).json({ msg: 'El correo electrónico ya se encuentra en uso' })
     }
 
     const usernameExists = await User.findOne({ username })
     if (usernameExists) {
-      return res.status(400).json({ msg: 'Username already exists' })
+      return res.status(400).json({ msg: 'El nombre de usuario ya se encuentra en uso' })
     }
 
     const teamIdExist = await User.findOne({ teamId })
 
     if (isAdmin) {
       if(teamIdExist) {
-        return res.status(400).json({ msg: 'TeamId already exists' })
+        return res.status(400).json({ msg: 'El ID del equipo ya existe' })
       }
     } else {
       if(!teamIdExist) {
-        return res.status(404).json({ msg: 'TeamId not exists' })
+        return res.status(404).json({ msg: 'El ID del equipo no existe' })
       }
 
       const isValidPassword = bcryptjs.compareSync( teamPassword, teamIdExist.teamPassword )
       if(!isValidPassword) {
-        return res.status(403).json({ msg: 'Incorrect teamPassword' })
+        return res.status(403).json({ msg: 'La contraseña del equipo es incorrecta' })
       }
     }
 
@@ -87,7 +87,7 @@ const registerUser = async (req, res) => {
     const userToken = generateToken(newUser._id, email, username)
     
     if (!newUser) {
-     return res.status(400).json({ msg: 'There was an error creating the user' })
+     return res.status(400).json({ msg: 'Hubo un error al crear el usuario' })
     }
 
     res.status(201).json({ newUser, userToken })
@@ -109,13 +109,13 @@ const loginUser = async (req, res) => {
     
     //check if there's a user
     if( !user ){
-      return res.status(404).json({ msg:'User not Found' })
+      return res.status(404).json({ msg:'Usuario no encontrado' })
     }
     //Compare passwords
     const isValidPassword = bcryptjs.compareSync( password, user.password )
     
     if (!isValidPassword) {
-      return res.status(400).json({ msg:'Incorrect password' })
+      return res.status(400).json({ msg:'Contraseña incorrecta' })
     }
 
     //create jwt
@@ -129,7 +129,6 @@ const loginUser = async (req, res) => {
     res.status(500).json({ error })
   }
 }
-
 
 //description - get user data
 //route - GET to api/users/profile
@@ -164,17 +163,17 @@ const updateProfile = async (req, res) => {
 
     const user = await User.findById(req.user._id)
 
-    if (!user) return res.status(404).json({ msg: 'User not found' }) 
+    if (!user) return res.status(404).json({ msg: 'Usuario no encontrado' }) 
     console.log(req.file)
 
-    if(!req.file && !newPassword ) return res.status(400).json({ msg: 'fill in the fields' }) 
+    if(!req.file && !newPassword ) return res.status(400).json({ msg: 'Complete los campos' }) 
     
     if(password && newPassword) {
-      if(newPassword.length < 6) return res.status(400).json({msg: 'The New Password must have at least 6 characters'})
+      if(newPassword.length < 6) return res.status(400).json({msg: 'La contraseña del equipo debe tener al menos 6 caracteres'})
 
       const isValidPassword = bcryptjs.compareSync( password, user.password )
       console.log(isValidPassword)
-      if (!isValidPassword) return res.status(400).json({ msg:'Incorrect password' })
+      if (!isValidPassword) return res.status(400).json({ msg:'Contraseña incorrecta' })
       
       const salt = bcryptjs.genSaltSync(10)
       const hashedPassword = bcryptjs.hashSync( newPassword, salt )
@@ -189,7 +188,7 @@ const updateProfile = async (req, res) => {
 
     await user.save()
 
-    res.status(200).json({msg: 'user updated successfully', user})
+    res.status(200).json({msg: 'Usuario actualizado correctamente', user})
 
   } catch (error) {
 
