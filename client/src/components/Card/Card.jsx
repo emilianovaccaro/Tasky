@@ -47,7 +47,7 @@ const CardContent = styled.div`
   padding-top: ${p => p.tasksContent && '16px'};
   padding-bottom: ${p => p.tasksContent && '16px'};
 
-  @media screen and (max-width: ${p => p.theme.styles.breakpoints.large}) {
+  @media screen and (max-width: ${p => p.theme.styles.breakpoints.medium}) {
     padding: ${p => p.tasksContent && p.theme.styles.padding.small};
   }
 `

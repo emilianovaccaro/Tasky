@@ -19,14 +19,13 @@ export const Tasks = ( {section}) => {
   const user = useSelector(state => state.user.user)
 
   const [loading, setLoading] = useState(true)
-  const [ list, setList ] = useState([])
+  const [list, setList] = useState([])
   const [newTasks, setNewTasks] = useState([])
   const [inProgressTasks, setInProgressTasks] = useState([])
   const [finishedTasks, setFinishedTasks] = useState([])
   const [openCloseModal, setOpenCloseModal] = useState(false)
   
   const sampleLocation = useLocation()
-
   
   const fetchTaskReq = async () => {
     setLoading(true)
@@ -97,7 +96,7 @@ export const Tasks = ( {section}) => {
   return (
     <>
       <Content>
-        {openCloseModal && <ModalContainer>soy Modal</ModalContainer>}
+        
         <TasksHeader>
           {!section && <Title>Todas las tareas</Title>}
           {section === 'assigned' && <Title>Mis tareas</Title>}
