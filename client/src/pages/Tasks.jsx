@@ -11,7 +11,7 @@ import { Label } from '../components/Text/Label'
 import { Task } from '../components/Task'
 import { Spinner } from '../components/Spinner'
 import { useLocation } from 'react-router-dom'
-import TaskForm from './TaskForm'
+import TaskForm from '../components/TaskForm'
 
 export const Tasks = ( {section}) => {
   const dispatch = useDispatch()

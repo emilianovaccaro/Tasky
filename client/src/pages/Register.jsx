@@ -209,5 +209,4 @@ const ButtonsContainer = styled.div`
   button {
     margin: unset;
   }
-
 `

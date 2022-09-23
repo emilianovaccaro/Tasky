@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { deleteTask, updateTask } from '../redux/actions/tasksActions'
 import { Card } from './Card/Card'
 import { Profile } from './Profile'
-import TaskForm from '../pages/TaskForm'
+import TaskForm from './TaskForm'
 
 export const Task = ({task, toggleModal}) => {
   const { team } = useSelector(state => state.user)
@@ -55,7 +55,7 @@ export const Task = ({task, toggleModal}) => {
     <TaskCard status={status} key={_id}>
       <Label>{title.substring(0, 32)}</Label>
       <ContainerInfoTask>
-        <SubLabel lowOpacity>Asignada a {assignedTo}</SubLabel>
+        <SubLabel lowOpacity>{assignedTo ? 'Asignada a ' : 'No asignada'}{assignedTo}</SubLabel>
         <SubLabel priority lowPriority={priority === 'low'} mediumPriority={priority === 'medium'} highPriority={priority === 'high'}>
           {priority === 'low' && 'baja'}
           {priority === 'medium' && 'media'}
