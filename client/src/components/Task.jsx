@@ -6,7 +6,7 @@ import { SubLabel } from './Text/SubLabel'
 import { IconButton } from './Button/IconButton'
 import { Icon, icons } from './Icon'
 import { useDispatch, useSelector } from 'react-redux'
-import { updateTask } from '../redux/actions/tasksActions'
+import { deleteTask, updateTask } from '../redux/actions/tasksActions'
 import { Card } from './Card/Card'
 import { Profile } from './Profile'
 
@@ -31,6 +31,14 @@ export const Task = ({task}) => {
   const handleDeleteTask = async () => {
     try {
       return await dispatch(updateTask(_id, {deleteStatus: !deleteStatus}, token))
+    } catch(error) {
+      return console.log(error)
+    }
+  }
+
+  const finishDeleting = async () => {
+    try {
+      return await dispatch(deleteTask(_id, token))
     } catch(error) {
       return console.log(error)
     }
@@ -93,9 +101,11 @@ export const Task = ({task}) => {
               <Icon mr='8' as={deleteStatus ? icons.restore : icons.edit} size='16' />
               {deleteStatus ? 'Restaurar' : 'Editar'}
             </SubLabel>
-            <SubLabel button noUnderline onClick={() => handleDeleteTask(_id)} lowOpacity>
+            <SubLabel button noUnderline 
+              onClick={deleteStatus ? () => finishDeleting(_id) : () => handleDeleteTask(_id)} lowOpacity
+            >
               <Icon mr='8' as={icons.trash} size='16' />
-              {deleteStatus ? 'Eliminar definitivamente' : 'Eliminar'}
+              {deleteStatus ? 'Eliminar definitivamente' : 'Enviar a papelera'}
 
             </SubLabel>
           </ActionButtons>
