@@ -14,10 +14,9 @@ import { styles } from './app/theme'
 import ProtectSidebar from './helpers/ProtectSidebar'
 import RedirectLogin from './helpers/RedirectLogin'
 import { currentTheme } from './helpers/currentTheme'
-import { theme } from './app/theme'
  
 function App() {
-  const [mode, setMode] = useState(theme)
+  const [mode, setMode] = useState({})
   
   useEffect(()=> {
     setMode(currentTheme(localStorage.getItem('theme')))

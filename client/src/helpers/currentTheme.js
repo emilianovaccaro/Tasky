@@ -10,6 +10,6 @@ export const currentTheme = (themes) => {
   }
   if ( themes == 'light') {
     return theme.light
-  }
-  
+  } 
+  return theme.dark
 }
