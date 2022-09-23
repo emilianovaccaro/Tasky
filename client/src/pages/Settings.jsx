@@ -3,6 +3,9 @@ import { Title } from '../components/Text/Title'
 import { Label } from '../components/Text/Label'
 import { Content } from '../components/Content'
 import { TextButtonSmall } from '../components/Button/TextButtonSmall'
+import Forest from '../assets/background-forest.jpg'
+import Sunset from '../assets/background-sunset.jpg'
+import Mountain from '../assets/background-mountain.jpg'
 import ForestThumb from '../assets/background-forest-thumb.jpg'
 import SunsetThumb from '../assets/background-sunset-thumb.jpg'
 import MountainThumb from '../assets/background-mountain-thumb.jpg'
@@ -19,7 +22,9 @@ export const Settings = ({setMode}) => {
 
   const handleBackground = (values) => {
     localStorage.setItem('background', values)
-    document.body.style.backgroundImage = `url(../src/assets/background-${values}.jpg)`
+    values === 'forest' && (document.body.style.backgroundImage = Forest)
+    values === 'sunset' && (document.body.style.backgroundImage = Sunset)
+    values === 'mountain' && (document.body.style.backgroundImage = Mountain)
   }
 
   return (
