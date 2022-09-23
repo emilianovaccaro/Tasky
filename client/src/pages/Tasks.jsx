@@ -94,7 +94,7 @@ export const Tasks = ( {section}) => {
   return (
     <>
       <Content>
-        {openCloseModal && <TaskForm toggle={setOpenCloseModal}/>}
+        {openCloseModal && <TaskForm toggleModal={setOpenCloseModal}/>}
         <TasksHeader>
           {!section && <Title>Todas las tareas</Title>}
           {section === 'assigned' && <Title>Mis tareas</Title>}
@@ -109,7 +109,7 @@ export const Tasks = ( {section}) => {
               loading ? <Spinner /> :
                 newTasks.length === 0 ? <Label center>No hay tareas</Label> :
                   newTasks.map(task => ( 
-                    <Task status='new' key={task._id} task={task}/>))
+                    <Task status='new' key={task._id} task={task} toggleModal={setOpenCloseModal}/>))
             }
           </Card>
           
@@ -118,7 +118,7 @@ export const Tasks = ( {section}) => {
               loading ? <Spinner /> :
                 inProgressTasks.length === 0 ? <Label center>No hay tareas</Label> :
                   inProgressTasks.map(task => ( 
-                    <Task status='inProgress' key={task._id} task={task}/>))
+                    <Task status='inProgress' key={task._id} task={task} toggleModal={setOpenCloseModal}/>))
             }
           </Card>
 
@@ -127,7 +127,7 @@ export const Tasks = ( {section}) => {
               loading ? <Spinner /> :
                 finishedTasks.length === 0 ? <Label center>No hay tareas</Label> :
                   finishedTasks.map(task => ( 
-                    <Task status='finished' key={task._id} task={task}/>))
+                    <Task status='finished' key={task._id} task={task} toggleModal={setOpenCloseModal}/>))
             }
           </Card>
         </TasksList>

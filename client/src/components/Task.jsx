@@ -9,8 +9,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { deleteTask, updateTask } from '../redux/actions/tasksActions'
 import { Card } from './Card/Card'
 import { Profile } from './Profile'
+import TaskForm from '../pages/TaskForm'
 
-export const Task = ({task}) => {
+export const Task = ({task, toggleModal}) => {
   const { team } = useSelector(state => state.user)
 
   const {_id, title, assignedTo, description, comments, deleteStatus, userId, priority, status } = task
@@ -33,6 +34,11 @@ export const Task = ({task}) => {
     } catch(error) {
       return console.log(error)
     }
+  }
+
+  const handleEditTask = async () => {
+    toggleModal(true)
+    return <TaskForm taskValues={task} />
   }
 
   const finishDeleting = async () => {
@@ -96,7 +102,7 @@ export const Task = ({task}) => {
 
           </>
           <ActionButtons>
-            <SubLabel button noUnderline onClick={() => handleDeleteTask(_id)} lowOpacity>
+            <SubLabel button noUnderline onClick={deleteStatus ? () => handleDeleteTask(_id) : () => handleEditTask()} lowOpacity>
               <Icon mr='8' as={deleteStatus ? icons.restore : icons.edit} size='16' />
               {deleteStatus ? 'Restaurar' : 'Editar'}
             </SubLabel>

@@ -29,7 +29,7 @@ export const createTask = ( values, token ) => async ( dispatch ) => {
     }
   })
 
-  dispatch({ type: CREATE_TASK, payload: res.data })
+  dispatch({ type: CREATE_TASK, payload: res.data.task })
 }
 
 //delete

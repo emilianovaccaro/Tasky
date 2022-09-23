@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Modal } from '../components/Modal'
 import { IconButton } from '../components/Button/IconButton'
 import { Input } from '../components/Inputs/Input'
@@ -9,10 +9,11 @@ import { Icon, icons } from '../components/Icon'
 import { SubTitle } from '../components/Text/SubTitle'
 import { BoxButton } from '../components/Button/BoxButton'
 import { useDispatch, useSelector } from 'react-redux'
-import { createTask } from '../redux/actions/tasksActions'
 import { useFormik } from 'formik'
 import styled from 'styled-components'
 import * as yup from 'yup'
+import { createTask } from '../redux/actions/tasksActions'
+import { useNavigate } from 'react-router-dom'
 
 
 const validationSchema = yup.object().shape({
@@ -32,82 +33,115 @@ const validationSchema = yup.object().shape({
       .required('Campo obligatorio'),
   assignedTo:
     yup.string()
-      .required('Campo obligatorio')
 })
 
 
 
-const TaskForm = ({toggle}) => {
+const TaskForm = ({ toggleModal, taskValues = {} }) => {
   const dispatch = useDispatch()
-  const { team } = useSelector(state => state.user)
+  const navigate = useNavigate()
   const token = localStorage.getItem('token')
+  const { team } = useSelector(state => state.user)
+  const [ taskError, setTaskError ] = useState('')
 
-
-  const formSubmit = (values) => {
-    console.log(values)
-    values.deleteStatus = false
-
-
-    /* 
-      try {
-        await dispatch(createTask(values, token))
-        toggle(false)
-      }
-    
-    */
-  } 
-
-
+  const defaultValues = taskValues || {
+    title: '',
+    priority: 'low',
+    description: '',
+    assignedTo: '',
+    status: 'new',
+    deleteStatus: false
+  }
   
   const formik = useFormik({
-    initialValues: {
-      title: '',
-      priority: '',
-      description: '',
-      assignedTo: '',
-      status: '',
-      deleteStatus: false
-    },
+    initialValues: defaultValues,
     validationSchema,
-    onSubmit: formSubmit,
+    onSubmit: async (values) => {
+      console.log(values)
+      values.deleteStatus = false
+      
+      try {
+        await dispatch(createTask(values, token))
+        navigate('/')
+        return toggleModal(false)
+      } catch (error) {
+        setTaskError(error.response.data)
+      }
+    }
   })
 
-  const {errors, values, handleChange, handleSubmit, handleBlur, touched} = formik
+  const {errors, values, handleChange, handleSubmit, handleBlur, touched } = formik
 
   return (
     <Modal inputs multipleInputs>
       <form onSubmit={handleSubmit}>
-        <InputsContainer>
-          <SubTitle>Crear tarea</SubTitle>
-          <IconButton button onClick={() => toggle(false)}> <Icon as={icons.close} white={'white'}  /></IconButton>
-        </InputsContainer>
-        <InputsContainer>
-          <Input name='title' type={'text'} 
-            id="title" inputLabel={'Titulo'}
+        <>
+          <InputsContainer>
+            <SubTitle>Crear tarea</SubTitle>
+            <IconButton button onClick={() => toggleModal(false)}> <Icon as={icons.close} white={'white'}  /></IconButton>
+          </InputsContainer>
 
-          
+          <InputsContainer>
+            <Input name='title' type={'text'} 
+              id="title" inputLabel={'Titulo'}
+              touched={touched.title} 
+              error={errors.title}
+              onChange={handleChange}
+              value={values.title}
+              onBlur={handleBlur}
+            />
+
+            <Select type={'text'} id="status" inputLabel={'Estado'} name='status'
+              touched={touched.status} 
+              error={errors.status}
+              onChange={handleChange}
+              value={values.status}
+              onBlur={handleBlur}
+            >
+              <option value='new'>Nueva</option>
+              <option value='inProgress'>En proceso</option>
+              <option value='finished'>Realizada</option>
+            </Select>
+          </InputsContainer>
+
+          <InputsContainer>
+            <Select type={'text'} id="priority" inputLabel={'Prioridad'} name='priority' 
+              touched={touched.priority} 
+              error={errors.priority}
+              onChange={handleChange}
+              value={values.priority}
+              onBlur={handleBlur}
+            >
+              <option value='low'>Baja</option>
+              <option value='medium'>Media</option>
+              <option value='high'>Alta</option>
+            </Select>
+
+            <Select type={'text'} id="assigned" inputLabel={'Asignado'} name='assignedTo'
+              touched={touched.assignedTo} 
+              error={errors.assignedTo}
+              onChange={handleChange}
+              value={values.assignedTo}
+              onBlur={handleBlur}
+            >
+              <option value=''></option>
+              {team?.map(member => <option key={member._id} value={`${member.fullname}`}>{member.fullname}</option>)}
+            </Select>
+          </InputsContainer>
+
+          <TextArea name='description' id='description' inputLabel={'Descripción'} 
+            touched={touched.description} 
+            error={errors.description}
+            onChange={handleChange}
+            value={values.description}
+            onBlur={handleBlur}
           />
-          <Select type={'text'} id="status" inputLabel={'Estado'} name='status' >
-            <option value='new'>Nueva</option>
-            <option value='inProgress'>En proceso</option>
-            <option value='finished'>Realizada</option>
-          </Select>
-        </InputsContainer>
-        <InputsContainer>
-          <Select type={'text'} id="priority" inputLabel={'Prioridad'} >
-            <option value='low'>Baja</option>
-            <option value='medium'>Media</option>
-            <option value='high'>Alta</option>
-          </Select>
-          <Select type={'text'} id="assigned" inputLabel={'Asignado'} name='assignedTo'>
-            {team?.map(member => <option key={member._id} value={member.fullname}>{member.fullname}</option>)}
-          </Select>
-        </InputsContainer>
-        <TextArea name='description' id='description' inputLabel={'Descripción'} />
-        <div>
-          <SubLabel button onClick={() => toggle(false)}>Cerrar</SubLabel>
-          <BoxButton type='submit'>Crear</BoxButton>
-        </div>
+          <div>
+            {taskError && <SubLabel error registerError>{`${taskError?.msg}`}</SubLabel>}
+            <SubLabel button onClick={() => toggleModal(false)}>Cerrar</SubLabel>
+            <BoxButton type='submit' >Crear</BoxButton>
+          </div>
+        </>
       </form>
     </Modal>
   )

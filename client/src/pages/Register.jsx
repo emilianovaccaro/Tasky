@@ -150,7 +150,7 @@ export const Register = () => {
             </InputsContainer>
             <ButtonsContainer>
               <Label button icon onClick={() => setSection('page-1')}><Icon as={icons.back} size={20} mr={8} />Atrás</Label>
-              <BoxButton type='submit' ><Label black medium>Confirmar</Label></BoxButton>
+              <BoxButton type='submit' onClick={handleSubmit}><Label black medium>Confirmar</Label></BoxButton>
             </ButtonsContainer>
             {dbError && <SubLabel error registerError>{`${dbError?.msg}`}</SubLabel>}
           </>
