@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import { Card } from '../components/Card/Card'
 import { Label } from '../components/Text/Label'
@@ -15,10 +15,12 @@ import { useNavigate } from 'react-router-dom'
 
 
 export const Register = () => {
-  const [section, setSection] = React.useState('page-1')
-
+  const [section, setSection] = useState('page-1')
+  const [ dbError, setDbError ] = useState([])
   const navigate = useNavigate()
   const dispatch = useDispatch()
+  
+  console.log(dbError)
 
   const validationSchema = yup.object().shape({
     fullname: 
@@ -72,20 +74,13 @@ export const Register = () => {
     },
     validationSchema,
     onSubmit: async(values) => {
-
-      
-
-      // formData.append('image', values.file)
-      // formData.append('name', 'asdfad')
-      
-
-      console.log(values)
-      alert(JSON.stringify(values, null, 2))
+      console.log(values.isAdmin)
       try {
         await dispatch(register(values))
         navigate('/')
       } catch (error) {
-        console.log(error.message)
+        setDbError(JSON.stringify(error.response.data))
+        alert(JSON.stringify(error.response.data))
       }
       
     },

@@ -18,7 +18,7 @@ const getTasks = async (req,res) => {
 // post api/task
 // access private
 const postTask = async (req, res) => {
-  const { title, priority, description, status, assignedTo, timeLimit, deleteStatus } = req.body
+  const { title, priority, description, status, assignedTo, deleteStatus } = req.body
 
   //validate body
   if (!title || !priority || !status) {
@@ -32,7 +32,6 @@ const postTask = async (req, res) => {
       status,
       description,
       assignedTo,
-      timeLimit,
       deleteStatus,
       teamId: req.user.teamId,
       userId: req.user.id,
@@ -51,7 +50,7 @@ const postTask = async (req, res) => {
 // private
 const editTask = async (req, res) => {
   try {
-    const { title, description, timeLimit, status, priority, assignedTo, deleteStatus, comments } = req.body
+    const { title, description, status, priority, assignedTo, deleteStatus, comments } = req.body
     const { id } = req.params
     
     console.log(req.body)
@@ -75,7 +74,6 @@ const editTask = async (req, res) => {
 
     task.title = title || task.title
     task.description = description || task.description
-    task.timeLimit = timeLimit || task.timeLimit
     task.status = status || task.status
     task.priority = priority || task.priority
     task.assignedTo = assignedTo || task.assignedTo

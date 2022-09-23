@@ -30,10 +30,6 @@ const taskSchema = mongoose.Schema({
       type: String,
       default: "",
     },
-    timeLimit: {
-      type: Date,
-      default: "",
-    },
     deleteStatus: {
       type: Boolean,
       required: true,

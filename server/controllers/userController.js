@@ -52,7 +52,9 @@ const registerUser = async (req, res) => {
         return res.status(400).json({ msg: 'TeamId already exists' })
       }
     } else {
-      if(!teamIdExist) return res.status(404).json({ msg: 'TeamId not exists' })
+      if(!teamIdExist) {
+        return res.status(404).json({ msg: 'TeamId not exists' })
+      }
 
       const isValidPassword = bcryptjs.compareSync( teamPassword, teamIdExist.teamPassword )
       if(!isValidPassword) return res.status(403).json({ msg: 'Incorrect teamPassword' })
