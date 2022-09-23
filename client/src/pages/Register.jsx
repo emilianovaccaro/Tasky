@@ -85,8 +85,7 @@ export const Register = () => {
         await dispatch(register(values))
         navigate('/')
       } catch (error) {
-        setDbError(JSON.stringify(error.response.data))
-        alert(JSON.stringify(error.response.data))
+        setDbError(error.response.data)
       }
     },
   })
@@ -146,8 +145,14 @@ export const Register = () => {
             <ButtonsContainer>
               <Label button icon onClick={() => setSection('page-1')}><Icon as={icons.back} size={20} mr={8} />Atrás</Label>
               <BoxButton type='submit' ><Label black medium>Confirmar</Label></BoxButton>
+
+              {/* ACA ESTA EL ERROR MESSAGE */}
+
+              { dbError && <TextButtonSmall to="/login" error={`${dbError?.msg}`} />}
+
+
+              {/* ACA ESTA EL ERROR MESSAGE */}
             </ButtonsContainer>
-            
           </>
           }
         </form>
