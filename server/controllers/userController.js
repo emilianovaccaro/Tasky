@@ -47,7 +47,7 @@ const registerUser = async (req, res) => {
 
     const teamIdExist = await User.findOne({ teamId })
 
-    if(isAdmin) {
+    if (isAdmin) {
       if(teamIdExist) {
         return res.status(400).json({ msg: 'TeamId already exists' })
       }
@@ -57,7 +57,9 @@ const registerUser = async (req, res) => {
       }
 
       const isValidPassword = bcryptjs.compareSync( teamPassword, teamIdExist.teamPassword )
-      if(!isValidPassword) return res.status(403).json({ msg: 'Incorrect teamPassword' })
+      if(!isValidPassword) {
+        return res.status(403).json({ msg: 'Incorrect teamPassword' })
+      }
     }
 
     const salt = bcryptjs.genSaltSync(10)

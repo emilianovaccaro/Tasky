@@ -74,7 +74,13 @@ export const Register = () => {
     },
     validationSchema,
     onSubmit: async(values) => {
-      console.log(values.isAdmin)
+      
+      if (values.isAdmin === 'true') {
+        values.isAdmin = true
+      } else if ( values.isAdmin === 'false') {
+        values.isAdmin = false
+      }
+
       try {
         await dispatch(register(values))
         navigate('/')
