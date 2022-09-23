@@ -50,7 +50,7 @@ export const Tasks = ( {section}) => {
     if (list.length > 0) {
       return setLoading(false)
     }
-  }, [tasks, sampleLocation])
+  }, [tasks, sampleLocation, list])
 
   
 

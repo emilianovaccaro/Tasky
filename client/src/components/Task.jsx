@@ -15,25 +15,22 @@ export const Task = ({task}) => {
 
   const {_id, title, assignedTo, description, comments, deleteStatus, userId, priority, status } = task
   const [showMore, setShowMore] = useState(null)
-  const [taskDeleteStatus, setTaskDeleteStatus] = useState(null)
+
   const token = localStorage.getItem('token')
   const dispatch = useDispatch()  
 
   let lastComment 
   if ( comments.length > 0 ) {
-    console.log('jhola', comments[comments.length - 1])
     lastComment = comments[comments.length - 1]
   }
 
-  console.log('lastcomment', lastComment)
 
   const creator = team.find(teammate => teammate._id == userId )?.username
   const commentor = team.find(teammate => teammate.username == lastComment?.author)
 
   const handleDeleteTask = async () => {
-    setTaskDeleteStatus(!taskDeleteStatus)
     try {
-      return await dispatch(updateTask(_id, {deleteStatus: taskDeleteStatus}, token))
+      return await dispatch(updateTask(_id, {deleteStatus: !deleteStatus}, token))
     } catch(error) {
       return console.log(error)
     }

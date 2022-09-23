@@ -19,6 +19,7 @@ const getTasks = async (req,res) => {
 // access private
 const postTask = async (req, res) => {
   const { title, priority, description, status, assignedTo, timeLimit, deleteStatus } = req.body
+
   //validate body
   if (!title || !priority || !status) {
    return res.status(400).json({msg: 'Body/Form incomplete'})
@@ -53,6 +54,8 @@ const editTask = async (req, res) => {
     const { title, description, timeLimit, status, priority, assignedTo, deleteStatus, comments } = req.body
     const { id } = req.params
     
+    console.log(req.body)
+
     const task = await Task.findById(id)
 
     if (!task) { return res.status(404).json({ msg: 'Task not found' }) }
@@ -63,13 +66,19 @@ const editTask = async (req, res) => {
       task.comments = [...task.comments, { comment: comments, author: req.user.username }]
     }
 
+    if (deleteStatus === false) {
+      task.deleteStatus = false
+    } else if (deleteStatus === true) {
+      task.deleteStatus = true
+    }
+
+
     task.title = title || task.title
     task.description = description || task.description
     task.timeLimit = timeLimit || task.timeLimit
     task.status = status || task.status
     task.priority = priority || task.priority
     task.assignedTo = assignedTo || task.assignedTo
-    task.deleteStatus = deleteStatus || task.deleteStatus
     
     await task.save()
 
