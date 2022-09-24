@@ -37,7 +37,7 @@ const TaskForm = (props) => {
   const dispatch = useDispatch()
   const token = localStorage.getItem('token')
   const { team } = useSelector(state => state.user)
-  const [ taskError, setTaskError ] = useState({})
+  const [ taskError, setTaskError ] = useState('')
 
 
   console.log(props)

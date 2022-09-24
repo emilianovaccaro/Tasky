@@ -93,7 +93,6 @@ export const Register = () => {
         await dispatch(register(values))
         navigate('/')
       } catch (error) {
-        console.log({error})
         setDbError(error.response.data)
       }
     },
