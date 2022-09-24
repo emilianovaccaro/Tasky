@@ -37,6 +37,8 @@ export const TestUpdated = () => {
     validationSchema,
     onSubmit: async(values) => {
       
+      console.log(values)
+
       if (values.isAdmin === 'true') {
         values.isAdmin = true
       } else if ( values.isAdmin === 'false') {

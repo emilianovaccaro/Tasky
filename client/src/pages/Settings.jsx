@@ -12,6 +12,7 @@ import MountainThumb from '../assets/background-mountain-thumb.jpg'
 
 import { theme } from '../app/theme'
 import styled from 'styled-components'
+import { Link } from 'react-router-dom'
 
 export const Settings = ({setMode}) => {
 
@@ -46,7 +47,7 @@ export const Settings = ({setMode}) => {
           <img onClick={() => {handleBackground('mountain')}} src={MountainThumb} alt='background' />
         </SettingsContainer>
 
-        <TextButtonSmall>Cambiar foto de perfil</TextButtonSmall>
+        <TextButtonSmall><Link to='/testUpdate'>Cambiar foto de perfil</Link></TextButtonSmall>
         <TextButtonSmall>Cambiar contraseña</TextButtonSmall>
 
       </Content>
