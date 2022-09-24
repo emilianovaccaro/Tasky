@@ -11,4 +11,8 @@ export const BoxButton = styled.button`
   label {
     cursor: pointer;
   }
+
+  font-size: ${p => p.button && p.theme.styles.fontSize.small};
+  color: ${p => p.button && p.theme.styles.colors.black};
+  font-weight: ${ p => p.button && p.theme.styles.fontWeight.medium};
 `
