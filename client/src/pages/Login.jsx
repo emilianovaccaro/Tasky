@@ -17,7 +17,7 @@ import TaskyLogoDark from '../assets/logo-banner-dark.svg'
 
 export const Login = () => {
   const [section, setSection] = React.useState('login')
-  const [ dbError, setDbError ] = useState({})
+  const [ dbError, setDbError ] = useState('')
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
@@ -46,7 +46,6 @@ export const Login = () => {
         await dispatch(signIn(values))
         return navigate('/')
       } catch (error) {
-        console.log(error)
         setDbError(error.response.data)
       }
     },
