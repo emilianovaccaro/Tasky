@@ -85,7 +85,7 @@ const TaskForm = (props) => {
           <Input name='title' type={'text'} 
             id='title' inputLabel={'Título'}
             touched={touched.title} 
-            error={errors.title}
+            error={touched.title && errors.title}
             onChange={handleChange}
             value={values.title}
             onBlur={handleBlur}
@@ -93,8 +93,8 @@ const TaskForm = (props) => {
           />
 
           <Select fullWidth type={'text'} id="status" inputLabel={'Estado'} name='status'
-            touched={touched.status} 
-            error={errors.status}
+            touched={ touched.status} 
+            error={touched.status && errors.status}
             onChange={handleChange}
             value={values.status}
             onBlur={handleBlur}
@@ -108,7 +108,7 @@ const TaskForm = (props) => {
         <InputsContainer>
           <Select fullWidth type={'text'} id="priority" inputLabel={'Prioridad'} name='priority' 
             touched={touched.priority} 
-            error={errors.priority}
+            error={touched.priority && errors.priority}
             onChange={handleChange}
             value={values.priority}
             onBlur={handleBlur}
@@ -120,7 +120,7 @@ const TaskForm = (props) => {
 
           <Select fullWidth type={'text'} id="assigned" inputLabel={'Asignado'} name='assignedTo'
             touched={touched.assignedTo} 
-            error={errors.assignedTo}
+            error={touched.assignedTo && errors.assignedTo}
             onChange={handleChange}
             value={values.assignedTo}
             onBlur={handleBlur}
@@ -132,7 +132,7 @@ const TaskForm = (props) => {
 
         <TextArea name='description' id='description' inputLabel={'Descripción'} 
           touched={touched.description} 
-          error={errors.description}
+          error={touched.description && errors.description}
           onChange={handleChange}
           value={values.description}
           onBlur={handleBlur}

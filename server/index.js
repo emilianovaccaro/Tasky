@@ -15,7 +15,7 @@ app.use(cors())
 // ROUTES
 app.use("/api/task", require("./routes/taskRoutes"))
 app.use("/api/users", require("./routes/userRoutes"))
-app.use('/public', express.static(`${__dirname}/uploads`))
+app.use('/uploads', express.static(`${__dirname}/uploads`))
 
 // FRONTEND BUILD
 if (process.env.NODE_ENV === 'production') {

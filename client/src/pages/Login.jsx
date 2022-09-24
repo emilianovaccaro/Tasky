@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import { Card } from '../components/Card/Card'
 import { Label } from '../components/Text/Label'
@@ -17,6 +17,7 @@ import TaskyLogoDark from '../assets/logo-banner-dark.svg'
 
 export const Login = () => {
   const [section, setSection] = React.useState('login')
+  const [ dbError, setDbError ] = useState('')
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
@@ -45,7 +46,7 @@ export const Login = () => {
         await dispatch(signIn(values))
         return navigate('/')
       } catch (error) {
-        console.log(error.message)
+        return setDbError(error.response.data)
       }
     },
   })
@@ -76,6 +77,7 @@ export const Login = () => {
           <div>
             <Input touched={touched.usernameForgot} error={errors.usernameForgot} name='usernameForgot' onChange={ handleChange } value={ values.usernameForgot} onBlur={ handleBlur } type={'text'} id="usernameForgot" inputLabel={'Nombre de usuario'} fullWidth />
           </div>
+          {dbError && <SubLabel error registerError>{`${dbError?.msg}`}</SubLabel>}
           <ButtonsContainer>
             <Label button icon onClick={() => setSection('login')}><Icon as={icons.back} size={20} mr={8} />Atrás</Label>
             <BoxButton type='submit'><Label black medium>Enviar</Label></BoxButton>

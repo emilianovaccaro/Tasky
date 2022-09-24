@@ -93,6 +93,7 @@ export const Register = () => {
         await dispatch(register(values))
         navigate('/')
       } catch (error) {
+        console.log({error})
         setDbError(error.response.data)
       }
     },
@@ -150,11 +151,11 @@ export const Register = () => {
               <Input touched={ touched.teamId } error={ errors.teamId } name='teamId' onChange={ handleChange } value={ values.teamId } onBlur={ handleBlur } type={'teamId'} id="teamId" icon={<Icon as={icons.eye} white />} inputLabel={'ID del equipo (nuevo o existente)'} maxLength={40}  />
               <Input touched={ touched.teamPassword } error={ errors.teamPassword } name='teamPassword' onChange={ handleChange } value={ values.teamPassword } onBlur={ handleBlur } type={'password'} id="teamPassword" icon={<Icon as={icons.eye} white />} inputLabel={'Contraseña del equipo'} maxLength={40}  />
             </InputsContainer>
+            {dbError && <SubLabel error registerError>{`${dbError?.msg}`}</SubLabel>}
             <ButtonsContainer>
               <Label button icon onClick={() => setSection('page-1')}><Icon as={icons.back} size={20} mr={8} />Atrás</Label>
               <BoxButton type='submit' onClick={handleSubmit}><Label black medium>Confirmar</Label></BoxButton>
             </ButtonsContainer>
-            {dbError && <SubLabel error registerError>{`${dbError?.msg}`}</SubLabel>}
           </>
           }
         </form>

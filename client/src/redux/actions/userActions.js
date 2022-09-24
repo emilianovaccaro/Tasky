@@ -9,8 +9,8 @@ import {
 } from './types'
 
 
-const API_URL = 'https://test-server-tasky.herokuapp.com'
-const API_URL2 = 'http://localhost:5000'
+const API_URL2 = 'https://test-server-tasky.herokuapp.com'
+const API_URL = 'http://localhost:5000'
 
 
 //login
@@ -66,12 +66,11 @@ export const updateProfile = ( token, values ) => async ( dispatch ) => {
   const res = await axios.patch(`${API_URL}/api/users/profile`, values, {
     headers: {
       Authorization: `Bearer ${token}`,
-      'Accept':'application/json',
       'Content-Type':'multipart/form-data',
     }
   })
 
   console.log(res)
 
-  dispatch({ type: UPDATE_USER, payload: res.data })
+  dispatch({ type: UPDATE_USER, payload: res.data.user })
 }

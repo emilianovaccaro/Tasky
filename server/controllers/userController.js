@@ -162,6 +162,8 @@ const updateProfile = async (req, res) => {
     const {password, newPassword} = req.body
     const user = await User.findById(req.user._id)
 
+    console.log("REQ:BODY", req.body)
+    console.log("FILE", req.file)
 
     if (!user) return res.status(404).json({ msg: 'Usuario no encontrado' }) 
     if (!req.file && (!password || !newPassword)) return res.status(400).json({ msg: 'Complete los campos' }) 
