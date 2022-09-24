@@ -51,6 +51,10 @@ const InputBoxContainer = styled.div`
     max-width: calc(50% - 10px);
     max-width: ${p => p.fullWidth && '100%'};
   }
+
+  @media screen and (max-width: ${p => p.theme.styles.breakpoints.medium}) {
+    min-width: ${p => p.fullWidth && '100%'};
+  }
 `
 
 const InputContainer = styled.div`

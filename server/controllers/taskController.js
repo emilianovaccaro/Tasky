@@ -59,7 +59,7 @@ const editTask = async (req, res) => {
     if (task.teamId !== req.user.teamId) return res.status(403).json({msg: "No tienes los permisos"})
 
 
-    if(comments) {
+    if (comments?.length > 0) {
       task.comments = [...task.comments, { comment: comments, author: req.user.username }]
     }
 
@@ -98,6 +98,10 @@ const deleteTask = async (req, res) => {
 
     if ((task.userId.toString() !== req.user.id) || ((task.teamId.toString() !== req.user.teamId) && !req.user.isAdmin)) {
       return res.status(401).json({ msg: 'Usuario no autorizado' })
+    }
+
+    if(!task.deleteStatus) {
+      return res.status(404).json({ msg: 'Error, la tarea no esta en papelera' })
     }
     
     await task.remove()

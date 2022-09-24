@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import { Card } from '../components/Card/Card'
 import { Label } from '../components/Text/Label'
@@ -17,6 +17,7 @@ import TaskyLogoDark from '../assets/logo-banner-dark.svg'
 
 export const Login = () => {
   const [section, setSection] = React.useState('login')
+  const [dbError, setDbError] = useState('')
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
@@ -45,13 +46,12 @@ export const Login = () => {
         await dispatch(signIn(values))
         return navigate('/')
       } catch (error) {
-        console.log(error.message)
+        setDbError(error.response.data)
       }
     },
   })
 
   const {errors, values, handleChange, handleSubmit, handleBlur, touched} = formik
-
   
   return (
     <LoginContainer>
@@ -66,7 +66,8 @@ export const Login = () => {
             <Input touched={ touched.password } error={ errors.password } name='password' onChange={ handleChange } value={ values.password } onBlur={ handleBlur } type={'password'} id="password" icon={<Icon as={icons.eye} white />} inputLabel={'Contraseña'} maxLength={40} fullWidth />
             <SubLabel onClick={() => setSection('forgot-password')} button className='forgot-password'>Olvidé mi contraseña</SubLabel>
           </div>
-          <BoxButton type='submit'><Label black medium>Iniciar sesión</Label></BoxButton>
+          {dbError && <SubLabel error>{`${dbError?.msg}`}</SubLabel>}
+          <BoxButton type='submit' button>Iniciar sesión</BoxButton>
         </form>
         }
 
@@ -74,11 +75,11 @@ export const Login = () => {
         <form onSubmit={handleSubmit}>
           <Label paragraph>Ingresa tu nombre de usuario para que podamos enviarte un correo electrónico con tu nueva contraseña.</Label>
           <div>
-            <Input touched={touched.usernameForgot} error={errors.usernameForgot} name='usernameForgot' onChange={ handleChange } value={ values.usernameForgot} onBlur={ handleBlur } type={'text'} id="usernameForgot" inputLabel={'Nombre de usuario'} fullWidth />
+            <Input touched={touched.usernameForgot} error={errors.usernameForgot} name='usernameForgot' onChange={ handleChange } value={ values.usernameForgot} onBlur={ handleBlur } type={'text'} id="usernameForgot" inputLabel={'Nombre de usuario *'} fullWidth />
           </div>
           <ButtonsContainer>
             <Label button icon onClick={() => setSection('login')}><Icon as={icons.back} size={20} mr={8} />Atrás</Label>
-            <BoxButton type='submit'><Label black medium>Enviar</Label></BoxButton>
+            <BoxButton type='submit' button>Enviar</BoxButton>
           </ButtonsContainer>
         </form>
         }

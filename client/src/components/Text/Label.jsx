@@ -18,6 +18,11 @@ export const Label = styled.label`
   cursor: ${p => p.button && 'pointer'};
   transition: .15s;
 
+  white-space: ${p => p.titleLabel && 'nowrap'};
+  overflow: ${p => p.titleLabel && 'hidden'};
+  max-width: ${p => p.titleLabel && '180px'};
+  text-overflow: ${p => p.titleLabel && 'ellipsis'};
+
   &:hover {
     opacity: ${p => p.button && '100%'};
     transform: ${p => p.sidebar && 'scale(1.05)'};

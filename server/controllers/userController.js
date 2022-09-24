@@ -22,7 +22,7 @@ const validateEmail = (email) => {
 
 const registerUser = async (req, res) => {
   try {
-    const { username, email, password, teamId, isAdmin, role, phone, teamPassword, fullname } = req.body
+    const { username, email, password, teamId, isAdmin, role, phone, teamPassword, fullname, profilePhoto } = req.body
     
     if (!username || !phone || !email || !password || !teamId || !role || !teamPassword || !fullname) {
       return res.status(400).json({msg: 'Completa todos los campos'})
@@ -75,13 +75,9 @@ const registerUser = async (req, res) => {
       phone,
       role,
       isAdmin,
-      teamPassword: hashedTeamPassword
+      teamPassword: hashedTeamPassword,
+      profilePhoto
     })
-
-    if(req.file){
-      const {filename} = req.file
-      user.setImgUrl(filename)
-    }
 
     const newUser = await user.save()
     const userToken = generateToken(newUser._id, email, username)
@@ -160,14 +156,12 @@ const updateProfile = async (req, res) => {
   try {
 
     const {password, newPassword} = req.body
-
     const user = await User.findById(req.user._id)
 
     if (!user) return res.status(404).json({ msg: 'Usuario no encontrado' }) 
-    console.log(req.file)
+    if (!password || !newPassword) return res.status(400).json({ msg: 'Complete los campos' }) 
 
-    if(!req.file && !newPassword ) return res.status(400).json({ msg: 'Complete los campos' }) 
-    
+
     if(password && newPassword) {
       if(newPassword.length < 6) return res.status(400).json({msg: 'La contraseña del equipo debe tener al menos 6 caracteres'})
 
@@ -181,18 +175,12 @@ const updateProfile = async (req, res) => {
       user.password = hashedPassword ||  user.password
     }
 
-    if(req.file){
-      const {filename} = req.file
-      user.setImgUrl(filename)
-    }
-
     await user.save()
-
-    res.status(200).json({msg: 'Usuario actualizado correctamente', user})
+    return res.status(200).json({msg: 'Usuario actualizado correctamente', user})
 
   } catch (error) {
 
-    return res.status(500).json({ message: error.message })
+    return res.status(500).json({ message: error.message, msg: 'CATCH EN UPDATER' })
   }
 }
 

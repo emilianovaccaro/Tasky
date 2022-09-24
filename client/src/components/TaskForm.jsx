@@ -12,21 +12,19 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useFormik } from 'formik'
 import styled from 'styled-components'
 import * as yup from 'yup'
-import { createTask } from '../redux/actions/tasksActions'
-import { useNavigate } from 'react-router-dom'
+import { createTask, updateTask } from '../redux/actions/tasksActions'
 
 const validationSchema = yup.object().shape({
   title: 
     yup.string()
       .required('campo obligatorio')
-      .min(6, 'mínimo 6 caracteres')
+      .min(3, 'mínimo 3 caracteres')
       .matches(/^[aA-zZ\s]+$/, 'el campo solo admite letras'),
   priority: 
     yup.string()
       .required('campo obligatorio'),
   description: 
-    yup.string()
-      .required('campo obligatorio'),
+    yup.string(),
   status: 
     yup.string()
       .required('campo obligatorio'),
@@ -34,19 +32,18 @@ const validationSchema = yup.object().shape({
     yup.string()
 })
 
-const TaskForm = ({ toggleModal, taskValues = {} }) => {
+const TaskForm = (props) => {
   const dispatch = useDispatch()
-  const navigate = useNavigate()
   const token = localStorage.getItem('token')
   const { team } = useSelector(state => state.user)
   const [ taskError, setTaskError ] = useState('')
 
-  const defaultValues = taskValues || {
-    title: '',
-    priority: 'low',
-    description: '',
-    assignedTo: '',
-    status: 'new',
+  const defaultValues = {
+    title: props.taskProps.title || '',
+    priority: props.taskProps.priority || 'low',
+    description: props.taskProps.description || '',
+    assignedTo: props.taskProps.assignedTo || '',
+    status: props.taskProps.status || 'new',
     deleteStatus: false
   }
   
@@ -58,9 +55,12 @@ const TaskForm = ({ toggleModal, taskValues = {} }) => {
       values.deleteStatus = false
       
       try {
-        await dispatch(createTask(values, token))
-        navigate('/')
-        return toggleModal(false)
+        if (!props.taskProps._id) {
+          dispatch(createTask(values, token))
+        } else {
+          dispatch(updateTask(props.taskProps._id, values, token))
+        }
+        return props.toggleModal(false)
       } catch (error) {
         setTaskError(error.response.data)
       }
@@ -71,25 +71,26 @@ const TaskForm = ({ toggleModal, taskValues = {} }) => {
 
   return (
     <Modal inputs multipleInputs>
-      <form onSubmit={handleSubmit} onBlur={handleBlur} onChange={handleChange}>
+      <form onSubmit={handleSubmit}>
         <InputsContainer>
-          <SubTitle>Crear tarea</SubTitle>
-          <IconButton button onClick={() => toggleModal(false)}> <Icon as={icons.close} white={'white'} /></IconButton>
+          <SubTitle>{!props.taskProps._id ? 'Crear tarea' : 'Editar tarea'}</SubTitle>
+          <IconButton button type='button' onClick={() => {props.toggleModal(false)}}> <Icon as={icons.close} white={'white'} /></IconButton>
         </InputsContainer>
 
         <InputsContainer>
           <Input name='title' type={'text'} 
-            id='title' inputLabel={'Título'}
+            id='title' inputLabel={'Título *'}
             touched={touched.title} 
-            error={errors.title}
+            error={touched.title && errors.title}
             onChange={handleChange}
             value={values.title}
             onBlur={handleBlur}
+            fullWidth
           />
 
-          <Select type={'text'} id="status" inputLabel={'Estado'} name='status'
-            touched={touched.status} 
-            error={errors.status}
+          <Select fullWidth type={'text'} id="status" inputLabel={'Estado'} name='status'
+            touched={ touched.status} 
+            error={touched.status && errors.status}
             onChange={handleChange}
             value={values.status}
             onBlur={handleBlur}
@@ -101,9 +102,9 @@ const TaskForm = ({ toggleModal, taskValues = {} }) => {
         </InputsContainer>
 
         <InputsContainer>
-          <Select type={'text'} id="priority" inputLabel={'Prioridad'} name='priority' 
+          <Select fullWidth type={'text'} id="priority" inputLabel={'Prioridad'} name='priority' 
             touched={touched.priority} 
-            error={errors.priority}
+            error={touched.priority && errors.priority}
             onChange={handleChange}
             value={values.priority}
             onBlur={handleBlur}
@@ -113,30 +114,32 @@ const TaskForm = ({ toggleModal, taskValues = {} }) => {
             <option value='high'>Alta</option>
           </Select>
 
-          <Select type={'text'} id="assigned" inputLabel={'Asignado'} name='assignedTo'
+          <Select fullWidth type={'text'} id="assigned" inputLabel={'Asignado'} name='assignedTo'
             touched={touched.assignedTo} 
-            error={errors.assignedTo}
+            error={touched.assignedTo && errors.assignedTo}
             onChange={handleChange}
             value={values.assignedTo}
             onBlur={handleBlur}
           >
-            <option value=''></option>
+            <option value=''>No asignado</option>
             {team?.map(member => <option key={member._id} value={`${member.fullname}`}>{member.fullname}</option>)}
           </Select>
         </InputsContainer>
 
         <TextArea name='description' id='description' inputLabel={'Descripción'} 
           touched={touched.description} 
-          error={errors.description}
+          error={touched.description && errors.description}
           onChange={handleChange}
           value={values.description}
           onBlur={handleBlur}
         />
+        <ErrorContainer>
+          {taskError && <SubLabel error registerError>{`${taskError?.msg}`}</SubLabel>}
+        </ErrorContainer>
         
         <ButtonsContainer>
-          {taskError && <SubLabel error registerError>{`${taskError?.msg}`}</SubLabel>}
-          <SubLabel button onClick={() => toggleModal(false)}>Cancelar</SubLabel>
-          <BoxButton type='submit'>Crear</BoxButton>
+          <SubLabel button type='button' onClick={() => {props.toggleModal(false)}}>Cancelar</SubLabel>
+          <BoxButton type='submit'>{!props.taskProps._id ? 'Crear' : 'Guardar'}</BoxButton>
         </ButtonsContainer>
       </form>
     </Modal>
@@ -165,6 +168,14 @@ const ButtonsContainer = styled.div`
   button {
     margin: unset;
   }
+`
+
+const ErrorContainer = styled.div`
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  margin-top: 24px;
 `
 
 export default TaskForm

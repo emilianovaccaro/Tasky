@@ -1,4 +1,4 @@
-import { FETCH_PROFILE, FETCH_TEAM, REGISTER_USER, SIGN_IN, SIGN_OUT } from '../actions/types'
+import { FETCH_PROFILE, FETCH_TEAM, REGISTER_USER, SIGN_IN, SIGN_OUT, UPDATE_USER } from '../actions/types'
 
 const token = localStorage.getItem('token')
 
@@ -13,6 +13,7 @@ const usersReducer = (state = INITIAL_STATE, action) => {
   case REGISTER_USER:
   case SIGN_IN:
     return { ...state, isSignedIn: true }
+  case UPDATE_USER:
   case FETCH_PROFILE:
     return { ...state, user: action.payload }
   case FETCH_TEAM: 

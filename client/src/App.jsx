@@ -17,16 +17,15 @@ import { currentTheme } from './helpers/currentTheme'
 import Forest from './assets/background-forest.jpg'
 import Sunset from './assets/background-sunset.jpg'
 import Mountain from './assets/background-mountain.jpg'
-
  
 function App() {
   const [mode, setMode] = useState({})
   
   useEffect(()=> {
     setMode(currentTheme(localStorage.getItem('theme')))
-    const background = localStorage.getItem('background') || 'forest'
-    background === 'forest' && (document.body.style.backgroundImage = `url(${Forest})`)
+    const background = localStorage.getItem('background') || 'sunset'
     background === 'sunset' && (document.body.style.backgroundImage = `url(${Sunset})`)
+    background === 'forest' && (document.body.style.backgroundImage = `url(${Forest})`)
     background === 'mountain' && (document.body.style.backgroundImage = `url(${Mountain}`)
   },[])
 

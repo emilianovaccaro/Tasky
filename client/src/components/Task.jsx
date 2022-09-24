@@ -9,10 +9,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { deleteTask, updateTask } from '../redux/actions/tasksActions'
 import { Card } from './Card/Card'
 import { Profile } from './Profile'
-import TaskForm from './TaskForm'
 
-
-export const Task = ({task, toggleModal}) => {
+export const Task = ({ task, toggleModal, setTaskProps }) => {
   const { team } = useSelector(state => state.user)
   const {_id, title, assignedTo, description, comments, deleteStatus, userId, priority, status } = task
   const [showMore, setShowMore] = useState(null)
@@ -23,7 +21,6 @@ export const Task = ({task, toggleModal}) => {
   if ( comments.length > 0 ) {
     lastComment = comments[comments.length - 1]
   }
-
 
   const creator = team.find(teammate => teammate._id == userId )?.username
   const commentor = team.find(teammate => teammate.username == lastComment?.author)
@@ -36,10 +33,9 @@ export const Task = ({task, toggleModal}) => {
     }
   }
 
-
   const handleEditTask = async () => {
+    setTaskProps(task)
     toggleModal(true)
-    return <TaskForm taskValues={task} />
   }
 
   const finishDeleting = async () => {
@@ -52,7 +48,7 @@ export const Task = ({task, toggleModal}) => {
 
   return (
     <TaskCard status={status} key={_id}>
-      <Label>{title.substring(0, 32)}</Label>
+      <Label titleLabel>{title}</Label>
       <ContainerInfoTask>
         <SubLabel lowOpacity>{assignedTo ? 'Asignada a ' : 'No asignada'}{assignedTo}</SubLabel>
         <SubLabel priority lowPriority={priority === 'low'} mediumPriority={priority === 'medium'} highPriority={priority === 'high'}>
@@ -136,6 +132,7 @@ const ContainerInfoTask = styled.div`
 
 const ActionButtons = styled.div`
   display: flex;
+  flex-direction: column;
   gap: 16px;
   margin: 16px 0;
 `
