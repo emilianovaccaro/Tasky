@@ -180,7 +180,7 @@ const updateProfile = async (req, res) => {
       user.password = hashedPassword ||  user.password
     }
     
-    if(req.body.file){
+    if(req.file){
       const {filename} = req.file
       user.setImgUrl(filename)
     }
