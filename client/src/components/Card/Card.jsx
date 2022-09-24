@@ -1,9 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
 
-export const Card = ( {children, headerChildren, inputs, multipleInputs, defaultColor, comment, tasks, tasksContent } ) => {
+export const Card = ( {children, headerChildren, inputs, multipleInputs, defaultColor, comment, tasks, tasksContent, modal } ) => {
   return(
-    <CardContainer tasks={tasks} inputs={inputs} multipleInputs={multipleInputs} defaultColor={defaultColor} comment={comment}>
+    <CardContainer modal={modal} tasks={tasks} inputs={inputs} multipleInputs={multipleInputs} defaultColor={defaultColor} comment={comment}>
       {
         headerChildren &&
           <CardHeader tasksContent={tasksContent} defaultColor={defaultColor}>
@@ -26,6 +26,7 @@ const CardContainer = styled.div`
   max-height: ${p => p.tasks && '74vh'};
   max-width: ${p => p.inputs && '384px'};
   max-width: ${p => p.multipleInputs && '788px'};
+  max-width: ${p => p.modal && '512px'};
   padding: ${p => p.theme.styles.padding.large};
   padding: ${p => p.comment && p.theme.styles.padding.small};
   padding-right: ${p => p.tasks && '0'};

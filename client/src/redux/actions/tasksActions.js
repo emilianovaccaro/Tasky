@@ -7,7 +7,8 @@ import {
 
 
 const API_URL = 'https://test-server-tasky.herokuapp.com'
-/* const API_URL = 'http://localhost:5000' */
+const API_URL2 = 'http://localhost:5000'
+
 
 
 //get
@@ -29,7 +30,7 @@ export const createTask = ( values, token ) => async ( dispatch ) => {
     }
   })
 
-  dispatch({ type: CREATE_TASK, payload: res.data })
+  dispatch({ type: CREATE_TASK, payload: res.data.task })
 }
 
 //delete

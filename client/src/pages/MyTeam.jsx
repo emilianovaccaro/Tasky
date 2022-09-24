@@ -22,7 +22,7 @@ export const MyTeam = () => {
               <Profile
                 imagePath={person.profilePhoto}
                 imageSize={24}
-                labelText={person.username}
+                labelText={person.fullname}
               />
             }>
               <Label icon><Icon mr='16' as={icons.phone} />{person.phone}</Label>

@@ -9,13 +9,13 @@ import { useDispatch, useSelector } from 'react-redux'
 import { deleteTask, updateTask } from '../redux/actions/tasksActions'
 import { Card } from './Card/Card'
 import { Profile } from './Profile'
+import TaskForm from './TaskForm'
 
-export const Task = ({task}) => {
+
+export const Task = ({task, toggleModal}) => {
   const { team } = useSelector(state => state.user)
-
   const {_id, title, assignedTo, description, comments, deleteStatus, userId, priority, status } = task
   const [showMore, setShowMore] = useState(null)
-
   const token = localStorage.getItem('token')
   const dispatch = useDispatch()  
 
@@ -36,6 +36,12 @@ export const Task = ({task}) => {
     }
   }
 
+
+  const handleEditTask = async () => {
+    toggleModal(true)
+    return <TaskForm taskValues={task} />
+  }
+
   const finishDeleting = async () => {
     try {
       return await dispatch(deleteTask(_id, token))
@@ -48,11 +54,11 @@ export const Task = ({task}) => {
     <TaskCard status={status} key={_id}>
       <Label>{title.substring(0, 32)}</Label>
       <ContainerInfoTask>
-        <SubLabel lowOpacity>Asignada a {assignedTo}</SubLabel>
+        <SubLabel lowOpacity>{assignedTo ? 'Asignada a ' : 'No asignada'}{assignedTo}</SubLabel>
         <SubLabel priority lowPriority={priority === 'low'} mediumPriority={priority === 'medium'} highPriority={priority === 'high'}>
-          {priority === 'low' && 'bajo'}
-          {priority === 'medium' && 'medio'}
-          {priority === 'high' && 'alto'}
+          {priority === 'low' && 'baja'}
+          {priority === 'medium' && 'media'}
+          {priority === 'high' && 'alta'}
         </SubLabel>
       </ContainerInfoTask>
       {_id !== showMore && (
@@ -97,7 +103,7 @@ export const Task = ({task}) => {
 
           </>
           <ActionButtons>
-            <SubLabel button noUnderline onClick={() => handleDeleteTask(_id)} lowOpacity>
+            <SubLabel button noUnderline onClick={deleteStatus ? () => handleDeleteTask(_id) : () => handleEditTask()} lowOpacity>
               <Icon mr='8' as={deleteStatus ? icons.restore : icons.edit} size='16' />
               {deleteStatus ? 'Restaurar' : 'Editar'}
             </SubLabel>

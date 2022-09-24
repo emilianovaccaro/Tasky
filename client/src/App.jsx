@@ -14,6 +14,10 @@ import { styles } from './app/theme'
 import ProtectSidebar from './helpers/ProtectSidebar'
 import RedirectLogin from './helpers/RedirectLogin'
 import { currentTheme } from './helpers/currentTheme'
+import Forest from './assets/background-forest.jpg'
+import Sunset from './assets/background-sunset.jpg'
+import Mountain from './assets/background-mountain.jpg'
+
  
 function App() {
   const [mode, setMode] = useState({})
@@ -21,7 +25,9 @@ function App() {
   useEffect(()=> {
     setMode(currentTheme(localStorage.getItem('theme')))
     const background = localStorage.getItem('background') || 'forest'
-    document.body.style.backgroundImage = `url(../src/assets/background-${background}.jpg)`
+    background === 'forest' && (document.body.style.backgroundImage = `url(${Forest})`)
+    background === 'sunset' && (document.body.style.backgroundImage = `url(${Sunset})`)
+    background === 'mountain' && (document.body.style.backgroundImage = `url(${Mountain}`)
   },[])
 
   return (

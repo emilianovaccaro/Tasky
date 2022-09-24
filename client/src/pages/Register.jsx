@@ -13,6 +13,8 @@ import { useDispatch } from 'react-redux'
 import { register } from '../redux/actions/userActions'
 import { useNavigate } from 'react-router-dom'
 import { SubLabel } from '../components/Text/SubLabel'
+import TaskyLogoDark from '../assets/logo-banner-dark.svg'
+import IconDefault from '../assets/icon-default.png'
 
 
 export const Register = () => {
@@ -26,11 +28,13 @@ export const Register = () => {
     fullname: 
       yup.string()
         .required('campo obligatorio')
-        .min(6, 'mínimo 6 caracteres'),
+        .min(6, 'mínimo 6 caracteres')
+        .matches(/^[aA-zZ]+$/, 'El campo solo admite letras'),
     username: 
       yup.string()
         .required('campo obligatorio')
-        .min(6, 'mínimo 6 caracteres'),
+        .min(6, 'mínimo 6 caracteres')
+        .matches(/^[aA-zZ\s]+$/, 'El campo solo admite letras'),
     email: 
       yup.string()
         .required('campo obligatorio')
@@ -51,9 +55,11 @@ export const Register = () => {
       yup.string()
         .required('campo obligatorio'),
     phone:
-      yup.number('solo se permiten números')
+      yup.string()
+        .trim()
         .required('campo obligatorio')
-        .min(6, 'mínimo 6 caracteres'),
+        .min(6, 'mínimo 6 caracteres')
+        .matches(/^[0-9]+$/, 'El campo solo admite números'),
     file: 
       yup.mixed(),
   })
@@ -70,6 +76,7 @@ export const Register = () => {
       phone: '',
       file: undefined,
       role: 'Analista de Datos',
+      profilePhoto: IconDefault,
       isAdmin: false
     },
     validationSchema,
@@ -95,7 +102,7 @@ export const Register = () => {
 
   return (
     <RegisterContainer>
-      <Card multipleInputs headerChildren={ <img src={'../src/assets/logo-banner-dark.svg'} alt={'Tasky logo'} className='logo' />} defaultColor>
+      <Card multipleInputs headerChildren={ <img src={TaskyLogoDark} alt={'Tasky logo'} className='logo' />} defaultColor>
         <form onSubmit={ handleSubmit }>
           {section === 'page-1' &&
           <>
@@ -132,7 +139,7 @@ export const Register = () => {
               </Select>
             </InputsContainer>
             <InputsContainer>
-              <Input onChange={(event) => setFieldValue('file', event.currentTarget.files[0]) } touched={ touched.teamId } onBlur={ handleBlur } inputLabel={'Establecer foto de perfil'} type={'file'} error={ errors.file } id='file' accept="image/png, image/jpeg" />
+              <Input onChange={(event) => setFieldValue('file', event.currentTarget.files[0]) } touched={ touched.teamId } onBlur={ handleBlur } inputLabel={'Establecer foto de perfil'} type={'file'} name='profilePhoto' error={ errors.file } id='file' accept="image/png, image/jpeg" />
               
               <RadioContainer >
                 <Input onChange={ handleChange } inputLabel={'¿Qué deseas hacer?'} type={'radio'} defaultChecked={'true'} name='isAdmin' error={ errors.radio } id='radio2' value={false} radioSubLabel={'Unirme a un equipo ya existente'} fullWidth />
@@ -145,7 +152,7 @@ export const Register = () => {
             </InputsContainer>
             <ButtonsContainer>
               <Label button icon onClick={() => setSection('page-1')}><Icon as={icons.back} size={20} mr={8} />Atrás</Label>
-              <BoxButton type='submit' ><Label black medium>Confirmar</Label></BoxButton>
+              <BoxButton type='submit' onClick={handleSubmit}><Label black medium>Confirmar</Label></BoxButton>
             </ButtonsContainer>
             {dbError && <SubLabel error registerError>{`${dbError?.msg}`}</SubLabel>}
           </>
@@ -193,7 +200,6 @@ const InputsContainer = styled.div`
   @media screen and (max-width: ${p => p.theme.styles.breakpoints.medium}) {
     flex-direction: column;
   }
-
 `
 
 const ButtonsContainer = styled.div`
@@ -205,5 +211,4 @@ const ButtonsContainer = styled.div`
   button {
     margin: unset;
   }
-
 `
