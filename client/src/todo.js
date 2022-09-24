@@ -1,23 +1,25 @@
 /*
-  Ahora:
-    Conectar formularios mediante dispatch
-    Hacer el reducer y acción para consumir el endpoint update profile
-    Terminar el register con la foto de perfil y hacerlo funcionar (revisar un proyecto anterior)
-    Ver porque hay que darle al botón de registrar arriba a la izquierda
-*/
+  
+  Marcar los campos obligatorios (asteriscos)
+  Placeholders de accesibilidad
+  Fondo de pantalla liso por defecto
+  Corregir todos los errores visuales
+  Cambiar imagenes de perfil por imagenes estilo netflix con animales
+  Ajustamos los colores de los temas para que los 3 se vean bien
+  Redirigir al login si no hay token
+  Toastify para peticiones no autorizadas
+  Autenticación de rol para el botón de eliminar definitivamente
+  Vemos si podemos acelerar el login
+  
+  Revisar todo el responsive en todas las resoluciones chicas y también muy grandes
+  Framer motion
+  Landing page
+  
+  Eliminar todos los usuarios y tareas de la bdd
+  Al terminar eliminar pages/Component.jsx y también su ruta en App.jsx
+  Actualizar diagramas
 
-/*
-  Al final:
-    Al terminar eliminar pages/Component.jsx y también su ruta en App.jsx
-    Revisar todo el responsive en todas las resoluciones chicas y también muy grandes
-    Ajustamos los colores de los temas para que los 3 se vean bien
-    Revisar por qué al poner una / al final de la url no cargan los estilos e imagenes
-    Vemos si podemos acelerar el login
-    Actualizar diagramas
-*/
-
-/*
-  Si nos ponemos golosos:
-    Framer motion, olvidé mi contraseña, landing page
-    Drag and drop de tareas de una columna a otra (y ver cómo lo resolvemos en mobile)
+  Olvidé mi contraseña
+  Revisar por qué al poner una / al final de la url no cargan los estilos e imagenes
+  
 */

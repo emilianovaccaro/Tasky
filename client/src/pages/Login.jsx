@@ -17,7 +17,7 @@ import TaskyLogoDark from '../assets/logo-banner-dark.svg'
 
 export const Login = () => {
   const [section, setSection] = React.useState('login')
-  const [ dbError, setDbError ] = useState({})
+  const [dbError, setDbError] = useState('')
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
@@ -46,14 +46,12 @@ export const Login = () => {
         await dispatch(signIn(values))
         return navigate('/')
       } catch (error) {
-        console.log(error)
         setDbError(error.response.data)
       }
     },
   })
 
   const {errors, values, handleChange, handleSubmit, handleBlur, touched} = formik
-
   
   return (
     <LoginContainer>
@@ -69,7 +67,7 @@ export const Login = () => {
             <SubLabel onClick={() => setSection('forgot-password')} button className='forgot-password'>Olvidé mi contraseña</SubLabel>
           </div>
           {dbError && <SubLabel error>{`${dbError?.msg}`}</SubLabel>}
-          <BoxButton type='submit'><Label black medium>Iniciar sesión</Label></BoxButton>
+          <BoxButton type='submit' button>Iniciar sesión</BoxButton>
         </form>
         }
 
@@ -81,7 +79,7 @@ export const Login = () => {
           </div>
           <ButtonsContainer>
             <Label button icon onClick={() => setSection('login')}><Icon as={icons.back} size={20} mr={8} />Atrás</Label>
-            <BoxButton type='submit'><Label black medium>Enviar</Label></BoxButton>
+            <BoxButton type='submit' button>Enviar</BoxButton>
           </ButtonsContainer>
         </form>
         }
