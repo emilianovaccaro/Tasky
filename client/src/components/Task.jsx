@@ -9,8 +9,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { deleteTask, updateTask } from '../redux/actions/tasksActions'
 import { Card } from './Card/Card'
 import { Profile } from './Profile'
-import TaskForm from './TaskForm'
-
 
 export const Task = ({ task, toggleModal, setTaskProps }) => {
   const { team } = useSelector(state => state.user)
@@ -23,7 +21,6 @@ export const Task = ({ task, toggleModal, setTaskProps }) => {
   if ( comments.length > 0 ) {
     lastComment = comments[comments.length - 1]
   }
-
 
   const creator = team.find(teammate => teammate._id == userId )?.username
   const commentor = team.find(teammate => teammate.username == lastComment?.author)
@@ -136,6 +133,7 @@ const ContainerInfoTask = styled.div`
 
 const ActionButtons = styled.div`
   display: flex;
+  flex-direction: column;
   gap: 16px;
   margin: 16px 0;
 `

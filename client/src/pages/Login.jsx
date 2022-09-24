@@ -75,7 +75,7 @@ export const Login = () => {
         <form onSubmit={handleSubmit}>
           <Label paragraph>Ingresa tu nombre de usuario para que podamos enviarte un correo electrónico con tu nueva contraseña.</Label>
           <div>
-            <Input touched={touched.usernameForgot} error={errors.usernameForgot} name='usernameForgot' onChange={ handleChange } value={ values.usernameForgot} onBlur={ handleBlur } type={'text'} id="usernameForgot" inputLabel={'Nombre de usuario'} fullWidth />
+            <Input touched={touched.usernameForgot} error={errors.usernameForgot} name='usernameForgot' onChange={ handleChange } value={ values.usernameForgot} onBlur={ handleBlur } type={'text'} id="usernameForgot" inputLabel={'Nombre de usuario *'} fullWidth />
           </div>
           <ButtonsContainer>
             <Label button icon onClick={() => setSection('login')}><Icon as={icons.back} size={20} mr={8} />Atrás</Label>

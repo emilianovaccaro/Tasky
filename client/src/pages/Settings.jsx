@@ -22,8 +22,8 @@ export const Settings = ({setMode}) => {
 
   const handleBackground = (values) => {
     localStorage.setItem('background', values)
-    values === 'forest' && (document.body.style.backgroundImage = `url(${Forest})`)
     values === 'sunset' && (document.body.style.backgroundImage = `url(${Sunset})`)
+    values === 'forest' && (document.body.style.backgroundImage = `url(${Forest})`)
     values === 'mountain' && (document.body.style.backgroundImage = `url(${Mountain}`)
   }
 
@@ -41,8 +41,8 @@ export const Settings = ({setMode}) => {
 
         <Label>Cambiar imagen de fondo</Label>
         <SettingsContainer>
-          <img onClick={() => {handleBackground('forest')}} src={ForestThumb} alt='background' />
           <img onClick={() => {handleBackground('sunset')}} src={SunsetThumb} alt='background' />
+          <img onClick={() => {handleBackground('forest')}} src={ForestThumb} alt='background' />
           <img onClick={() => {handleBackground('mountain')}} src={MountainThumb} alt='background' />
         </SettingsContainer>
 

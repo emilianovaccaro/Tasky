@@ -18,7 +18,6 @@ const validationSchema = yup.object().shape({
   title: 
     yup.string()
       .required('campo obligatorio')
-      .min(6, 'mínimo 6 caracteres')
       .matches(/^[aA-zZ\s]+$/, 'el campo solo admite letras'),
   priority: 
     yup.string()
@@ -75,7 +74,7 @@ const TaskForm = (props) => {
 
   return (
     <Modal inputs multipleInputs>
-      <form onSubmit={handleSubmit} onBlur={handleBlur} onChange={handleChange}>
+      <form onSubmit={handleSubmit}>
         <InputsContainer>
           <SubTitle>Crear tarea</SubTitle>
           <IconButton button type='button' onClick={() => {props.toggleModal(false)}}> <Icon as={icons.close} white={'white'} /></IconButton>
@@ -83,7 +82,7 @@ const TaskForm = (props) => {
 
         <InputsContainer>
           <Input name='title' type={'text'} 
-            id='title' inputLabel={'Título'}
+            id='title' inputLabel={'Título *'}
             touched={touched.title} 
             error={touched.title && errors.title}
             onChange={handleChange}

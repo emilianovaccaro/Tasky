@@ -1,8 +1,6 @@
 /*
   
-  Marcar los campos obligatorios (asteriscos)
   Placeholders de accesibilidad
-  Fondo de pantalla liso por defecto
   Corregir todos los errores visuales
   Cambiar imagenes de perfil por imagenes estilo netflix con animales
   Ajustamos los colores de los temas para que los 3 se vean bien
