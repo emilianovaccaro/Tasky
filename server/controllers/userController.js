@@ -160,14 +160,14 @@ const updateProfile = async (req, res) => {
   try {
 
     const {password, newPassword} = req.body
-
     const user = await User.findById(req.user._id)
 
-    if (!user) return res.status(404).json({ msg: 'Usuario no encontrado' }) 
-    console.log(req.file)
+    console.log("REQ FILE", req.body.file)
 
-    if(!req.file && !newPassword ) return res.status(400).json({ msg: 'Complete los campos' }) 
-    
+    if (!user) return res.status(404).json({ msg: 'Usuario no encontrado' }) 
+    if (!req.file && (!password || !newPassword)) return res.status(400).json({ msg: 'Complete los campos' }) 
+
+
     if(password && newPassword) {
       if(newPassword.length < 6) return res.status(400).json({msg: 'La contraseña del equipo debe tener al menos 6 caracteres'})
 
@@ -180,15 +180,15 @@ const updateProfile = async (req, res) => {
 
       user.password = hashedPassword ||  user.password
     }
-
-    if(req.file){
+    
+    if(req.body.file){
       const {filename} = req.file
       user.setImgUrl(filename)
     }
 
     await user.save()
 
-    res.status(200).json({msg: 'Usuario actualizado correctamente', user})
+    return res.status(200).json({msg: 'Usuario actualizado correctamente', user})
 
   } catch (error) {
 

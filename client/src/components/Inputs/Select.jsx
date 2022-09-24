@@ -3,9 +3,9 @@ import styled from 'styled-components'
 import { Label } from '../Text/Label'
 import { SubLabel } from '../Text/SubLabel'
 
-export const Select = ( {inputLabel, name, onChange, id, error, children, touched} ) => {
+export const Select = ( {inputLabel, name, onChange, fullWidth, id, error, children, touched} ) => {
   return(
-    <InputBoxContainer>
+    <InputBoxContainer fullWidth={fullWidth}>
       <div>
         <Label marginBottom={'16px'} htmlFor={id}>{inputLabel}</Label>
         {touched && error &&  <SubLabel error>{error}</SubLabel>}
@@ -27,10 +27,11 @@ const InputBoxContainer = styled.div`
   flex-direction: column;
   flex: 1;
   max-height: 74px;
-
   @media screen and (min-width: ${p => p.theme.styles.breakpoints.medium}) {
     max-width: calc(50% - 10px);
-    max-width: ${p => p.fullWidth && '100%'};
+  }
+  @media screen and (max-width: ${p => p.theme.styles.breakpoints.medium}) {
+    min-width: ${p => p.fullWidth && '100%'};
   }
 `
 
@@ -47,6 +48,7 @@ const InputSelect = styled.select`
   background-color: ${p => p.theme.styles.colors.white}19;
   transition: .2s;
   flex: 1;
+
 
   :focus {
     background-color: gray;

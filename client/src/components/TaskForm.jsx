@@ -12,8 +12,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useFormik } from 'formik'
 import styled from 'styled-components'
 import * as yup from 'yup'
-import { createTask } from '../redux/actions/tasksActions'
-import { useNavigate } from 'react-router-dom'
+import { createTask, updateTask } from '../redux/actions/tasksActions'
 
 const validationSchema = yup.object().shape({
   title: 
@@ -34,14 +33,16 @@ const validationSchema = yup.object().shape({
     yup.string()
 })
 
-const TaskForm = ({ toggleModal, taskValues = {} }) => {
+const TaskForm = (props) => {
   const dispatch = useDispatch()
-  const navigate = useNavigate()
   const token = localStorage.getItem('token')
   const { team } = useSelector(state => state.user)
-  const [ taskError, setTaskError ] = useState('')
+  const [ taskError, setTaskError ] = useState('asdasdasdasd')
 
-  const defaultValues = taskValues || {
+
+  console.log(props)
+
+  const defaultValues = props.taskProps || {
     title: '',
     priority: 'low',
     description: '',
@@ -58,11 +59,14 @@ const TaskForm = ({ toggleModal, taskValues = {} }) => {
       values.deleteStatus = false
       
       try {
-        await dispatch(createTask(values, token))
-        navigate('/')
-        return toggleModal(false)
+        if (!props.taskProps._id) {
+          dispatch(createTask(values, token))
+        } else {
+          dispatch(updateTask(props.taskProps._id, values, token))
+        }
+        return props.toggleModal(false)
       } catch (error) {
-        setTaskError(error.response.data)
+        setTaskError(error.response.data?.msg)
       }
     }
   })
@@ -74,7 +78,7 @@ const TaskForm = ({ toggleModal, taskValues = {} }) => {
       <form onSubmit={handleSubmit} onBlur={handleBlur} onChange={handleChange}>
         <InputsContainer>
           <SubTitle>Crear tarea</SubTitle>
-          <IconButton button onClick={() => toggleModal(false)}> <Icon as={icons.close} white={'white'} /></IconButton>
+          <IconButton button type='button' onClick={() => {props.toggleModal(false)}}> <Icon as={icons.close} white={'white'} /></IconButton>
         </InputsContainer>
 
         <InputsContainer>
@@ -85,9 +89,10 @@ const TaskForm = ({ toggleModal, taskValues = {} }) => {
             onChange={handleChange}
             value={values.title}
             onBlur={handleBlur}
+            fullWidth
           />
 
-          <Select type={'text'} id="status" inputLabel={'Estado'} name='status'
+          <Select fullWidth type={'text'} id="status" inputLabel={'Estado'} name='status'
             touched={touched.status} 
             error={errors.status}
             onChange={handleChange}
@@ -101,7 +106,7 @@ const TaskForm = ({ toggleModal, taskValues = {} }) => {
         </InputsContainer>
 
         <InputsContainer>
-          <Select type={'text'} id="priority" inputLabel={'Prioridad'} name='priority' 
+          <Select fullWidth type={'text'} id="priority" inputLabel={'Prioridad'} name='priority' 
             touched={touched.priority} 
             error={errors.priority}
             onChange={handleChange}
@@ -113,7 +118,7 @@ const TaskForm = ({ toggleModal, taskValues = {} }) => {
             <option value='high'>Alta</option>
           </Select>
 
-          <Select type={'text'} id="assigned" inputLabel={'Asignado'} name='assignedTo'
+          <Select fullWidth type={'text'} id="assigned" inputLabel={'Asignado'} name='assignedTo'
             touched={touched.assignedTo} 
             error={errors.assignedTo}
             onChange={handleChange}
@@ -132,10 +137,12 @@ const TaskForm = ({ toggleModal, taskValues = {} }) => {
           value={values.description}
           onBlur={handleBlur}
         />
+        <ErrorContainer>
+          {taskError && <SubLabel error registerError>{`${taskError}`}</SubLabel>}
+        </ErrorContainer>
         
         <ButtonsContainer>
-          {taskError && <SubLabel error registerError>{`${taskError?.msg}`}</SubLabel>}
-          <SubLabel button onClick={() => toggleModal(false)}>Cancelar</SubLabel>
+          <SubLabel button type='button' onClick={() => {props.toggleModal(false)}}>Cancelar</SubLabel>
           <BoxButton type='submit'>Crear</BoxButton>
         </ButtonsContainer>
       </form>
@@ -165,6 +172,14 @@ const ButtonsContainer = styled.div`
   button {
     margin: unset;
   }
+`
+
+const ErrorContainer = styled.div`
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  margin-top: 24px;
 `
 
 export default TaskForm

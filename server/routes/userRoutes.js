@@ -3,7 +3,7 @@ const { registerUser, loginUser, getUser, getAllUser, updateProfile } = require(
 const { protect } = require('../middlewares/auth')
 const multer = require('multer')
 const router = express.Router()
-const path = require('path')
+
 
 const storage = multer.diskStorage({
   destination: function (req, file , cb) {

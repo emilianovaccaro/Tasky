@@ -59,7 +59,7 @@ const editTask = async (req, res) => {
     if (task.teamId !== req.user.teamId) return res.status(403).json({msg: "No tienes los permisos"})
 
 
-    if(comments) {
+    if (comments?.length > 0) {
       task.comments = [...task.comments, { comment: comments, author: req.user.username }]
     }
 

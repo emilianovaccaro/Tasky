@@ -12,7 +12,7 @@ import { Profile } from './Profile'
 import TaskForm from './TaskForm'
 
 
-export const Task = ({task, toggleModal}) => {
+export const Task = ({ task, toggleModal, setTaskProps }) => {
   const { team } = useSelector(state => state.user)
   const {_id, title, assignedTo, description, comments, deleteStatus, userId, priority, status } = task
   const [showMore, setShowMore] = useState(null)
@@ -38,8 +38,8 @@ export const Task = ({task, toggleModal}) => {
 
 
   const handleEditTask = async () => {
+    setTaskProps(task)
     toggleModal(true)
-    return <TaskForm taskValues={task} />
   }
 
   const finishDeleting = async () => {

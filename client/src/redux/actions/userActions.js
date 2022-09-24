@@ -8,8 +8,8 @@ import {
 } from './types'
 
 
-const API_URL = 'https://test-server-tasky.herokuapp.com'
-const API_URL2 = 'http://localhost:5000'
+const API_URL2 = 'https://test-server-tasky.herokuapp.com'
+const API_URL = 'http://localhost:5000'
 
 
 //login
@@ -58,4 +58,17 @@ export const getTeam = ( token ) => async (dispatch) => {
 export const signOut = ( ) => async ( dispatch ) => {
   localStorage.removeItem('token')
   dispatch({ type: SIGN_OUT })
+}
+
+//update
+export const updateProfile = ( token, values ) => async ( dispatch ) => {
+  const res = await axios.patch(`${API_URL}/api/users/profile`, values, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+
+  console.log(res)
+
+  dispatch({ type: UPDATE_USER, payload: res.data })
 }
