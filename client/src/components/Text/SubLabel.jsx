@@ -21,4 +21,9 @@ export const SubLabel = styled.label`
   margin-bottom: ${p => p.registerError && '0'};
   margin-bottom: ${p => p.registerError && '0'};
   text-align: ${p => p.registerError && 'center'};
+  transition: .2s;
+
+  &:hover {
+    opacity: ${p => p.button && '100%'};
+  }
 `

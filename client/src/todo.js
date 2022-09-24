@@ -8,7 +8,6 @@
   Toastify para peticiones no autorizadas
   Autenticación de rol para el botón de eliminar definitivamente
   Vemos si podemos acelerar el login
-  Hacer el cambiar contraseña
   
   Revisar todo el responsive en todas las resoluciones chicas y también muy grandes
   Framer motion

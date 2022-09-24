@@ -14,8 +14,13 @@ import { register } from '../redux/actions/userActions'
 import { useNavigate } from 'react-router-dom'
 import { SubLabel } from '../components/Text/SubLabel'
 import TaskyLogoDark from '../assets/logo-banner-dark.svg'
-import IconDefault from '../assets/icon-default.png'
-
+import IconBee from '../assets/icon-bee.png'
+import IconCow from '../assets/icon-cow.png'
+import IconFox from '../assets/icon-fox.png'
+import IconLion from '../assets/icon-lion.png'
+import IconPanda from '../assets/icon-panda.png'
+import IconPig from '../assets/icon-pig.png'
+import IconPinguin from '../assets/icon-pinguin.png'
 
 export const Register = () => {
   const [section, setSection] = useState('page-1')
@@ -29,36 +34,44 @@ export const Register = () => {
       yup.string()
         .required('campo obligatorio')
         .min(6, 'mínimo 6 caracteres')
+        .max(24, 'máximo 24 caracteres')
         .matches(/^[aA-zZ\s]+$/, 'El campo solo admite letras'),
     username: 
       yup.string()
         .required('campo obligatorio')
         .min(6, 'mínimo 6 caracteres')
+        .max(24, 'máximo 24 caracteres')
         .matches(/^[aA-zZ]+$/, 'El campo solo admite letras'),
     email: 
       yup.string()
         .required('campo obligatorio')
+        .max(32, 'máximo 32 caracteres')
         .email('email inválido'),
     password: 
       yup.string()
         .min(6, 'mínimo 6 caracteres')
+        .max(32, 'máximo 32 caracteres')
         .required('campo obligatorio'),
     repeatPassword:
       yup.string()
         .required('campo obligatorio')
         .min(6, 'mínimo 6 caracteres')
+        .max(32, 'máximo 32 caracteres')
         .oneOf([yup.ref('password')], 'las contraseñas no coinciden'),
     teamId: 
       yup.string()
-        .required('ingrese un ID'),
+        .required('ingrese un ID')
+        .max(32, 'máximo 32 caracteres'),
     teamPassword:
       yup.string()
-        .required('campo obligatorio'),
+        .required('campo obligatorio')
+        .max(32, 'máximo 32 caracteres'),
     phone:
       yup.string()
         .trim()
         .required('campo obligatorio')
         .min(6, 'mínimo 6 caracteres')
+        .max(24, 'máximo 24 caracteres')
         .matches(/^[0-9]+$/, 'El campo solo admite números'),
     file: 
       yup.mixed(),
@@ -75,18 +88,29 @@ export const Register = () => {
       teamPassword: '',
       phone: '',
       file: undefined,
-      role: 'Analista de Datos',
-      profilePhoto: IconDefault,
+      role: 'Analista de Calidad',
+      profilePhoto: IconFox,
       isAdmin: false
     },
     validationSchema,
     onSubmit: async(values) => {
+        
+      if (values.role === 'Analista de Calidad') values.profilePhoto = IconBee
+      if( values.role === 'Analista de Datos' ) values.profilePhoto = IconPanda
+      if( values.role === 'Desarrollador Back-End' ) values.profilePhoto = IconCow
+      if( values.role === 'Analista de Calidad' ) values.profilePhoto = IconFox
+      if( values.role === 'Desarrollador Full Stack' ) values.profilePhoto = IconLion
+      if( values.role === 'Diseñador UX/UI' ) values.profilePhoto = IconPig
+      if( values.role === 'Otro' ) values.profilePhoto = IconPinguin
       
+
       if (values.isAdmin === 'true') {
         values.isAdmin = true
       } else if ( values.isAdmin === 'false') {
         values.isAdmin = false
       }
+
+      console.log(values)
       
       try {
         setDbError('')
@@ -129,13 +153,13 @@ export const Register = () => {
             <InputsContainer>
               <Input touched={ touched.phone } error={ errors.phone } name='phone' onChange={ handleChange } value={ values.phone } onBlur={ handleBlur } type={'tel'} id="phone" inputLabel={'Teléfono *'} />
               <Select touched={ touched.role } error={ errors.role } name='role' onChange={ handleChange } value={ values.role } onBlur={ handleBlur } type={'text'} id="role" inputLabel={'Rol'} >
-                <option value='Analista de Calidad'>Analista de Calidad</option>
-                <option value='Analista de Datos'>Analista de Datos</option>
-                <option value='Desarrollador Back-End'>Desarrollador Back-End</option>
-                <option value='Desarrollador Front-End'>Desarrollador Front-End</option>
-                <option value='Desarrollador Full Stack'>Desarrollador Full Stack</option>
-                <option value='Diseñador UX/UI'>Diseñador UX/UI</option>
-                <option value='Otro'>Otro</option>
+                <option value={'Analista de Calidad'}>Analista de Calidad</option>
+                <option value={'Analista de Datos'}>Analista de Datos</option>
+                <option value={'Desarrollador Back-End'}>Desarrollador Back-End</option>
+                <option value={'Desarrollador Front-End'}>Desarrollador Front-End</option>
+                <option value={'Desarrollador Full Stack'}>Desarrollador Full Stack</option>
+                <option value={'Diseñador UX/UI'}>Diseñador UX/UI</option>
+                <option value={'Otro'}>Otro</option>
               </Select>
             </InputsContainer>
             <InputsContainer>

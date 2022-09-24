@@ -10,12 +10,11 @@ import styled from 'styled-components'
 import { Label } from '../components/Text/Label'
 import { Task } from '../components/Task'
 import { Spinner } from '../components/Spinner'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import TaskForm from '../components/TaskForm'
 
 export const Tasks = ( {section}) => {
   const dispatch = useDispatch()
-  const navigate = useNavigate()
   const token = localStorage.getItem('token')
   const tasks = useSelector(state => state.tasks)
   const user = useSelector(state => state.user.user)
@@ -35,14 +34,14 @@ export const Tasks = ( {section}) => {
     try {
       await dispatch(fetchTasks(token))
     } catch(error) {
-      return navigate('/login')
+      console.log(error)
     }
     setLoading(false)
   }
 
   useEffect(() => {
     fetchTaskReq()
-  }, [token])
+  }, [])
 
   useEffect(() => {
     setOpenCloseModal(false)
@@ -51,8 +50,6 @@ export const Tasks = ( {section}) => {
     updateInProgressTasks()
     updateFinishedTasks()
   }, [tasks, sampleLocation, list])
-
-  
 
   const updateNewTasks = () => {
     let deleteStat = false

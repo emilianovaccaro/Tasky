@@ -39,7 +39,7 @@ const userSchema = mongoose.Schema({
     },
     profilePhoto: {
       type: String,
-      default: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzEX0krKR0Zcts31p4wHdlgbYk94A8JjO7aCPpdAkgOhIv5sd-CiJPimPp1BeaV4iAu1I&usqp=CAU'
+      default: undefined,
     },
   }, 
   {
@@ -47,11 +47,5 @@ const userSchema = mongoose.Schema({
   }
 )
 
-userSchema.methods.setImgUrl = function setImgUrl (filename) {
-  const host = process.env.HOST
-  const port = process.env.PORT
-
-  this.profilePhoto = `${host}:${port}/public/${filename}`
-}
 
 module.exports = mongoose.model('User', userSchema)

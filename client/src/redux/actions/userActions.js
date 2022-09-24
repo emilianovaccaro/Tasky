@@ -65,12 +65,9 @@ export const signOut = ( ) => async ( dispatch ) => {
 export const updateProfile = ( token, values ) => async ( dispatch ) => {
   const res = await axios.patch(`${API_URL}/api/users/profile`, values, {
     headers: {
-      Authorization: `Bearer ${token}`,
-      'Content-Type':'multipart/form-data',
+      Authorization: `Bearer ${token}`
     }
   })
-
-  console.log(res)
 
   dispatch({ type: UPDATE_USER, payload: res.data.user })
 }

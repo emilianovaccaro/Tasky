@@ -33,7 +33,6 @@ export const Task = ({ task, toggleModal, setTaskProps }) => {
     }
   }
 
-
   const handleEditTask = async () => {
     setTaskProps(task)
     toggleModal(true)

@@ -6,51 +6,49 @@ import { SubLabel } from '../components/Text/SubLabel'
 import { Icon, icons } from '../components/Icon'
 import { SubTitle } from '../components/Text/SubTitle'
 import { BoxButton } from '../components/Button/BoxButton'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { useFormik } from 'formik'
 import styled from 'styled-components'
 import * as yup from 'yup'
-import { createTask, updateTask } from '../redux/actions/tasksActions'
+import { updateProfile } from '../redux/actions/userActions'
 
 const validationSchema = yup.object().shape({
-  title: 
+  password: 
+      yup.string()
+        .min(6, 'mínimo 6 caracteres')
+        .required('Ingrese su contraseña actual'),
+  newPassword: 
+  yup.string()
+    .min(6, 'mínimo 6 caracteres')
+    .required('Ingrese su nueva contraseña'),
+  repeatNewPassword:
     yup.string()
       .required('campo obligatorio')
-      .matches(/^[aA-zZ\s]+$/, 'el campo solo admite letras'),
-  priority: 
-    yup.string()
-      .required('campo obligatorio'),
-  description: 
-    yup.string(),
-  status: 
-    yup.string()
-      .required('campo obligatorio'),
-  assignedTo:
-    yup.string()
+      .min(6, 'mínimo 6 caracteres')
+      .oneOf([yup.ref('newPassword')], 'Las contraseñas no coinciden'),
 })
 
 const ChangePassForm = ({ toggleModal }) => {
   const dispatch = useDispatch()
   const token = localStorage.getItem('token')
 
+  const [ taskError, setTaskError ] = useState('')
+
   const defaultValues = {
     password: '',
-    repeatPassword: '',
     newPassword: '',
+    repeatNewPassword: '',
   }
   
   const formik = useFormik({
     initialValues: defaultValues,
     validationSchema,
     onSubmit: async (values) => {
-      console.log(values)
-      
       try {
-       
-        dispatch(createTask(values, token))
-       
+        await dispatch(updateProfile(token, values))
+        toggleModal(false)
       } catch (error) {
-        console.log(error)
+        setTaskError(error.response.data)
       }
     }
   })
@@ -61,7 +59,7 @@ const ChangePassForm = ({ toggleModal }) => {
     <Modal inputs multipleInputs>
       <form onSubmit={handleSubmit}>
         <InputsContainer>
-          <SubTitle>Cambiar contrasenia</SubTitle>
+          <SubTitle>Cambiar contraseña</SubTitle>
           <IconButton button type='button' onClick={() => { toggleModal(false)} }> <Icon as={icons.close} white={'white'} /></IconButton>
         </InputsContainer>
 
@@ -76,23 +74,9 @@ const ChangePassForm = ({ toggleModal }) => {
             type={'password'} 
             id="password" 
             icon={<Icon as={icons.eye} white />} 
-            inputLabel={'Contraseña'}
+            inputLabel={'Contraseña *'}
             maxLength={40} 
-          />
-        </InputsContainer>
-        <InputsContainer>
-          <Input 
-            touched={ touched.repeatPassword } 
-            error={ errors.repeatPassword } 
-            name='repeatPassword' 
-            onChange={ handleChange } 
-            value={ values.password } 
-            onBlur={ handleBlur } 
-            type={'password'} 
-            id="repeatPassword" 
-            icon={<Icon as={icons.eye} white />} 
-            inputLabel={'Repetir contraseña'}
-            maxLength={40} 
+            fullWidth
           />
         </InputsContainer>
         <InputsContainer>
@@ -106,15 +90,33 @@ const ChangePassForm = ({ toggleModal }) => {
             type={'password'} 
             id="newPassword" 
             icon={<Icon as={icons.eye} white />} 
-            inputLabel={'Nueva contraseña'}
+            inputLabel={'Nueva contraseña *'}
             maxLength={40} 
+            fullWidth
           />
         </InputsContainer>
-        
-        
+        <InputsContainer>
+          <Input 
+            touched={ touched.repeatNewPassword } 
+            error={ errors.repeatNewPassword } 
+            name='repeatNewPassword' 
+            onChange={ handleChange } 
+            value={ values.repeatNewPassword } 
+            onBlur={ handleBlur } 
+            type={'password'} 
+            id="repeatNewPassword" 
+            icon={<Icon as={icons.eye} white />} 
+            inputLabel={'Repetir nueva contraseña *'}
+            maxLength={40} 
+            fullWidth
+          />
+        </InputsContainer>
+        <ErrorContainer>
+          {taskError && <SubLabel error registerError>{`${taskError?.msg}`}</SubLabel>}
+        </ErrorContainer>
         <ButtonsContainer>
-          <SubLabel button type='button' onClick={() => {toggleModal(false)}} >Cancelar</SubLabel>
-          <BoxButton type='submit'>Cambiar</BoxButton>
+          <SubLabel button type='button' onClick={() => {toggleModal(false)}}>Cancelar</SubLabel>
+          <BoxButton type='submit' button>Cambiar</BoxButton>
         </ButtonsContainer>
       </form>
     </Modal>

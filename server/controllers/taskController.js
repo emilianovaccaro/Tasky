@@ -99,6 +99,10 @@ const deleteTask = async (req, res) => {
     if ((task.userId.toString() !== req.user.id) || ((task.teamId.toString() !== req.user.teamId) && !req.user.isAdmin)) {
       return res.status(401).json({ msg: 'Usuario no autorizado' })
     }
+
+    if(!task.deleteStatus) {
+      return res.status(404).json({ msg: 'Error, la tarea no esta en papelera' })
+    }
     
     await task.remove()
     res.status(200).json({ id: req.params.id })

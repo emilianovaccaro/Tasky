@@ -10,7 +10,6 @@ import { Spinner } from './Spinner'
 import { Link } from 'react-router-dom'
 import TaskyLogo from '../assets/logo-banner.svg'
 
-
 export const Sidebar = () => {
 
   const [openSidebar, setOpenSidebar] = useState(false)
@@ -32,7 +31,7 @@ export const Sidebar = () => {
   }
 
   useEffect(() => {
-    getUserInfo()
+    getUserInfo(token)
   }, [])
 
   const handleClick = newPath => {
@@ -43,7 +42,7 @@ export const Sidebar = () => {
   return(
     <SidebarContainer openSidebar={openSidebar}>
       <SidebarTopContainer>
-        <Link to='/' style={{'textAlign': 'center'}}><img src={TaskyLogo} alt={'Tasky logo'} className='logo' /></Link>
+        <Link to='/' onClick={() => handleClick('/')} style={{'textAlign': 'center'}}><img src={TaskyLogo} alt={'Tasky logo'} className='logo' /></Link>
         <hr />
         <IconButton className='hamburgerMenu' onClick={() => setOpenSidebar(openSidebar => !openSidebar)}><Icon as={icons.hamburgerMenu} white={'white'} /></IconButton>
       </SidebarTopContainer>
@@ -90,7 +89,7 @@ export const Sidebar = () => {
         </li>
       </NavLinks>
       <ProfileContainer openSidebar={openSidebar}>
-        {loading ? <Spinner /> : <Profile imageSize={32} imagePath={user.profilePhoto} labelText={user.fullname} subLabelText={`Miembro de ${user.teamId}`}/>}
+        {loading ? <Spinner /> : <Profile imagePath={user.profilePhoto} imageSize={32} labelText={user.fullname} subLabelText={`Miembro de ${user.teamId}`}/>}
       </ProfileContainer>
     </SidebarContainer>
   )

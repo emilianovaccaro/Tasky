@@ -17,8 +17,6 @@ import { currentTheme } from './helpers/currentTheme'
 import Forest from './assets/background-forest.jpg'
 import Sunset from './assets/background-sunset.jpg'
 import Mountain from './assets/background-mountain.jpg'
-import { TestUpdated } from './pages/TestUpdated'
-
  
 function App() {
   const [mode, setMode] = useState({})
@@ -42,7 +40,6 @@ function App() {
         <Route path="/settings" element={<ProtectRoute> <Settings setMode={setMode}/> </ProtectRoute>} />
         <Route path="/login" element={<RedirectLogin><Login /></RedirectLogin>} />
         <Route path="/register" element={<RedirectLogin> <Register /> </RedirectLogin>} />
-        <Route path="/testUpdate" element={<ProtectRoute> <TestUpdated /> </ProtectRoute>} />
         <Route path="/components" element={<ProtectRoute> <Components /> </ProtectRoute>} />
         <Route path="*" element={<ProtectRoute> <Error404 /> </ProtectRoute>} />
       </Routes>
