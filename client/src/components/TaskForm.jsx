@@ -37,7 +37,7 @@ const TaskForm = (props) => {
   const dispatch = useDispatch()
   const token = localStorage.getItem('token')
   const { team } = useSelector(state => state.user)
-  const [ taskError, setTaskError ] = useState('asdasdasdasd')
+  const [ taskError, setTaskError ] = useState({})
 
 
   console.log(props)
@@ -66,7 +66,7 @@ const TaskForm = (props) => {
         }
         return props.toggleModal(false)
       } catch (error) {
-        setTaskError(error.response.data?.msg)
+        setTaskError(error.response.data)
       }
     }
   })
@@ -138,7 +138,7 @@ const TaskForm = (props) => {
           onBlur={handleBlur}
         />
         <ErrorContainer>
-          {taskError && <SubLabel error registerError>{`${taskError}`}</SubLabel>}
+          {taskError && <SubLabel error registerError>{`${taskError?.msg}`}</SubLabel>}
         </ErrorContainer>
         
         <ButtonsContainer>

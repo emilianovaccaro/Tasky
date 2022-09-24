@@ -17,7 +17,7 @@ import TaskyLogoDark from '../assets/logo-banner-dark.svg'
 
 export const Login = () => {
   const [section, setSection] = React.useState('login')
-  const [ dbError, setDbError ] = useState('')
+  const [ dbError, setDbError ] = useState({})
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
@@ -46,7 +46,8 @@ export const Login = () => {
         await dispatch(signIn(values))
         return navigate('/')
       } catch (error) {
-        return setDbError(error.response.data)
+        console.log(error)
+        setDbError(error.response.data)
       }
     },
   })
@@ -67,6 +68,7 @@ export const Login = () => {
             <Input touched={ touched.password } error={ errors.password } name='password' onChange={ handleChange } value={ values.password } onBlur={ handleBlur } type={'password'} id="password" icon={<Icon as={icons.eye} white />} inputLabel={'Contraseña'} maxLength={40} fullWidth />
             <SubLabel onClick={() => setSection('forgot-password')} button className='forgot-password'>Olvidé mi contraseña</SubLabel>
           </div>
+          {dbError && <SubLabel error>{`${dbError?.msg}`}</SubLabel>}
           <BoxButton type='submit'><Label black medium>Iniciar sesión</Label></BoxButton>
         </form>
         }
@@ -77,7 +79,6 @@ export const Login = () => {
           <div>
             <Input touched={touched.usernameForgot} error={errors.usernameForgot} name='usernameForgot' onChange={ handleChange } value={ values.usernameForgot} onBlur={ handleBlur } type={'text'} id="usernameForgot" inputLabel={'Nombre de usuario'} fullWidth />
           </div>
-          {dbError && <SubLabel error registerError>{`${dbError?.msg}`}</SubLabel>}
           <ButtonsContainer>
             <Label button icon onClick={() => setSection('login')}><Icon as={icons.back} size={20} mr={8} />Atrás</Label>
             <BoxButton type='submit'><Label black medium>Enviar</Label></BoxButton>
