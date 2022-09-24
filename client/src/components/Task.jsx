@@ -49,7 +49,7 @@ export const Task = ({ task, toggleModal, setTaskProps }) => {
 
   return (
     <TaskCard status={status} key={_id}>
-      <Label>{title.substring(0, 32)}</Label>
+      <Label titleLabel>{title}</Label>
       <ContainerInfoTask>
         <SubLabel lowOpacity>{assignedTo ? 'Asignada a ' : 'No asignada'}{assignedTo}</SubLabel>
         <SubLabel priority lowPriority={priority === 'low'} mediumPriority={priority === 'medium'} highPriority={priority === 'high'}>

@@ -1,13 +1,14 @@
 /*
   
+  No se va a poder cambiar la foto de perfil (eliminar del backend y del client). Hacer que te establezca una por defecto según tu rol
   Placeholders de accesibilidad
   Corregir todos los errores visuales
-  Cambiar imagenes de perfil por imagenes estilo netflix con animales
   Ajustamos los colores de los temas para que los 3 se vean bien
   Redirigir al login si no hay token
   Toastify para peticiones no autorizadas
   Autenticación de rol para el botón de eliminar definitivamente
   Vemos si podemos acelerar el login
+  Hacer el cambiar contraseña
   
   Revisar todo el responsive en todas las resoluciones chicas y también muy grandes
   Framer motion

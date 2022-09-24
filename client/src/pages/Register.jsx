@@ -97,8 +97,8 @@ export const Register = () => {
       }
     },
   })
-
-  const {errors, values, handleChange, handleSubmit, handleBlur, touched, setFieldValue } = formik
+  console.log(dbError)
+  const {errors, values, handleChange, handleSubmit, handleBlur, touched } = formik
 
   return (
     <RegisterContainer>
@@ -139,8 +139,6 @@ export const Register = () => {
               </Select>
             </InputsContainer>
             <InputsContainer>
-              <Input onChange={(event) => setFieldValue('file', event.currentTarget.files[0]) } touched={ touched.teamId } onBlur={ handleBlur } inputLabel={'Establecer foto de perfil'} type={'file'} name='profilePhoto' error={ errors.file } id='file' accept="image/png, image/jpeg" />
-              
               <RadioContainer >
                 <Input onChange={ handleChange } inputLabel={'¿Qué deseas hacer?'} type={'radio'} defaultChecked={'true'} name='isAdmin' error={ errors.radio } id='radio2' value={false} radioSubLabel={'Unirme a un equipo ya existente'} fullWidth />
                 <Input onChange={ handleChange } type={'radio'} name='isAdmin' error={ errors.radio } id='radio1' value={true} radioSubLabel={'Crear un nuevo equipo'} fullWidth />

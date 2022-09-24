@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Title } from '../components/Text/Title'
 import { Label } from '../components/Text/Label'
 import { Content } from '../components/Content'
 import { TextButtonSmall } from '../components/Button/TextButtonSmall'
+import ChangePassForm from '../components/ChangePassForm'
 import Forest from '../assets/background-forest.jpg'
 import Sunset from '../assets/background-sunset.jpg'
 import Mountain from '../assets/background-mountain.jpg'
@@ -27,10 +28,15 @@ export const Settings = ({setMode}) => {
     values === 'mountain' && (document.body.style.backgroundImage = `url(${Mountain}`)
   }
 
+  const [openCloseModal, setOpenCloseModal] = useState(false)
+
   return (
     <>
       <Content>
+        { openCloseModal && <ChangePassForm toggleModal={setOpenCloseModal}/>}
         <Title>Configuración</Title>
+
+        <TextButtonSmall onClick={() => setOpenCloseModal(!openCloseModal)}>Cambiar contraseña</TextButtonSmall>
 
         <Label>Cambiar tema de la aplicación</Label>
         <SettingsContainer>
@@ -45,10 +51,6 @@ export const Settings = ({setMode}) => {
           <img onClick={() => {handleBackground('forest')}} src={ForestThumb} alt='background' />
           <img onClick={() => {handleBackground('mountain')}} src={MountainThumb} alt='background' />
         </SettingsContainer>
-
-        <TextButtonSmall to='/testUpdate'>Cambiar foto de perfil</TextButtonSmall>
-        <TextButtonSmall>Cambiar contraseña</TextButtonSmall>
-
       </Content>
     </>
   )

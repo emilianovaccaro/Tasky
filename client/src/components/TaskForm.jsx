@@ -23,8 +23,7 @@ const validationSchema = yup.object().shape({
     yup.string()
       .required('campo obligatorio'),
   description: 
-    yup.string()
-      .required('campo obligatorio'),
+    yup.string(),
   status: 
     yup.string()
       .required('campo obligatorio'),
@@ -73,7 +72,7 @@ const TaskForm = (props) => {
     <Modal inputs multipleInputs>
       <form onSubmit={handleSubmit}>
         <InputsContainer>
-          <SubTitle>Crear tarea</SubTitle>
+          <SubTitle>{!props.taskProps._id ? 'Crear tarea' : 'Editar tarea'}</SubTitle>
           <IconButton button type='button' onClick={() => {props.toggleModal(false)}}> <Icon as={icons.close} white={'white'} /></IconButton>
         </InputsContainer>
 
@@ -121,7 +120,7 @@ const TaskForm = (props) => {
             value={values.assignedTo}
             onBlur={handleBlur}
           >
-            <option value=''></option>
+            <option value=''>No asignado</option>
             {team?.map(member => <option key={member._id} value={`${member.fullname}`}>{member.fullname}</option>)}
           </Select>
         </InputsContainer>
@@ -139,7 +138,7 @@ const TaskForm = (props) => {
         
         <ButtonsContainer>
           <SubLabel button type='button' onClick={() => {props.toggleModal(false)}}>Cancelar</SubLabel>
-          <BoxButton type='submit'>Crear</BoxButton>
+          <BoxButton type='submit'>{!props.taskProps._id ? 'Crear' : 'Guardar'}</BoxButton>
         </ButtonsContainer>
       </form>
     </Modal>
