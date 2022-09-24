@@ -18,6 +18,7 @@ const validationSchema = yup.object().shape({
   title: 
     yup.string()
       .required('campo obligatorio')
+      .min(3, 'mínimo 3 caracteres')
       .matches(/^[aA-zZ\s]+$/, 'el campo solo admite letras'),
   priority: 
     yup.string()
