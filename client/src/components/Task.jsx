@@ -11,12 +11,11 @@ import { Card } from './Card/Card'
 import { Profile } from './Profile'
 import TaskForm from './TaskForm'
 
+
 export const Task = ({task, toggleModal}) => {
   const { team } = useSelector(state => state.user)
-
   const {_id, title, assignedTo, description, comments, deleteStatus, userId, priority, status } = task
   const [showMore, setShowMore] = useState(null)
-
   const token = localStorage.getItem('token')
   const dispatch = useDispatch()  
 
@@ -24,6 +23,7 @@ export const Task = ({task, toggleModal}) => {
   if ( comments.length > 0 ) {
     lastComment = comments[comments.length - 1]
   }
+
 
   const creator = team.find(teammate => teammate._id == userId )?.username
   const commentor = team.find(teammate => teammate.username == lastComment?.author)
@@ -36,7 +36,6 @@ export const Task = ({task, toggleModal}) => {
     }
   }
 
-  console.log(task)
 
   const handleEditTask = async () => {
     toggleModal(true)

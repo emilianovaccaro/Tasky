@@ -10,6 +10,7 @@ import { Spinner } from './Spinner'
 import { Link } from 'react-router-dom'
 import TaskyLogo from '../assets/logo-banner.svg'
 
+
 export const Sidebar = () => {
 
   const [openSidebar, setOpenSidebar] = useState(false)

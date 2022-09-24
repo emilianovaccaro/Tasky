@@ -17,6 +17,7 @@ import { currentTheme } from './helpers/currentTheme'
 import Forest from './assets/background-forest.jpg'
 import Sunset from './assets/background-sunset.jpg'
 import Mountain from './assets/background-mountain.jpg'
+
  
 function App() {
   const [mode, setMode] = useState({})

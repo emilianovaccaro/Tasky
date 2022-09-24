@@ -16,11 +16,13 @@ import { SubLabel } from '../components/Text/SubLabel'
 import TaskyLogoDark from '../assets/logo-banner-dark.svg'
 import IconDefault from '../assets/icon-default.png'
 
+
 export const Register = () => {
   const [section, setSection] = useState('page-1')
   const [ dbError, setDbError ] = useState('')
   const navigate = useNavigate()
   const dispatch = useDispatch()
+
 
   const validationSchema = yup.object().shape({
     fullname: 
@@ -32,7 +34,7 @@ export const Register = () => {
       yup.string()
         .required('campo obligatorio')
         .min(6, 'mínimo 6 caracteres')
-        .matches(/^[aA-zZ]+$/, 'El campo solo admite letras'),
+        .matches(/^[aA-zZ\s]+$/, 'El campo solo admite letras'),
     email: 
       yup.string()
         .required('campo obligatorio')

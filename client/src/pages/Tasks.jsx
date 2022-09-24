@@ -94,7 +94,9 @@ export const Tasks = ( {section}) => {
   return (
     <>
       <Content>
+
         {openCloseModal && <TaskForm toggleModal={setOpenCloseModal}/>}
+
         <TasksHeader>
           {!section && <Title>Todas las tareas</Title>}
           {section === 'assigned' && <Title>Mis tareas</Title>}
