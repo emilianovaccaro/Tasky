@@ -38,15 +38,12 @@ const TaskForm = (props) => {
   const { team } = useSelector(state => state.user)
   const [ taskError, setTaskError ] = useState('')
 
-
-  console.log(props)
-
-  const defaultValues = props.taskProps || {
-    title: '',
-    priority: 'low',
-    description: '',
-    assignedTo: '',
-    status: 'new',
+  const defaultValues = {
+    title: props.taskProps.title || '',
+    priority: props.taskProps.priority || 'low',
+    description: props.taskProps.description || '',
+    assignedTo: props.taskProps.assignedTo || '',
+    status: props.taskProps.status || 'new',
     deleteStatus: false
   }
   
