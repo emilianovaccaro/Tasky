@@ -20,7 +20,7 @@ const validationSchema = yup.object().shape({
     yup.string()
       .required('campo obligatorio')
       .min(6, 'mínimo 6 caracteres')
-      .matches(/^[aA-zZ]+$/, 'el campo solo admite letras'),
+      .matches(/^[aA-zZ\s]+$/, 'el campo solo admite letras'),
   priority: 
     yup.string()
       .required('campo obligatorio'),

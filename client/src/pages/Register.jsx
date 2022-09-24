@@ -29,12 +29,12 @@ export const Register = () => {
       yup.string()
         .required('campo obligatorio')
         .min(6, 'mínimo 6 caracteres')
-        .matches(/^[aA-zZ]+$/, 'El campo solo admite letras'),
+        .matches(/^[aA-zZ\s]+$/, 'El campo solo admite letras'),
     username: 
       yup.string()
         .required('campo obligatorio')
         .min(6, 'mínimo 6 caracteres')
-        .matches(/^[aA-zZ\s]+$/, 'El campo solo admite letras'),
+        .matches(/^[aA-zZ]+$/, 'El campo solo admite letras'),
     email: 
       yup.string()
         .required('campo obligatorio')
