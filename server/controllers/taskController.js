@@ -91,12 +91,19 @@ const editTask = async (req, res) => {
 const deleteTask = async (req, res) => {
   try{
 
+    console.log(req.user._id)
+    console.log(req.user.teamId)
+    console.log(req.user.isAdmin)
+    
     const task = await Task.findById(req.params.id)
+    console.log(task.userId)
+    console.log(task.teamId.toString())
 
+    
     if (!task) { return res.status(404).json({ msg: 'Tarea no encontrada' }) }
     if (task.teamId !== req.user.teamId) return res.status(403).json({msg: 'No tienes los permisos'})
 
-    if ((task.userId.toString() !== req.user.id) || ((task.teamId.toString() !== req.user.teamId) && !req.user.isAdmin)) {
+    if ((task.userId.toString() !== req.user.id) &&  !req.user.isAdmin) {
       return res.status(401).json({ msg: 'Usuario no autorizado' })
     }
 

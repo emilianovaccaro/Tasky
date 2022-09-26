@@ -89,7 +89,7 @@ export const Sidebar = () => {
         </li>
       </NavLinks>
       <ProfileContainer openSidebar={openSidebar}>
-        {loading ? <Spinner /> : <Profile imagePath={user.profilePhoto} imageSize={32} labelText={user.fullname} subLabelText={`Miembro de ${user.teamId}`}/>}
+        {loading ? <Spinner /> : <Profile imagePath={user.profilePhoto} imageSize={32} labelText={user.fullname} subLabelText={user.isAdmin ? `Admin. de ${user.teamId}` : `Miembro de ${user.teamId}`}/>}
       </ProfileContainer>
     </SidebarContainer>
   )

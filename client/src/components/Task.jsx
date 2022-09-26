@@ -12,6 +12,7 @@ import { Profile } from './Profile'
 
 export const Task = ({ task, toggleModal, setTaskProps, toggleComment }) => {
   const { team } = useSelector(state => state.user)
+  const user = useSelector(state => state.user.user)
   const {_id, title, assignedTo, description, comments, deleteStatus, userId, priority, status } = task
   const [showMore, setShowMore] = useState(null)
   const token = localStorage.getItem('token')
@@ -110,13 +111,22 @@ export const Task = ({ task, toggleModal, setTaskProps, toggleComment }) => {
               <Icon mr='8' as={deleteStatus ? icons.restore : icons.edit} size='16' />
               {deleteStatus ? 'Restaurar' : 'Editar'}
             </SubLabel>
-            <SubLabel button noUnderline 
-              onClick={deleteStatus ? () => finishDeleting(_id) : () => handleDeleteTask(_id)} lowOpacity
-            >
-              <Icon mr='8' as={icons.trash} size='16' />
-              {deleteStatus ? 'Eliminar definitivamente' : 'Enviar a papelera'}
-
-            </SubLabel>
+            {
+              !deleteStatus ? 
+                <SubLabel button noUnderline 
+                  onClick={() => handleDeleteTask(_id)} lowOpacity
+                >
+                  <Icon mr='8' as={icons.trash} size='16' />
+                  {'Enviar a papelera'}
+                </SubLabel>
+                : (deleteStatus && (user._id == userId || user.isAdmin == true)) ? 
+                  <SubLabel button noUnderline 
+                    onClick={() => finishDeleting()} lowOpacity
+                  >
+                    <Icon mr='8' as={icons.trash} size='16' />
+                    {'Eliminar definitivamente'}
+                  </SubLabel> : <></>
+            }
           </ActionButtons>
           <IconButton onClick={() => setShowMore(null)}>
             <Icon as={icons.arrowUp} white={'white'} />
