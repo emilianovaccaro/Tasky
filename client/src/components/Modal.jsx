@@ -15,7 +15,7 @@ export const Modal = ({ inputs, multipleInputs, children }) => {
 
 const ModalContainer = styled.div`
   background-color: ${p => p.theme.styles.colors.black}BB;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 248px;
   z-index: 998;

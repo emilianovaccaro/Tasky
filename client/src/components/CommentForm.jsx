@@ -68,7 +68,7 @@ const CommentForm = ({ taskProps, toggleComment }) => {
         
         <ButtonsContainer>
           <SubLabel button type='button' onClick={() => {toggleComment(false)}}>Cancelar</SubLabel>
-          <BoxButton type='submit'>Añadir comentario</BoxButton>
+          <BoxButton type='submit' button>Añadir comentario</BoxButton>
         </ButtonsContainer>
       </form>
     </Modal>

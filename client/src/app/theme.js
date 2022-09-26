@@ -66,9 +66,9 @@ export const theme = {
   },
     
   intermediate: {
-    primary: '#957FEF',
-    secondary: '#7161EF',
-    tertiary: '#DEC0F1',
-    alternative: '#B79CED'
+    primary: '#41A15E',
+    secondary: '#2E9633',
+    tertiary: '#72BE6F',
+    alternative: '#69A773'
   }
 }

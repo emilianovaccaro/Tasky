@@ -100,3 +100,14 @@ body::-webkit-scrollbar {
   border-radius: 4px;
   background-color: rgba(0,0,0);
 }
+
+::placeholder {
+  color: rgba(255,255,255,.5);
+  opacity: 1;
+}
+:-ms-input-placeholder {
+	color: rgba(255,255,255,.5);
+}
+::-ms-input-placeholder {
+	color: rgba(255,255,255,.5);
+}

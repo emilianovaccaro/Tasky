@@ -1,11 +1,8 @@
 /*
-  Corregir todos los errores visuales
-  Ajustamos los colores de los temas para que los 3 se vean bien
+
   Redirigir al login si no hay token
   Toastify para peticiones no autorizadas
-  Autenticación de rol para el botón de eliminar definitivamente
   
-  Revisar todo el responsive en todas las resoluciones chicas y también muy grandes
   Framer motion
   Landing page
   
@@ -15,6 +12,5 @@
   Crear nuevo heroku para subir la página
 
   Olvidé mi contraseña
-  Revisar por qué al poner una / al final de la url no cargan los estilos e imagenes
   
 */

@@ -34,15 +34,15 @@ export const Sidebar = () => {
     getUserInfo(token)
   }, [])
 
-  const handleClick = newPath => {
+  const handleClick = (newPath, exception) => {
     setPath(newPath)
-    setOpenSidebar(openSidebar => !openSidebar)
+    {!exception && setOpenSidebar(openSidebar => !openSidebar)}
   }
 
   return(
     <SidebarContainer openSidebar={openSidebar}>
       <SidebarTopContainer>
-        <Link to='/' onClick={() => handleClick('/')} style={{'textAlign': 'center'}}><img src={TaskyLogo} alt={'Tasky logo'} className='logo' /></Link>
+        <Link to='/' onClick={() => handleClick('/', true)} style={{'textAlign': 'center'}}><img src={TaskyLogo} alt={'Tasky logo'} className='logo' /></Link>
         <hr />
         <IconButton className='hamburgerMenu' onClick={() => setOpenSidebar(openSidebar => !openSidebar)}><Icon as={icons.hamburgerMenu} white={'white'} /></IconButton>
       </SidebarTopContainer>

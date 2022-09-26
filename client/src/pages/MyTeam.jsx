@@ -42,7 +42,7 @@ const TeamList = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 32px;
-  padding-bottom: 48px;
+  padding-bottom: 24px;
 
   @media screen and (max-width: ${p => p.theme.styles.breakpoints.medium}) {
     flex-direction: column;

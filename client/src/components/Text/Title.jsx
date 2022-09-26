@@ -8,7 +8,6 @@ export const Title = styled.h1`
   font-weight: ${({theme}) => theme.styles.fontWeight.big};
 
   @media screen and (max-width: ${p => p.theme.styles.breakpoints.medium}) {
-   
     font-size: ${({theme}) => theme.styles.fontSize.medium};
   }
   

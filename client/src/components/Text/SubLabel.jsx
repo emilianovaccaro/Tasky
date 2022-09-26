@@ -3,8 +3,9 @@ import styled from 'styled-components'
 export const SubLabel = styled.label`
   color: ${({theme}) => theme.styles.colors.white};
   font-size: ${({theme}) => theme.styles.fontSize.extraSmall};
-  
   display: inline-block;
+  
+  line-height: ${p => p.description && '16px'};
   opacity: ${p => p.lowOpacity && '50%'};
   text-decoration: ${p => p.button && 'underline'};
   text-decoration: ${p => p.noUnderline && 'none'};

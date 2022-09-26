@@ -71,7 +71,7 @@ export const Task = ({ task, toggleModal, setTaskProps, toggleComment }) => {
       {_id === showMore && (
         <>
           <ContainerInfoTask>
-            <SubLabel> {description}</SubLabel>
+            <SubLabel description>{description}</SubLabel>
           </ContainerInfoTask>
           <ContainerInfoTask>
             <SubLabel lowOpacity>Creada por {creator}</SubLabel>

@@ -107,7 +107,7 @@ export const Tasks = ( {section}) => {
             onClick={()=>{
               setOpenCloseModal(!openCloseModal)
               setThisTask({})
-            }}><Label black medium>Crear tarea</Label></BoxButton>}
+            }} button>Crear tarea</BoxButton>}
         </TasksHeader>
 
         <TasksList>
