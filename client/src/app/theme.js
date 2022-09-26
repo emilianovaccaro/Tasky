@@ -59,10 +59,10 @@ export const theme = {
   },
 
   light: {
-    primary: '#86AADC',
-    secondary: '#769EDB',
-    tertiary: '#E3ECF3',
-    alternative: '#A7C2E0'
+    primary: '#6793D1',
+    secondary: '#4876BB',
+    tertiary: '#4C7A99',
+    alternative: '#768EAA'
   },
     
   intermediate: {
