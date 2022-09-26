@@ -14,10 +14,12 @@ import { useDispatch } from 'react-redux'
 import { signIn } from '../redux/actions/userActions'
 import { useNavigate } from 'react-router-dom'
 import TaskyLogoDark from '../assets/logo-banner-dark.svg'
+import { Spinner } from '../components/Spinner'
 
 export const Login = () => {
   const [section, setSection] = React.useState('login')
   const [dbError, setDbError] = useState('')
+  const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
@@ -44,11 +46,14 @@ export const Login = () => {
     },
     validationSchema,
     onSubmit: async (values) => {
+      setLoading(true)
       try {
         await dispatch(signIn(values))
+        setLoading(false)
         return navigate('/')
       } catch (error) {
         setDbError(error.response.data)
+        setLoading(false)
       }
     },
   })
@@ -69,7 +74,9 @@ export const Login = () => {
             <SubLabel onClick={() => setSection('forgot-password')} button className='forgot-password'>Olvidé mi contraseña</SubLabel>
           </div>
           {dbError && <SubLabel error>{`${dbError?.msg}`}</SubLabel>}
-          <BoxButton type='submit' button>Iniciar sesión</BoxButton>
+          { !loading ? (
+            <BoxButton type='submit' button>Iniciar sesión</BoxButton>
+          ) : (<Spinner />)}
         </form>
         }
 
