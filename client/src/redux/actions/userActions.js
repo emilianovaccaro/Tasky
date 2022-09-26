@@ -9,8 +9,8 @@ import {
 } from './types'
 
 
-const API_URL2 = 'https://test-server-tasky.herokuapp.com'
-const API_URL = 'http://localhost:5000'
+const API_URL = 'https://test-server-tasky.herokuapp.com'
+const API_URL2 = 'http://localhost:5000'
 
 
 //login
