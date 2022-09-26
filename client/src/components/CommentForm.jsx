@@ -88,6 +88,7 @@ const ButtonsContainer = styled.div`
   align-items: center;
   justify-content: center;
   gap: 64px;
+
   button {
     margin: unset;
   }

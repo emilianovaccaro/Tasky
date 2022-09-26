@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { Label } from '../Text/Label'
 import { SubLabel } from '../Text/SubLabel'
 
+
 export const TextArea = ( {inputLabel, name, onChange, value, id, error, maxLength, height, placeholder} ) => {
   return(
     <>
@@ -27,6 +28,7 @@ const InputTextArea = styled.textarea`
   resize: none;
   display: block;
   width: 100%;
+  height: ${p => p.height && '128px'};
   box-sizing: border-box;
   height: ${p => p.height && '128px'};
   padding: ${p => p.theme.styles.padding.small};
