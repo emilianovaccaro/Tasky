@@ -15,6 +15,7 @@ export const Task = ({ task, toggleModal, setTaskProps, toggleComment }) => {
   const user = useSelector(state => state.user.user)
   const {_id, title, assignedTo, description, comments, deleteStatus, userId, priority, status } = task
   const [showMore, setShowMore] = useState(null)
+  const [ deleteClicked, setDeleteClicked ] = useState(false)
   const token = localStorage.getItem('token')
   const dispatch = useDispatch()  
 
@@ -27,9 +28,12 @@ export const Task = ({ task, toggleModal, setTaskProps, toggleComment }) => {
   const commentor = team.find(teammate => teammate.username == lastComment?.author)
 
   const handleDeleteTask = async () => {
+    setDeleteClicked(true)
     try {
-      return await dispatch(updateTask(_id, {deleteStatus: !deleteStatus}, token))
+      await dispatch(updateTask(_id, {deleteStatus: !deleteStatus}, token))
+      setDeleteClicked(false)
     } catch(error) {
+      setDeleteClicked(false)
       return console.log(error)
     }
   }
@@ -45,9 +49,12 @@ export const Task = ({ task, toggleModal, setTaskProps, toggleComment }) => {
   }
 
   const finishDeleting = async () => {
+    setDeleteClicked(true)
     try {
-      return await dispatch(deleteTask(_id, token))
+      await dispatch(deleteTask(_id, token))
+      setDeleteClicked(false)
     } catch(error) {
+      setDeleteClicked(false)
       return console.log(error)
     }
   }
@@ -114,14 +121,14 @@ export const Task = ({ task, toggleModal, setTaskProps, toggleComment }) => {
             {
               !deleteStatus ? 
                 <SubLabel button noUnderline 
-                  onClick={() => handleDeleteTask(_id)} lowOpacity
+                  onClick={!deleteClicked ? () => handleDeleteTask(_id) : undefined} lowOpacity
                 >
                   <Icon mr='8' as={icons.trash} size='16' />
                   {'Enviar a papelera'}
                 </SubLabel>
                 : (deleteStatus && (user._id == userId || user.isAdmin == true)) ? 
                   <SubLabel button noUnderline 
-                    onClick={() => finishDeleting()} lowOpacity
+                    onClick={!deleteClicked ? () => finishDeleting() : undefined} lowOpacity
                   >
                     <Icon mr='8' as={icons.trash} size='16' />
                     {'Eliminar definitivamente'}
