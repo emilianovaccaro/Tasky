@@ -376,7 +376,6 @@ const ButtonsContainer = styled.div`
 
 const SpinnerContainer = styled.div`
   margin-top: 6px;
-  border: 5px solid white;
   display: flex;
   align-items: center;
   justify-content: center;
