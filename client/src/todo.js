@@ -2,6 +2,7 @@
 
   Redirigir al login si no hay token
   Toastify para peticiones no autorizadas
+  Acomodar lo que pasa con el input de contraseña cuando apretas el ojo en registrar
   
   Framer motion
   Landing page
