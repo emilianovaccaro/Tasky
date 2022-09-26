@@ -40,9 +40,9 @@ export const Settings = ({setMode}) => {
 
         <Label>Cambiar tema de la aplicación</Label>
         <SettingsContainer>
-          <ColorCard dark onClick={() => {handleTheme(theme.dark, 'dark')}} />
-          <ColorCard light onClick={() => {handleTheme(theme.light, 'light')}} />
-          <ColorCard intermediate onClick={() => {handleTheme(theme.intermediate, 'intermediate')}} />
+          <ColorCard dark onClick={() => {handleTheme(theme.dark, 'dark')}}>Noche</ColorCard>
+          <ColorCard intermediate onClick={() => {handleTheme(theme.intermediate, 'intermediate')}}>Bosque</ColorCard>
+          <ColorCard light onClick={() => {handleTheme(theme.light, 'light')}}>Agua</ColorCard>
         </SettingsContainer>
 
         <Label>Cambiar imagen de fondo</Label>
@@ -59,9 +59,10 @@ export const Settings = ({setMode}) => {
 const SettingsContainer = styled.div`
   display: flex;
   gap: 32px;
+  flex-wrap: wrap;
 
   img {
-    width: 120px;
+    width: 130px;
     height: 90px;
     border-radius: ${p => p.theme.styles.borderRadius.medium};
     cursor: pointer;
@@ -76,25 +77,19 @@ const SettingsContainer = styled.div`
 
 const ColorCard = styled.div`
   height: 90px;
-  width: 40px;
+  width: 130px;
   border-radius: ${p => p.theme.styles.borderRadius.medium};
   cursor: pointer;
   transition: .2s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: ${p => p.theme.styles.colors.white};
+  font-size: ${p => p.theme.styles.fontSize.extraSmall};
 
-  border-left: 40px solid;
-  border-right: 40px solid;
-
-  border-left-color: ${p => p.dark && theme.dark.tertiary};
-  border-left-color: ${p => p.light && theme.light.tertiary};
-  border-left-color: ${p => p.intermediate && theme.intermediate.tertiary};
-
-  border-right-color: ${p => p.dark && theme.dark.primary};
-  border-right-color: ${p => p.light && theme.light.primary};
-  border-right-color: ${p => p.intermediate && theme.intermediate.primary};
-  
-  background-color: ${p => p.dark && theme.dark.alternative};
-  background-color: ${p => p.light && theme.light.alternative};
-  background-color: ${p => p.intermediate && theme.intermediate.alternative};
+  background: ${p => p.dark && 'linear-gradient(90deg, #6C757D, #495057, #343A40)'};
+  background: ${p => p.light && 'linear-gradient(90deg, #768EAA, #6793D1, #4C7A99)'};
+  background: ${p => p.intermediate && 'linear-gradient(90deg, #72BE6F, #69A773, #41A15E)'};
 
   &:hover {
     transform: scale(1.05);

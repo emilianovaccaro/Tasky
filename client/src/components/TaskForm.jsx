@@ -69,7 +69,7 @@ const TaskForm = (props) => {
   const {errors, values, handleChange, handleSubmit, handleBlur, touched } = formik
 
   return (
-    <Modal inputs multipleInputs>
+    <Modal inputs>
       <form onSubmit={handleSubmit}>
         <ModalHeader>
           <SubTitle>{!props.taskProps._id ? 'Crear tarea' : 'Editar tarea'}</SubTitle>
@@ -87,7 +87,8 @@ const TaskForm = (props) => {
             fullWidth
             placeholder={'título'}
           />
-
+        </InputsContainer>
+        <InputsContainer>
           <Select fullWidth type={'text'} id="status" inputLabel={'Estado'} name='status'
             touched={ touched.status} 
             error={touched.status && errors.status}
@@ -99,9 +100,6 @@ const TaskForm = (props) => {
             <option value='inProgress'>En proceso</option>
             <option value='finished'>Realizada</option>
           </Select>
-        </InputsContainer>
-
-        <InputsContainer>
           <Select fullWidth type={'text'} id="priority" inputLabel={'Prioridad'} name='priority' 
             touched={touched.priority} 
             error={touched.priority && errors.priority}
@@ -113,7 +111,8 @@ const TaskForm = (props) => {
             <option value='medium'>Media</option>
             <option value='high'>Alta</option>
           </Select>
-
+        </InputsContainer>
+        <InputsContainer>
           <Select fullWidth type={'text'} id="assigned" inputLabel={'Asignado'} name='assignedTo'
             touched={touched.assignedTo} 
             error={touched.assignedTo && errors.assignedTo}
@@ -125,7 +124,6 @@ const TaskForm = (props) => {
             {team?.map(member => <option key={member._id} value={`${member.fullname}`}>{member.fullname}</option>)}
           </Select>
         </InputsContainer>
-
         <TextArea name='description' id='description' inputLabel={'Descripción'} 
           touched={touched.description} 
           error={touched.description && errors.description}
@@ -134,13 +132,14 @@ const TaskForm = (props) => {
           onBlur={handleBlur}
           placeholder={'descripción'}
         />
+        
         <ErrorContainer>
           {taskError && <SubLabel error registerError>{`${taskError?.msg}`}</SubLabel>}
         </ErrorContainer>
         
         <ButtonsContainer>
           <SubLabel button type='button' onClick={() => {props.toggleModal(false)}}>Cancelar</SubLabel>
-          <BoxButton type='submit'>{!props.taskProps._id ? 'Crear' : 'Guardar'}</BoxButton>
+          <BoxButton type='submit' button>{!props.taskProps._id ? 'Crear' : 'Guardar'}</BoxButton>
         </ButtonsContainer>
       </form>
     </Modal>

@@ -46,6 +46,9 @@ const CardContent = styled.div`
   gap: 24px;
   gap: ${p => p.comment && '12px'};
   line-height: ${p => p.comment && '16px'};
+  text-overflow: ${p => p.comment && 'ellipsis'};
+  overflow: ${p => p.comment && 'hidden'};
+  max-width: ${p => p.comment && '180px'};
   overflow-x: ${p => p.tasksContent && 'hidden'};
   margin-top: ${p => p.tasksContent && '-24px'};
   padding-top: ${p => p.tasksContent && '16px'};
