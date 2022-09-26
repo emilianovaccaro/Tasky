@@ -10,7 +10,7 @@ export const Card = ( {children, headerChildren, inputs, multipleInputs, default
             {headerChildren}
           </CardHeader>
       }
-      <CardContent tasksContent={tasksContent}>
+      <CardContent comment={comment} tasksContent={tasksContent}>
         {children}
       </CardContent>
     </CardContainer>
@@ -21,6 +21,7 @@ const CardContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 24px;
+  gap: ${p => p.comment && '12px'};
   width: ${p => p.inputs ? '78%' : 'unset'};
   width: ${p => p.tasks && '100%'};
   max-height: ${p => p.tasks && '74vh'};
@@ -28,7 +29,7 @@ const CardContainer = styled.div`
   max-width: ${p => p.multipleInputs && '788px'};
   max-width: ${p => p.modal && '512px'};
   padding: ${p => p.theme.styles.padding.large};
-  padding: ${p => p.comment && p.theme.styles.padding.small};
+  padding: ${p => p.comment && '12px'};
   padding-right: ${p => p.tasks && '0'};
   padding-left: ${p => p.tasks && '0'};
   padding-bottom: ${p => p.tasks && '0'};
@@ -43,13 +44,15 @@ const CardContent = styled.div`
   flex-direction: column;
   padding: ${p => p.tasksContent && p.theme.styles.padding.medium};
   gap: 24px;
+  gap: ${p => p.comment && '12px'};
+  line-height: ${p => p.comment && '16px'};
   overflow-x: ${p => p.tasksContent && 'hidden'};
   margin-top: ${p => p.tasksContent && '-24px'};
   padding-top: ${p => p.tasksContent && '16px'};
   padding-bottom: ${p => p.tasksContent && '16px'};
 
-  @media screen and (max-width: ${p => p.theme.styles.breakpoints.medium}) {
-    padding: ${p => p.tasksContent && p.theme.styles.padding.small};
+  @media screen and (max-width: ${p => p.theme.styles.breakpoints.large}) {
+    padding: ${p => p.tasksContent && '16px'};
   }
 `
 

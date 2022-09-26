@@ -46,7 +46,7 @@ const CommentForm = ({ taskProps, toggleComment }) => {
   const {errors, values, handleChange, handleSubmit, handleBlur, touched } = formik
 
   return (
-    <Modal inputs multipleInputs>
+    <Modal>
       <form onSubmit={handleSubmit}>
         <InputsContainer>
           <SubTitle>Añadir comentario</SubTitle>
@@ -60,6 +60,7 @@ const CommentForm = ({ taskProps, toggleComment }) => {
           value={values.comments}
           height={true}
           onBlur={handleBlur}
+          placeholder={'comentario'}
         />
         <ErrorContainer>
           {commentError && <SubLabel error registerError>{`${commentError?.msg}`}</SubLabel>}
@@ -80,8 +81,6 @@ const InputsContainer = styled.div`
   justify-content: space-between;
   gap: 20px;
   margin-bottom: 24px;
-
-  
 `
 
 const ButtonsContainer = styled.div`
@@ -89,7 +88,6 @@ const ButtonsContainer = styled.div`
   align-items: center;
   justify-content: center;
   gap: 64px;
-  margin-top: 24px;
 
   button {
     margin: unset;

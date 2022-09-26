@@ -22,7 +22,7 @@ export const Task = ({ task, toggleModal, setTaskProps, toggleComment }) => {
     lastComment = comments[comments.length - 1]
   }
 
-  const creator = team.find(teammate => teammate._id == userId )?.username
+  const creator = team.find(teammate => teammate._id == userId )?.fullname
   const commentor = team.find(teammate => teammate.username == lastComment?.author)
 
   const handleDeleteTask = async () => {

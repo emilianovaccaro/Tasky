@@ -56,7 +56,7 @@ const ChangePassForm = ({ toggleModal }) => {
   const {errors, values, handleChange, handleSubmit, handleBlur, touched } = formik
 
   return (
-    <Modal inputs multipleInputs>
+    <Modal>
       <form onSubmit={handleSubmit}>
         <InputsContainer>
           <SubTitle>Cambiar contraseña</SubTitle>
@@ -74,9 +74,10 @@ const ChangePassForm = ({ toggleModal }) => {
             type={'password'} 
             id="password" 
             icon={<Icon as={icons.eye} white />} 
-            inputLabel={'Contraseña *'}
-            maxLength={40} 
+            inputLabel={'Contraseña actual *'}
+            maxLength={40}
             fullWidth
+            placeholder={'contraseña actual'}
           />
         </InputsContainer>
         <InputsContainer>
@@ -91,8 +92,9 @@ const ChangePassForm = ({ toggleModal }) => {
             id="newPassword" 
             icon={<Icon as={icons.eye} white />} 
             inputLabel={'Nueva contraseña *'}
-            maxLength={40} 
+            maxLength={40}
             fullWidth
+            placeholder={'nueva contraseña'}
           />
         </InputsContainer>
         <InputsContainer>
@@ -109,6 +111,7 @@ const ChangePassForm = ({ toggleModal }) => {
             inputLabel={'Repetir nueva contraseña *'}
             maxLength={40} 
             fullWidth
+            placeholder={'repetir nueva contraseña'}
           />
         </InputsContainer>
         <ErrorContainer>
@@ -129,8 +132,6 @@ const InputsContainer = styled.div`
   justify-content: space-between;
   gap: 20px;
   margin-bottom: 24px;
-
-  
 `
 
 const ButtonsContainer = styled.div`
@@ -138,7 +139,6 @@ const ButtonsContainer = styled.div`
   align-items: center;
   justify-content: center;
   gap: 64px;
-  margin-top: 24px;
 
   button {
     margin: unset;

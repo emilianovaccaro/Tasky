@@ -29,8 +29,8 @@ const registerUser = async (req, res) => {
     }
    
     if(!validateEmail(email)) return res.status(400).json({msg: 'El correo electrónico es inválido'})
-    if(username.length < 6)  return res.status(400).json({msg: 'El nombre de usuario debe tener al menos 6 caracteres'})
-    if(fullname.length < 6)  return res.status(400).json({msg: 'El nombre y apellido debe tener al menos 6 caracteres'})
+    if(username.length < 4)  return res.status(400).json({msg: 'El nombre de usuario debe tener al menos 4 caracteres'})
+    if(fullname.length < 4)  return res.status(400).json({msg: 'El nombre y apellido debe tener al menos 4 caracteres'})
     if(password.length < 6) return res.status(400).json({msg: 'La contraseña debe tener al menos 6 caracteres'})
     if(teamPassword.length < 6) return res.status(400).json({msg: 'La contraseña del equipo debe tener al menos 6 caracteres'})
     if(phone.length < 6) return res.status(400).json({msg: 'El número de teléfono debe tener al menos 6 caracteres'})

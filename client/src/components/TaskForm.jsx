@@ -18,8 +18,7 @@ const validationSchema = yup.object().shape({
   title: 
     yup.string()
       .required('campo obligatorio')
-      .min(3, 'mínimo 3 caracteres')
-      .matches(/^[aA-zZ\s]+$/, 'el campo solo admite letras'),
+      .min(3, 'mínimo 3 caracteres'),
   priority: 
     yup.string()
       .required('campo obligatorio'),
@@ -72,10 +71,10 @@ const TaskForm = (props) => {
   return (
     <Modal inputs multipleInputs>
       <form onSubmit={handleSubmit}>
-        <InputsContainer>
+        <ModalHeader>
           <SubTitle>{!props.taskProps._id ? 'Crear tarea' : 'Editar tarea'}</SubTitle>
           <IconButton button type='button' onClick={() => {props.toggleModal(false)}}> <Icon as={icons.close} white={'white'} /></IconButton>
-        </InputsContainer>
+        </ModalHeader>
 
         <InputsContainer>
           <Input name='title' type={'text'} 
@@ -86,6 +85,7 @@ const TaskForm = (props) => {
             value={values.title}
             onBlur={handleBlur}
             fullWidth
+            placeholder={'título'}
           />
 
           <Select fullWidth type={'text'} id="status" inputLabel={'Estado'} name='status'
@@ -132,6 +132,7 @@ const TaskForm = (props) => {
           onChange={handleChange}
           value={values.description}
           onBlur={handleBlur}
+          placeholder={'descripción'}
         />
         <ErrorContainer>
           {taskError && <SubLabel error registerError>{`${taskError?.msg}`}</SubLabel>}
@@ -163,7 +164,6 @@ const ButtonsContainer = styled.div`
   align-items: center;
   justify-content: center;
   gap: 64px;
-  margin-top: 24px;
 
   button {
     margin: unset;
@@ -177,5 +177,14 @@ const ErrorContainer = styled.div`
   justify-content: center;
   margin-top: 24px;
 `
+
+const ModalHeader = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 24px;
+`
+
 
 export default TaskForm

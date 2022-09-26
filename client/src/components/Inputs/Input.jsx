@@ -4,7 +4,7 @@ import { Icon, icons } from '../Icon'
 import { Label } from '../Text/Label'
 import { SubLabel } from '../Text/SubLabel'
 
-export const Input = ({ inputLabel, accept, fullWidth, type, name, onChange, value, className, radioSubLabel, id, error, maxLength, touched, onBlur, defaultChecked }) => {
+export const Input = ({ inputLabel, accept, fullWidth, type, name, onChange, value, className, radioSubLabel, id, error, maxLength, touched, onBlur, defaultChecked, placeholder }) => {
   const [eye, setEye] = React.useState(true)
   const [newType, setNewType] = React.useState('')
 
@@ -31,7 +31,7 @@ export const Input = ({ inputLabel, accept, fullWidth, type, name, onChange, val
           error={touched && error}
           maxLength={maxLength}
           onBlur={onBlur}
-
+          placeholder={placeholder}
           defaultChecked={defaultChecked}
           accept={accept}
         />
