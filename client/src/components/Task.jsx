@@ -10,7 +10,7 @@ import { deleteTask, updateTask } from '../redux/actions/tasksActions'
 import { Card } from './Card/Card'
 import { Profile } from './Profile'
 
-export const Task = ({ task, toggleModal, setTaskProps }) => {
+export const Task = ({ task, toggleModal, setTaskProps, toggleComment }) => {
   const { team } = useSelector(state => state.user)
   const {_id, title, assignedTo, description, comments, deleteStatus, userId, priority, status } = task
   const [showMore, setShowMore] = useState(null)
@@ -22,7 +22,7 @@ export const Task = ({ task, toggleModal, setTaskProps }) => {
     lastComment = comments[comments.length - 1]
   }
 
-  const creator = team.find(teammate => teammate._id == userId )?.username
+  const creator = team.find(teammate => teammate._id == userId )?.fullname
   const commentor = team.find(teammate => teammate.username == lastComment?.author)
 
   const handleDeleteTask = async () => {
@@ -33,9 +33,14 @@ export const Task = ({ task, toggleModal, setTaskProps }) => {
     }
   }
 
-  const handleEditTask = async () => {
+  const handleEditTask = (value) => {
     setTaskProps(task)
-    toggleModal(true)
+    if (value === 'formEdit') {
+      toggleModal(true)
+    }
+    if (value === 'commentEdit') {
+      toggleComment(true)
+    }
   }
 
   const finishDeleting = async () => {
@@ -75,14 +80,7 @@ export const Task = ({ task, toggleModal, setTaskProps }) => {
             {(comments.length > 0) && (
               <>
                 <ContainerInfoTask marginBottom>
-                  <SubLabel>Comentarios</SubLabel>
-                  {
-                    !deleteStatus && 
-                    <SubLabel button noUnderline lowOpacity>
-                      <Icon mr='4' as={icons.plus} size='12' />
-                        Añadir
-                    </SubLabel>
-                  }
+                  <SubLabel>Último comentario</SubLabel>
                 </ContainerInfoTask>
                 <>
                   <Card comment>
@@ -99,7 +97,16 @@ export const Task = ({ task, toggleModal, setTaskProps }) => {
 
           </>
           <ActionButtons>
-            <SubLabel button noUnderline onClick={deleteStatus ? () => handleDeleteTask(_id) : () => handleEditTask()} lowOpacity>
+            {!deleteStatus ? (
+              <SubLabel button noUnderline 
+                onClick={!deleteStatus ? () => handleEditTask('commentEdit') : <></>} lowOpacity
+              >
+                <Icon mr='8' as={icons.plus} size='16' />
+                Añadir comentario
+              </SubLabel>
+            ) : <></>}
+
+            <SubLabel button noUnderline onClick={deleteStatus ? () => handleDeleteTask(_id) : () => handleEditTask('formEdit')} lowOpacity>
               <Icon mr='8' as={deleteStatus ? icons.restore : icons.edit} size='16' />
               {deleteStatus ? 'Restaurar' : 'Editar'}
             </SubLabel>

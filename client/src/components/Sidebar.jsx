@@ -48,12 +48,12 @@ export const Sidebar = () => {
       </SidebarTopContainer>
       <NavLinks openSidebar={openSidebar}>
         <li>
-          <TextButtonSmall sidebar noUnderline lowOpacity to='/' onClick={() => handleClick('/')} active={path === '/' || path === '/assigned' || path === '/login'}>
+          <TextButtonSmall sidebar noUnderline lowOpacity to='/' onClick={() => handleClick('/')} active={path === '/' || path === '/assigned' || path === '/login' || path === '/register'}>
             <Icon as={icons.task} size={20} mr={8} />
             Tareas
           </TextButtonSmall>
           <ul className='innerList'>
-            <TextButtonSmall sidebar noUnderline lowOpacity to='/' onClick={() => handleClick('/')} active={path === '/' || path === '/login'}>
+            <TextButtonSmall sidebar noUnderline lowOpacity to='/' onClick={() => handleClick('/')} active={path === '/' || path === '/login' || path === '/register'}>
               <Icon as={icons.allTasks} size={20} mr={8} />
               Todas
             </TextButtonSmall>

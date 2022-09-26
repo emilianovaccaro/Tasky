@@ -12,6 +12,7 @@ import { Task } from '../components/Task'
 import { Spinner } from '../components/Spinner'
 import { useLocation } from 'react-router-dom'
 import TaskForm from '../components/TaskForm'
+import CommentForm from '../components/CommentForm'
 
 export const Tasks = ( {section}) => {
   const dispatch = useDispatch()
@@ -25,6 +26,7 @@ export const Tasks = ( {section}) => {
   const [inProgressTasks, setInProgressTasks] = useState([])
   const [finishedTasks, setFinishedTasks] = useState([])
   const [openCloseModal, setOpenCloseModal] = useState(false)
+  const [openCloseComment, setOpenCloseComment] = useState(false)
   const [ thisTask, setThisTask ] = useState({})
   
   const sampleLocation = useLocation()
@@ -95,6 +97,7 @@ export const Tasks = ( {section}) => {
       <Content>
 
         {openCloseModal && <TaskForm toggleModal={setOpenCloseModal} taskProps={thisTask} />}
+        {openCloseComment && <CommentForm toggleComment={setOpenCloseComment} taskProps={thisTask}/>}
 
         <TasksHeader>
           {!section && <Title>Todas las tareas</Title>}
@@ -114,7 +117,11 @@ export const Tasks = ( {section}) => {
               loading ? <Spinner /> :
                 newTasks.length === 0 ? <Label center>No hay tareas</Label> :
                   newTasks.map(task => ( 
-                    <Task status='new' key={task._id} task={task} toggleModal={setOpenCloseModal} setTaskProps={setThisTask} />))
+                    <Task status='new' key={task._id} 
+                      task={task} 
+                      toggleModal={setOpenCloseModal}
+                      toggleComment={setOpenCloseComment} 
+                      setTaskProps={setThisTask} />))
             }
           </Card>
           
@@ -123,7 +130,12 @@ export const Tasks = ( {section}) => {
               loading ? <Spinner /> :
                 inProgressTasks.length === 0 ? <Label center>No hay tareas</Label> :
                   inProgressTasks.map(task => ( 
-                    <Task status='inProgress' key={task._id} task={task} toggleModal={setOpenCloseModal} setTaskProps={setThisTask}/>))
+                    <Task status='inProgress' 
+                      key={task._id} 
+                      task={task} 
+                      toggleModal={setOpenCloseModal}
+                      toggleComment={setOpenCloseComment} 
+                      setTaskProps={setThisTask}/>))
             }
           </Card>
 
@@ -132,7 +144,12 @@ export const Tasks = ( {section}) => {
               loading ? <Spinner /> :
                 finishedTasks.length === 0 ? <Label center>No hay tareas</Label> :
                   finishedTasks.map(task => ( 
-                    <Task status='finished' key={task._id} task={task} toggleModal={setOpenCloseModal} setTaskProps={setThisTask}/>))
+                    <Task status='finished' 
+                      key={task._id} 
+                      task={task} 
+                      toggleModal={setOpenCloseModal} 
+                      toggleComment={setOpenCloseComment} 
+                      setTaskProps={setThisTask}/>))
             }
           </Card>
         </TasksList>
