@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { ThemeProvider } from 'styled-components'
 import { Routes, Route } from 'react-router-dom'
-
+import { ToastContainer } from 'react-toastify'
 import { Tasks } from './pages/Tasks'
 import { MyTeam } from './pages/MyTeam'
 import { Settings } from './pages/Settings'
@@ -30,20 +30,23 @@ function App() {
   },[])
 
   return (
-    <ThemeProvider theme={{ mode, styles }}>
-      <ProtectSidebar/>
-      <Routes>
-        <Route path="/" element={<ProtectRoute> <Tasks /> </ProtectRoute>} />
-        <Route path="/assigned" element={<ProtectRoute> <Tasks section={'assigned'} /> </ProtectRoute>} />
-        <Route path="/trash" element={<ProtectRoute> <Tasks section={'trash'} /> </ProtectRoute>} />
-        <Route path="/my-team" element={<ProtectRoute> <MyTeam /> </ProtectRoute>} />
-        <Route path="/settings" element={<ProtectRoute> <Settings setMode={setMode}/> </ProtectRoute>} />
-        <Route path="/login" element={<RedirectLogin><Login /></RedirectLogin>} />
-        <Route path="/register" element={<RedirectLogin> <Register /> </RedirectLogin>} />
-        <Route path="/components" element={<ProtectRoute> <Components /> </ProtectRoute>} />
-        <Route path="*" element={<ProtectRoute> <Error404 /> </ProtectRoute>} />
-      </Routes>
-    </ThemeProvider>
+    <>
+      <ThemeProvider theme={{ mode, styles }}>
+        <ProtectSidebar/>
+        <Routes>
+          <Route path="/" element={<ProtectRoute> <Tasks /> </ProtectRoute>} />
+          <Route path="/assigned" element={<ProtectRoute> <Tasks section={'assigned'} /> </ProtectRoute>} />
+          <Route path="/trash" element={<ProtectRoute> <Tasks section={'trash'} /> </ProtectRoute>} />
+          <Route path="/my-team" element={<ProtectRoute> <MyTeam /> </ProtectRoute>} />
+          <Route path="/settings" element={<ProtectRoute> <Settings setMode={setMode}/> </ProtectRoute>} />
+          <Route path="/login" element={<RedirectLogin><Login /></RedirectLogin>} />
+          <Route path="/register" element={<RedirectLogin> <Register /> </RedirectLogin>} />
+          <Route path="/components" element={<ProtectRoute> <Components /> </ProtectRoute>} />
+          <Route path="*" element={<ProtectRoute> <Error404 /> </ProtectRoute>} />
+        </Routes>
+      </ThemeProvider>
+      <ToastContainer />
+    </>
   )
 }
 export default App

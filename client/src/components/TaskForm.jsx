@@ -8,11 +8,13 @@ import { SubLabel } from '../components/Text/SubLabel'
 import { Icon, icons } from '../components/Icon'
 import { SubTitle } from '../components/Text/SubTitle'
 import { BoxButton } from '../components/Button/BoxButton'
+import { toast } from 'react-toastify'
 import { useDispatch, useSelector } from 'react-redux'
 import { useFormik } from 'formik'
 import styled from 'styled-components'
 import * as yup from 'yup'
 import { createTask, updateTask } from '../redux/actions/tasksActions'
+import { useNavigate } from 'react-router-dom'
 
 const validationSchema = yup.object().shape({
   title: 
@@ -32,6 +34,7 @@ const validationSchema = yup.object().shape({
 })
 
 const TaskForm = (props) => {
+  const navigate = useNavigate()
   const dispatch = useDispatch()
   const token = localStorage.getItem('token')
   const { team } = useSelector(state => state.user)
@@ -62,6 +65,11 @@ const TaskForm = (props) => {
         return props.toggleModal(false)
       } catch (error) {
         setTaskError(error.response.data)
+        console.log(error.response)
+        if (error.response.status === 500){
+          toast.error(`${error?.response?.data?.msg}`)
+
+        }
       }
     }
   })

@@ -9,12 +9,15 @@ import { useDispatch, useSelector } from 'react-redux'
 import { deleteTask, updateTask } from '../redux/actions/tasksActions'
 import { Card } from './Card/Card'
 import { Profile } from './Profile'
+import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 export const Task = ({ task, toggleModal, setTaskProps, toggleComment }) => {
+  const navigate = useNavigate()
   const { team } = useSelector(state => state.user)
   const user = useSelector(state => state.user.user)
-  const {_id, title, assignedTo, description, comments, deleteStatus, userId, priority, status } = task
-  const [showMore, setShowMore] = useState(null)
+  const { _id, title, assignedTo, description, comments, deleteStatus, userId, priority, status } = task
+  const [ showMore, setShowMore ] = useState(null)
   const [ deleteClicked, setDeleteClicked ] = useState(false)
   const token = localStorage.getItem('token')
   const dispatch = useDispatch()  
@@ -34,7 +37,11 @@ export const Task = ({ task, toggleModal, setTaskProps, toggleComment }) => {
       setDeleteClicked(false)
     } catch(error) {
       setDeleteClicked(false)
-      return console.log(error)
+      console.log(error)
+      console.log(error.response)
+      if (error.response.status === 500) {
+        toast.error(`${error?.response?.data?.msg}`)
+      }
     }
   }
 
@@ -55,7 +62,10 @@ export const Task = ({ task, toggleModal, setTaskProps, toggleComment }) => {
       setDeleteClicked(false)
     } catch(error) {
       setDeleteClicked(false)
-      return console.log(error)
+      console.log(error.response)
+      if (error.response.status === 500) {
+        toast(`${error?.response?.data.msg}`)
+      }
     }
   }
 
