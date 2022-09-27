@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { ThemeProvider } from 'styled-components'
 import { Routes, Route } from 'react-router-dom'
-import { ToastContainer } from 'react-toastify'
 import { Home } from './pages/Home'
 import { Tasks } from './pages/Tasks'
 import { MyTeam } from './pages/MyTeam'
@@ -50,7 +49,6 @@ function App() {
           <Route path="*" element={<ProtectRoute> <Error404 /> </ProtectRoute>} />
         </Routes>
       </ThemeProvider>
-      <ToastContainer />
     </>
   )
 }

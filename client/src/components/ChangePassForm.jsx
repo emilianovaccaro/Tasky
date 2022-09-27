@@ -11,6 +11,7 @@ import { useFormik } from 'formik'
 import styled from 'styled-components'
 import * as yup from 'yup'
 import { updateProfile } from '../redux/actions/userActions'
+import { Spinner } from './Spinner'
 
 const validationSchema = yup.object().shape({
   password: 
@@ -30,6 +31,7 @@ const validationSchema = yup.object().shape({
 
 const ChangePassForm = ({ toggleModal }) => {
   const dispatch = useDispatch()
+  const [ loading, setLoading ] = useState(false)
   const token = localStorage.getItem('token')
 
   const [ taskError, setTaskError ] = useState('')
@@ -44,11 +46,14 @@ const ChangePassForm = ({ toggleModal }) => {
     initialValues: defaultValues,
     validationSchema,
     onSubmit: async (values) => {
+      setLoading(true)
       try {
         await dispatch(updateProfile(token, values))
+        setLoading(false)
         toggleModal(false)
       } catch (error) {
         setTaskError(error.response.data)
+        setLoading(false)
       }
     }
   })
@@ -56,7 +61,7 @@ const ChangePassForm = ({ toggleModal }) => {
   const {errors, values, handleChange, handleSubmit, handleBlur, touched } = formik
 
   return (
-    <Modal>
+    <Modal multipleInputs="true">
       <form onSubmit={handleSubmit}>
         <InputsContainer>
           <SubTitle>Cambiar contraseña</SubTitle>
@@ -118,8 +123,12 @@ const ChangePassForm = ({ toggleModal }) => {
           {taskError && <SubLabel error registerError>{`${taskError?.msg}`}</SubLabel>}
         </ErrorContainer>
         <ButtonsContainer>
-          <SubLabel button type='button' onClick={() => {toggleModal(false)}}>Cancelar</SubLabel>
-          <BoxButton type='submit' button>Cambiar</BoxButton>
+          { !loading ? (
+            <>
+              <SubLabel button type='button' onClick={() => {toggleModal(false)}}>Cancelar</SubLabel>
+              <BoxButton type='submit' button>Cambiar</BoxButton>
+            </>
+          ) : (<Spinner />)}
         </ButtonsContainer>
       </form>
     </Modal>
@@ -150,7 +159,8 @@ const ErrorContainer = styled.div`
   text-align: center;
   align-items: center;
   justify-content: center;
-  margin-top: 24px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 `
 
 export default ChangePassForm

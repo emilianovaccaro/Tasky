@@ -10,7 +10,9 @@ import { deleteTask, updateTask } from '../redux/actions/tasksActions'
 import { Card } from './Card/Card'
 import { Profile } from './Profile'
 import { useNavigate } from 'react-router-dom'
-import { toast } from 'react-toastify'
+import { Spinner } from './Spinner'
+import Swal from 'sweetalert2'
+
 
 export const Task = ({ task, toggleModal, setTaskProps, toggleComment }) => {
   const navigate = useNavigate()
@@ -18,7 +20,7 @@ export const Task = ({ task, toggleModal, setTaskProps, toggleComment }) => {
   const user = useSelector(state => state.user.user)
   const { _id, title, assignedTo, description, comments, deleteStatus, userId, priority, status } = task
   const [ showMore, setShowMore ] = useState(null)
-  const [ deleteClicked, setDeleteClicked ] = useState(false)
+  const [ loading, setLoading ] = useState(false)
   const token = localStorage.getItem('token')
   const dispatch = useDispatch()  
 
@@ -31,17 +33,17 @@ export const Task = ({ task, toggleModal, setTaskProps, toggleComment }) => {
   const commentor = team.find(teammate => teammate.username == lastComment?.author)
 
   const handleDeleteTask = async () => {
-    setDeleteClicked(true)
+    setLoading(true)
     try {
       await dispatch(updateTask(_id, {deleteStatus: !deleteStatus}, token))
-      setDeleteClicked(false)
+      setLoading(false)
     } catch(error) {
-      setDeleteClicked(false)
-      console.log(error)
-      console.log(error.response)
-      if (error.response.status === 500) {
-        toast.error(`${error?.response?.data?.msg}`)
-      }
+      setLoading(false)
+      Swal.fire({
+        icon: 'error',
+        title: `Oops... Error: ${error?.response.status}`,
+        text: `${error?.response?.data?.msg}`
+      })
     }
   }
 
@@ -56,16 +58,17 @@ export const Task = ({ task, toggleModal, setTaskProps, toggleComment }) => {
   }
 
   const finishDeleting = async () => {
-    setDeleteClicked(true)
+    setLoading(true)
     try {
       await dispatch(deleteTask(_id, token))
-      setDeleteClicked(false)
+      setLoading(false)
     } catch(error) {
-      setDeleteClicked(false)
-      console.log(error.response)
-      if (error.response.status === 500) {
-        toast(`${error?.response?.data.msg}`)
-      }
+      setLoading(false)
+      Swal.fire({
+        icon: 'error',
+        title: `Oops... Error: ${error?.response.status}`,
+        text: `${error?.response?.data?.msg}`
+      })
     }
   }
 
@@ -114,37 +117,42 @@ export const Task = ({ task, toggleModal, setTaskProps, toggleComment }) => {
             )}
 
           </>
-          <ActionButtons>
-            {!deleteStatus ? (
-              <SubLabel button noUnderline 
-                onClick={!deleteStatus ? () => handleEditTask('commentEdit') : <></>} lowOpacity
-              >
-                <Icon mr='8' as={icons.plus} size='16' />
-                Añadir comentario
-              </SubLabel>
-            ) : <></>}
-
-            <SubLabel button noUnderline onClick={deleteStatus ? () => handleDeleteTask(_id) : () => handleEditTask('formEdit')} lowOpacity>
-              <Icon mr='8' as={deleteStatus ? icons.restore : icons.edit} size='16' />
-              {deleteStatus ? 'Restaurar' : 'Editar'}
-            </SubLabel>
-            {
-              !deleteStatus ? 
+          { ! loading ? (
+            <ActionButtons>
+              {!deleteStatus ? (
                 <SubLabel button noUnderline 
-                  onClick={!deleteClicked ? () => handleDeleteTask(_id) : undefined} lowOpacity
+                  onClick={!deleteStatus ? () => handleEditTask('commentEdit') : <></>} lowOpacity
                 >
-                  <Icon mr='8' as={icons.trash} size='16' />
-                  {'Enviar a papelera'}
+                  <Icon mr='8' as={icons.plus} size='16' />
+                  Añadir comentario
                 </SubLabel>
-                : (deleteStatus && (user._id == userId || user.isAdmin == true)) ? 
+              ) : <></>}
+
+              <SubLabel button noUnderline onClick={deleteStatus ? () => handleDeleteTask(_id) : () => handleEditTask('formEdit')} lowOpacity>
+                <Icon mr='8' as={deleteStatus ? icons.restore : icons.edit} size='16' />
+                {deleteStatus ? 'Restaurar' : 'Editar'}
+              </SubLabel>
+              {
+                !deleteStatus ? 
                   <SubLabel button noUnderline 
-                    onClick={!deleteClicked ? () => finishDeleting() : undefined} lowOpacity
+                    onClick={() => handleDeleteTask(_id)} lowOpacity
                   >
                     <Icon mr='8' as={icons.trash} size='16' />
-                    {'Eliminar definitivamente'}
-                  </SubLabel> : <></>
-            }
-          </ActionButtons>
+                    {'Enviar a papelera'}
+                  </SubLabel>
+                  : (deleteStatus && (user._id == userId || user.isAdmin == true)) ? 
+                    <SubLabel button noUnderline 
+                      onClick={() => finishDeleting()} lowOpacity
+                    >
+                      <Icon mr='8' as={icons.trash} size='16' />
+                      {'Eliminar definitivamente'}
+                    </SubLabel> : <></>
+              }
+            </ActionButtons> 
+          ) : (
+            <Spinner/>
+          )}
+
           <IconButton onClick={() => setShowMore(null)}>
             <Icon as={icons.arrowUp} white={'white'} />
           </IconButton>
