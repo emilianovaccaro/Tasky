@@ -169,7 +169,7 @@ export const Register = () => {
                 value={ values.fullname } 
                 onBlur={ handleBlur } 
                 type={'text'} 
-                id="fullname" 
+                id='fullname' 
                 inputLabel={'Nombre y Apellido *'} 
                 placeholder={'nombre y apellido'} 
               />
@@ -248,29 +248,28 @@ export const Register = () => {
               </Select>
             </InputsContainer>
 
-            <InputsContainer>
-              <RadioContainer >
-                <Input 
-                  onChange={ handleChange } 
-                  inputLabel={'¿Qué deseas hacer?'} 
-                  type={'radio'} defaultChecked={'true'} 
-                  name='isAdmin' error={ errors.radio } 
-                  id='radio2' value={false} 
-                  radioSubLabel={'Unirme a un equipo ya existente'} 
-                  fullWidth 
-                />
-                <Input 
-                  onChange={ handleChange } 
-                  type={'radio'} 
-                  name='isAdmin' 
-                  error={ errors.radio } 
-                  id='radio1' 
-                  value={true} 
-                  radioSubLabel={'Crear un nuevo equipo'} 
-                  fullWidth 
-                />
-              </RadioContainer>
-            </InputsContainer>
+            
+            <Label medium>¿Qué deseas hacer?</Label>
+            <RadioContainer>
+              <Input 
+                onChange={ handleChange }
+                type={'radio'} defaultChecked={'true'} 
+                name='isAdmin' error={ errors.radio } 
+                id='radio2' value={false} 
+                radioSubLabel={'Unirme a un equipo ya existente'} 
+                fullWidth 
+              />
+              <Input 
+                onChange={ handleChange } 
+                type={'radio'} 
+                name='isAdmin' 
+                error={ errors.radio } 
+                id='radio1' 
+                value={true} 
+                radioSubLabel={'Crear un nuevo equipo'} 
+                fullWidth 
+              />
+            </RadioContainer>
 
             <InputsContainer>
               <Input touched={ touched.teamId } 
@@ -351,7 +350,11 @@ const RegisterContainer = styled.div`
 
 const RadioContainer = styled.div`
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  margin-top: -16px;
+  @media screen and (max-width: ${p => p.theme.styles.breakpoints.medium}) {
+    flex-direction: column;
+  }
 `
 
 const InputsContainer = styled.div`

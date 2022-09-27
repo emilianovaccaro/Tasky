@@ -1,8 +1,7 @@
 /*
 
-  Redirigir al login si no hay token
-  Toastify para peticiones no autorizadas
-  Acomodar lo que pasa con el input de contraseña cuando apretas el ojo en registrar
+  Sacar el sidebar al redirigir sin token
+  Spinners dentro de la aplicación que saquen todos los botones para no apretarlos
   
   Framer motion
   Landing page
@@ -11,6 +10,8 @@
   Al terminar eliminar pages/Component.jsx y también su ruta en App.jsx
   Actualizar diagramas
   Crear nuevo heroku para subir la página
+  Pasamos de nuevo la página al discord para que la rompan
+  Preparar la presentación
 
   Olvidé mi contraseña
   

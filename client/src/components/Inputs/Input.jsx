@@ -86,10 +86,7 @@ const InputField = styled.input`
   display: block;
   width: 100%;
   box-sizing: border-box;
-
-  &[type='password'] {
-    padding-right: 64px;
-  }
+  padding-right: 48px;
 
   &[type='radio'] {
     cursor: pointer;
