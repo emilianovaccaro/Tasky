@@ -57,7 +57,7 @@ const CommentForm = ({ taskProps, toggleComment }) => {
   const {errors, values, handleChange, handleSubmit, handleBlur, touched } = formik
 
   return (
-    <Modal inputs="true">
+    <Modal inputs="true" >
       <form onSubmit={handleSubmit}>
         <InputsContainer>
           <SubTitle>Añadir comentario</SubTitle>
