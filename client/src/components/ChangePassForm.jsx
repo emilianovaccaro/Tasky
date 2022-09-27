@@ -54,12 +54,13 @@ const ChangePassForm = ({ toggleModal }) => {
       } catch (error) {
         setTaskError(error.response.data)
         setLoading(false)
-
+        
         if (error?.response?.data?.id === 'noToken') {
           return setTimeout(() => {
             window.location.reload()
           }, 1000)
         }
+
       }
     }
   })

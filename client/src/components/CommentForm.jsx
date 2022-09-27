@@ -56,6 +56,7 @@ const CommentForm = ({ taskProps, toggleComment }) => {
             window.location.reload()
           }, 1000)
         }
+
       }
     }
   })

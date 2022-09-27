@@ -48,6 +48,7 @@ export const Task = ({ task, toggleModal, setTaskProps, toggleComment }) => {
           window.location.reload()
         }, 1000)
       }
+
     }
   }
 
@@ -79,6 +80,7 @@ export const Task = ({ task, toggleModal, setTaskProps, toggleComment }) => {
           window.location.reload()
         }, 1000)
       }
+
     }
   }
 
