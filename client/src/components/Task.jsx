@@ -42,6 +42,13 @@ export const Task = ({ task, toggleModal, setTaskProps, toggleComment }) => {
         title: `Oops... Error: ${error?.response.status}`,
         text: `${error?.response?.data?.msg}`
       })
+      
+      if (error?.response?.data?.id === 'noToken') {
+        return setTimeout(() => {
+          window.location.reload()
+        }, 1000)
+      }
+
     }
   }
 
@@ -67,6 +74,13 @@ export const Task = ({ task, toggleModal, setTaskProps, toggleComment }) => {
         title: `Oops... Error: ${error?.response.status}`,
         text: `${error?.response?.data?.msg}`
       })
+
+      if (error?.response?.data?.id === 'noToken') {
+        return setTimeout(() => {
+          window.location.reload()
+        }, 1000)
+      }
+
     }
   }
 

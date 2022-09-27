@@ -13,11 +13,11 @@ const protect = async (req, res, next) => {
       token = req.headers.authorization.split(' ')[1]
 
       if (!token || token.length < 1) {
-        return res.status(500).json({msg: 'USER UNAUTHORIZED - Invalid token'})
+        return res.status(500).json({msg: 'USER UNAUTHORIZED - Invalid token', id: 'noToken'})
       }
 
       if(token === null) {
-        return (res.status(500).json({msg: 'USER UNAUTHORIZED - Invalid token'}))
+        return (res.status(500).json({msg: 'USER UNAUTHORIZED - Invalid token', id: 'noToken'}))
       }
 
       
@@ -28,19 +28,19 @@ const protect = async (req, res, next) => {
       req.user = await User.findById(decoded.id).select('-password -teamPassword')
 
       if(!req.user){
-        return res.status(500).json({msg: 'USER UNAUTHORIZED - Invalid token'})
+        return res.status(500).json({msg: 'USER UNAUTHORIZED - Invalid token', id: 'noToken'})
       }
 
 
       next()
 
     } catch (error) {
-      return res.status(500).json({msg: 'USER UNAUTHORIZED - Invalid token'})
+      return res.status(500).json({msg: 'USER UNAUTHORIZED - Invalid token', id: 'noToken'})
     }
   }
 
   if (!token) {
-    return res.status(500).json({msg: 'USER UNAUTHORIZED - Invalid token'})
+    return res.status(500).json({msg: 'USER UNAUTHORIZED - Invalid token', id: 'noToken'})
   }
 }
 

@@ -53,7 +53,6 @@ const TaskForm = (props) => {
     initialValues: defaultValues,
     validationSchema,
     onSubmit: async (values) => {
-      console.log(values)
       values.deleteStatus = false
       
       try {
@@ -70,6 +69,12 @@ const TaskForm = (props) => {
           title: `Oops... Error: ${error?.response.status}`,
           text: `${error?.response?.data?.msg}`
         })
+
+        if (error?.response?.data?.id === 'noToken') {
+          return setTimeout(() => {
+            window.location.reload()
+          }, 1000)
+        }
       }
     }
   })
