@@ -1,19 +1,41 @@
 import React from 'react'
 import styled from 'styled-components'
-
+import { motion } from 'framer-motion'
 import { Card } from './Card/Card'
+
+const animationMain = {
+  offscreen: {
+    y: -1300,
+  },
+  onscreen: {
+    y: 0,
+    transition: {
+      type: 'spring',
+      bounce: 0.2,
+      duration: 1,
+    },
+  },
+}
+
+const button = {
+  rest: { scale: 1 },
+  hover: { scale: 1.1 },
+  pressed: { scale: 0.95 }
+}
 
 export const Modal = ({ inputs, multipleInputs, children }) => {
   return(
-    <ModalContainer>
-      <Card defaultColor inputs={inputs} modal multipleInputs={multipleInputs}>
-        {children}
-      </Card>
+    <ModalContainer  variants={button} whileHover="hover" whileTap="pressed" as={motion.div}initial="offscreen" whileInView="onscreen" >
+      <motion.div as={motion.div} variants={animationMain}>
+        <Card as={motion.div} variants={animationMain} defaultColor inputs={inputs} modal multipleInputs={multipleInputs}>
+          {children}
+        </Card>
+      </motion.div>
     </ModalContainer>
   )
 }
 
-const ModalContainer = styled.div`
+const ModalContainer = styled(motion.div)`
   background-color: ${p => p.theme.styles.colors.black}BB;
   position: fixed;
   top: 0;
