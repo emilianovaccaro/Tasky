@@ -64,7 +64,7 @@ const CommentForm = ({ taskProps, toggleComment }) => {
           <IconButton button type='button' onClick={() => {toggleComment(false)}}> <Icon as={icons.close} white={'white'} /></IconButton>
         </InputsContainer>
 
-        <TextArea name='comments' id='comments' inputLabel={'Descripción'} 
+        <TextArea name='comments' id='comments' inputLabel={'Comentario'} 
           touched={touched.comments} 
           error={touched.comments && errors.comments}
           onChange={handleChange}

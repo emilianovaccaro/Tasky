@@ -6,6 +6,8 @@ export const Spinner = styled.div`
   height: 30px;
   margin: auto;
 
+  margin-top: ${p => p.variant && '8px'};
+
   &:after {
     content: ' ';
     display: block;
