@@ -15,6 +15,7 @@ import * as yup from 'yup'
 import { createTask, updateTask } from '../redux/actions/tasksActions'
 import { useNavigate } from 'react-router-dom'
 import Swal from 'sweetalert2'
+import { Spinner } from './Spinner'
 
 const validationSchema = yup.object().shape({
   title: 
@@ -37,6 +38,7 @@ const TaskForm = (props) => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const token = localStorage.getItem('token')
+  const [ loading, setLoading ] = useState(false)
   const { team } = useSelector(state => state.user)
   const [ taskError, setTaskError ] = useState('')
 
@@ -54,16 +56,18 @@ const TaskForm = (props) => {
     validationSchema,
     onSubmit: async (values) => {
       values.deleteStatus = false
-      
+      setLoading(true)
       try {
         if (!props.taskProps._id) {
           await dispatch(createTask(values, token))
         } else {
           await dispatch(updateTask(props.taskProps._id, values, token))
         }
-        return props.toggleModal(false)
+        setLoading(false)
+        props.toggleModal(false)
       } catch (error) {
         setTaskError(error.response.data)
+        setLoading(false)
         Swal.fire({
           icon: 'error',
           title: `Oops... Error: ${error?.response.status}`,
@@ -149,10 +153,16 @@ const TaskForm = (props) => {
         <ErrorContainer>
           {taskError && <SubLabel error registerError>{`${taskError?.msg}`}</SubLabel>}
         </ErrorContainer>
-        
+
         <ButtonsContainer>
-          <SubLabel button type='button' onClick={() => {props.toggleModal(false)}}>Cancelar</SubLabel>
-          <BoxButton type='submit' button>{!props.taskProps._id ? 'Crear' : 'Guardar'}</BoxButton>
+          {
+            !loading ? (
+              <>
+                <SubLabel button type='button' onClick={() => {props.toggleModal(false)}}>Cancelar</SubLabel>
+                <BoxButton type='submit' button>{!props.taskProps._id ? 'Crear' : 'Guardar'}</BoxButton>
+              </>
+            ) : (<Spinner />)
+          }
         </ButtonsContainer>
       </form>
     </Modal>
