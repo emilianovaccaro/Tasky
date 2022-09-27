@@ -34,7 +34,6 @@ const validationSchema = yup.object().shape({
 })
 
 const TaskForm = (props) => {
-  const navigate = useNavigate()
   const dispatch = useDispatch()
   const token = localStorage.getItem('token')
   const { team } = useSelector(state => state.user)
@@ -53,7 +52,6 @@ const TaskForm = (props) => {
     initialValues: defaultValues,
     validationSchema,
     onSubmit: async (values) => {
-      console.log(values)
       values.deleteStatus = false
       
       try {
@@ -70,6 +68,12 @@ const TaskForm = (props) => {
           title: `Oops... Error: ${error?.response.status}`,
           text: `${error?.response?.data?.msg}`
         })
+
+        if (error?.response?.data?.id === 'noToken') {
+          return setTimeout(() => {
+            window.location.reload()
+          }, 1000)
+        }
       }
     }
   })
