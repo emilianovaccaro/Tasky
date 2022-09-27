@@ -8,7 +8,7 @@
   <a href="https://github.com/emilianovaccaro/Tasky/issues" target="_blank"><img src="https://img.shields.io/github/issues/emilianovaccaro/Tasky?color=%23ffd670" /></a>
 </div>
 
-[View demo](https://test-server-tasky.herokuapp.com/)
+[View demo](https://tasky-alkemy.herokuapp.com/)
 
 
 #### Web platform inspired by Trello.
