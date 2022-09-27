@@ -9,6 +9,7 @@ import { BoxButton } from '../components/Button/BoxButton'
 import { useDispatch } from 'react-redux'
 import { useFormik } from 'formik'
 import styled from 'styled-components'
+import Swal from 'sweetalert2'
 import * as yup from 'yup'
 import { updateProfile } from '../redux/actions/userActions'
 import { Spinner } from './Spinner'
@@ -54,6 +55,11 @@ const ChangePassForm = ({ toggleModal }) => {
       } catch (error) {
         setTaskError(error.response.data)
         setLoading(false)
+        Swal.fire({
+          icon: 'error',
+          title: `Oops... Error: ${error?.response.status}`,
+          text: `${error?.response?.data?.msg}`
+        })
         
         if (error?.response?.data?.id === 'noToken') {
           return setTimeout(() => {
