@@ -11,6 +11,8 @@ import { useFormik } from 'formik'
 import styled from 'styled-components'
 import * as yup from 'yup'
 import { updateTask } from '../redux/actions/tasksActions'
+import Swal from 'sweetalert2'
+import { Spinner } from './Spinner'
 
 const validationSchema = yup.object().shape({
   comments: 
@@ -23,6 +25,7 @@ const validationSchema = yup.object().shape({
 const CommentForm = ({ taskProps, toggleComment }) => {
   const dispatch = useDispatch()
   const token = localStorage.getItem('token')
+  const [ loading, setLoading ] = useState(false)
   const [ commentError, setCommentError ] = useState('')
 
 
@@ -34,11 +37,19 @@ const CommentForm = ({ taskProps, toggleComment }) => {
     initialValues: defaultValues,
     validationSchema,
     onSubmit: async (values) => {
+      setLoading(true)
       try {
         await dispatch(updateTask(taskProps._id, values, token))
+        setLoading(false)
         toggleComment(false)
       } catch (error) {
         setCommentError(error.response.data)
+        setLoading(false)
+        Swal.fire({
+          icon: 'error',
+          title: `Oops... Error: ${error?.response.status}`,
+          text: `${error?.response?.data?.msg}`
+        })
       }
     }
   })
@@ -46,19 +57,19 @@ const CommentForm = ({ taskProps, toggleComment }) => {
   const {errors, values, handleChange, handleSubmit, handleBlur, touched } = formik
 
   return (
-    <Modal>
+    <Modal inputs="true" >
       <form onSubmit={handleSubmit}>
         <InputsContainer>
           <SubTitle>Añadir comentario</SubTitle>
           <IconButton button type='button' onClick={() => {toggleComment(false)}}> <Icon as={icons.close} white={'white'} /></IconButton>
         </InputsContainer>
 
-        <TextArea name='comments' id='comments' inputLabel={'Descripción'} 
+        <TextArea name='comments' id='comments' inputLabel={'Comentario'} 
           touched={touched.comments} 
           error={touched.comments && errors.comments}
           onChange={handleChange}
           value={values.comments}
-          height={true}
+          height="true"
           onBlur={handleBlur}
           placeholder={'comentario'}
         />
@@ -67,8 +78,12 @@ const CommentForm = ({ taskProps, toggleComment }) => {
         </ErrorContainer>
         
         <ButtonsContainer>
-          <SubLabel button type='button' onClick={() => {toggleComment(false)}}>Cancelar</SubLabel>
-          <BoxButton type='submit' button>Añadir comentario</BoxButton>
+          { !loading ? (
+            <>
+              <SubLabel button type='button' onClick={() => {toggleComment(false)}}>Cancelar</SubLabel>
+              <BoxButton type='submit' button>Añadir comentario</BoxButton>
+            </>
+          ) : ( <Spinner /> )}
         </ButtonsContainer>
       </form>
     </Modal>
@@ -88,7 +103,6 @@ const ButtonsContainer = styled.div`
   align-items: center;
   justify-content: center;
   gap: 64px;
-
   button {
     margin: unset;
   }

@@ -4,9 +4,10 @@ import { useSelector } from 'react-redux'
 
 const ProtectRoute = ({ children }) => {
   const { isSignedIn } = useSelector(state => state.user)
+  const token = localStorage.getItem('token')
 
-  if (!isSignedIn) {
-    return <Navigate to="/login" replace={true} />
+  if (!isSignedIn || !token) {
+    return <Navigate to="/" replace={true} />
   }
 
   return children

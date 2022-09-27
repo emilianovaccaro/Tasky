@@ -14,10 +14,12 @@ import { useDispatch } from 'react-redux'
 import { signIn } from '../redux/actions/userActions'
 import { useNavigate } from 'react-router-dom'
 import TaskyLogoDark from '../assets/logo-banner-dark.svg'
+import { Spinner } from '../components/Spinner'
 
 export const Login = () => {
   const [section, setSection] = React.useState('login')
   const [dbError, setDbError] = useState('')
+  const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
@@ -44,11 +46,14 @@ export const Login = () => {
     },
     validationSchema,
     onSubmit: async (values) => {
+      setLoading(true)
       try {
         await dispatch(signIn(values))
+        setLoading(false)
         return navigate('/')
       } catch (error) {
         setDbError(error.response.data)
+        setLoading(false)
       }
     },
   })
@@ -62,14 +67,47 @@ export const Login = () => {
         {section === 'login' &&
         <form onSubmit={handleSubmit}>
           <div>
-            <Input touched={ touched.username } error={ errors.username } name='username' onChange={ handleChange } value={ values.username } onBlur={ handleBlur } type={'text'} id="username" inputLabel={'Nombre de usuario'} fullWidth placeholder={'nombre de usuario'} />
+            <Input 
+              touched={ touched.username } 
+              error={ errors.username } 
+              name='username' 
+              onChange={ handleChange } 
+              value={ values.username } 
+              onBlur={ handleBlur } 
+              type={'text'} 
+              id="username" 
+              inputLabel={'Nombre de usuario'} 
+              fullWidth placeholder={'nombre de usuario'} 
+            />
           </div>
+
           <div>
-            <Input touched={ touched.password } error={ errors.password } name='password' onChange={ handleChange } value={ values.password } onBlur={ handleBlur } type={'password'} id="password" icon={<Icon as={icons.eye} white />} inputLabel={'Contraseña'} maxLength={40} fullWidth placeholder={'contraseña'} />
-            <SubLabel onClick={() => setSection('forgot-password')} button className='forgot-password'>Olvidé mi contraseña</SubLabel>
+            <Input 
+              touched={ touched.password } 
+              error={ errors.password } 
+              name='password' 
+              onChange={ handleChange } 
+              value={ values.password } 
+              onBlur={ handleBlur } 
+              type={'password'} 
+              id="password" 
+              icon={<Icon as={icons.eye} white />} 
+              inputLabel={'Contraseña'} 
+              maxLength={40} 
+              placeholder={'contraseña'} 
+              fullWidth 
+            />
+            <SubLabel onClick={() => setSection('forgot-password')} button className='forgot-password'>
+              Olvidé mi contraseña
+            </SubLabel>
           </div>
+
           {dbError && <SubLabel error>{`${dbError?.msg}`}</SubLabel>}
-          <BoxButton type='submit' button>Iniciar sesión</BoxButton>
+
+          { !loading ? (
+            <BoxButton type='submit' button>Iniciar sesión</BoxButton>
+          ) : (<Spinner />)}
+
         </form>
         }
 
@@ -77,7 +115,19 @@ export const Login = () => {
         <form onSubmit={handleSubmit}>
           <Label paragraph>Ingresa tu nombre de usuario para que podamos enviarte un correo electrónico con tu nueva contraseña.</Label>
           <div>
-            <Input touched={touched.usernameForgot} error={errors.usernameForgot} name='usernameForgot' onChange={ handleChange } value={ values.usernameForgot} onBlur={ handleBlur } type={'text'} id="usernameForgot" inputLabel={'Nombre de usuario *'} fullWidth placeholder={'nombre de usuario'} />
+            <Input 
+              touched={touched.usernameForgot}
+              error={errors.usernameForgot} 
+              name='usernameForgot' 
+              onChange={ handleChange } 
+              value={ values.usernameForgot} 
+              onBlur={ handleBlur } 
+              type={'text'} 
+              id="usernameForgot" 
+              inputLabel={'Nombre de usuario *'} 
+              placeholder={'nombre de usuario'} 
+              fullWidth 
+            />
           </div>
           <ButtonsContainer>
             <Label button icon onClick={() => setSection('login')}><Icon as={icons.back} size={20} mr={8} />Atrás</Label>

@@ -6,10 +6,9 @@ export const Title = styled.h1`
   font-size: ${({theme}) => theme.styles.fontSize.big};
   font-size: ${p => p.extraBig && p.theme.styles.fontSize.extraBig};
   font-weight: ${({theme}) => theme.styles.fontWeight.big};
-
+  
   @media screen and (max-width: ${p => p.theme.styles.breakpoints.medium}) {
     font-size: ${({theme}) => theme.styles.fontSize.medium};
+    font-size: ${p => p.extraBig && p.theme.styles.fontSize.extraBig};
   }
-  
-  
 `

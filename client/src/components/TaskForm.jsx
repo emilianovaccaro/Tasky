@@ -13,6 +13,8 @@ import { useFormik } from 'formik'
 import styled from 'styled-components'
 import * as yup from 'yup'
 import { createTask, updateTask } from '../redux/actions/tasksActions'
+import { useNavigate } from 'react-router-dom'
+import Swal from 'sweetalert2'
 
 const validationSchema = yup.object().shape({
   title: 
@@ -32,6 +34,7 @@ const validationSchema = yup.object().shape({
 })
 
 const TaskForm = (props) => {
+  const navigate = useNavigate()
   const dispatch = useDispatch()
   const token = localStorage.getItem('token')
   const { team } = useSelector(state => state.user)
@@ -55,13 +58,18 @@ const TaskForm = (props) => {
       
       try {
         if (!props.taskProps._id) {
-          dispatch(createTask(values, token))
+          await dispatch(createTask(values, token))
         } else {
-          dispatch(updateTask(props.taskProps._id, values, token))
+          await dispatch(updateTask(props.taskProps._id, values, token))
         }
         return props.toggleModal(false)
       } catch (error) {
         setTaskError(error.response.data)
+        Swal.fire({
+          icon: 'error',
+          title: `Oops... Error: ${error?.response.status}`,
+          text: `${error?.response?.data?.msg}`
+        })
       }
     }
   })
